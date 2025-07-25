@@ -29,8 +29,6 @@ export const createProject = async (req, res) => {
     const projectId = uuid4();
     const projectDir = path.join("./projects", projectId);
 
-    console.log("Creating project with ID:", projectId);
-
     await fs.mkdir(projectDir, { recursive: true });
 
     const output = await runVite({ cwd: projectDir, projectName, template });

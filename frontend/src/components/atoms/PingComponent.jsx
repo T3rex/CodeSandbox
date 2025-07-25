@@ -1,8 +1,12 @@
 import usePing from "../../hooks/apis/queries/usePing";
 export const PingComponent = () => {
-  const { isLodaing, isError, data, error } = usePing();
-  if (isLodaing) {
-    return <div>Loading...</div>;
-  }
-  return <div>{isError ? "Error" : data?.message}</div>;
+  const { isLoading, isError, data, error, setToggle } = usePing();
+  return (
+    <div>
+      <button onClick={() => setToggle((prev) => !prev)}>ping</button>
+      {isLoading && <p>Loading...</p>}
+      {isError && <p>Error: {error.message}</p>}
+      {data && <p>{data.message}</p>}
+    </div>
+  );
 };
