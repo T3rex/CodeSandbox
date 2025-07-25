@@ -3,10 +3,9 @@ import { pingApi } from "../../../apis/ping";
 
 export default function usePing() {
   const { isLoading, isError, data, error } = useQuery({
-    queryKey: "ping",
+    queryKey: ["ping"],
     queryFn: pingApi,
-    staleTime: 10 * 1000,
+    staleTime: 10 * 2000,
   });
+  return { isLoading, isError, data, error };
 }
-
-return { isLoading, isError, data, error };

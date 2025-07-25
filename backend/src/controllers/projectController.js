@@ -7,22 +7,30 @@ const execPromisified = util.promisify(child_process.exec);
 
 export const createProject = async (req, res) => {
   try {
+    const { projectName, template } = req.body;
     const projectId = uuid4();
+
     await fs.mkdir(`./projects/${projectId}`);
+
     const { stdout, stderr } = await execPromisified(
-      "npm create vite@latest my-react-app -- --template react",
+      `npm create vite@latest ${projectName} -- --template ${template} --yes`,
       {
         cwd: `./projects/${projectId}`,
+        shell: true,
       }
     );
+
     if (stderr) {
       return res.status(500).json({ error: stderr });
     }
+
     return res
       .status(200)
       .json({ message: "Project created successfully", data: projectId });
   } catch (error) {
     console.error("Error creating project:", error);
-    return res.status(500).json({ error: "Failed to create project" });
+    return res
+      .status(500)
+      .json({ error: "Internal server error during project creation" });
   }
 };
