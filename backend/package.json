@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "npx nodemon src/index.js"
+    "dev": "npx nodemon src/index.js --ignore projects/"
   },
   "keywords": [],
   "author": "",
@@ -19,5 +19,10 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "."
+    ]
   }
 }
