@@ -3,12 +3,12 @@ import fs from "fs/promises";
 import path from "path";
 import { promisify } from "node:util";
 import child_process from "node:child_process";
+import { VITE_CREATE_PROJECT_COMMAND } from "../config/serverConfig.js";
 
 const exec = promisify(child_process.exec);
 
 async function runVite({ cwd, projectName, template }) {
-  const command =
-    process.env.VITE_PROJECT_CREATE_COMMAND || "npm create vite@latest";
+  const command = VITE_CREATE_PROJECT_COMMAND;
   const fullCommand = `${command} ${projectName} -- --template ${template}`;
 
   try {
@@ -37,7 +37,7 @@ export const createProject = async (req, res) => {
 
     return res
       .status(200)
-      .json({ message: "Project created successfully", projectId });
+      .json({ message: "Project created successfully", data: { projectId } });
   } catch (error) {
     console.error("Error creating project:", error.message);
     return res.status(500).json({

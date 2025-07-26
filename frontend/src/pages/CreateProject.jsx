@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import useCreateProject from "../hooks/apis/mutations/useCreateProject";
 
 const CreateProject = () => {
@@ -6,9 +7,12 @@ const CreateProject = () => {
     "react"
   );
 
+  const navigate = useNavigate();
+
   async function handleCreateProject() {
     try {
-      await createProjectMutate();
+      const response = await createProjectMutate();
+      navigate(`/project/${response.data.projectId}`);
     } catch (error) {}
   }
 
