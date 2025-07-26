@@ -1,40 +1,10 @@
-import uuid4 from "uuid4";
-import fs from "fs/promises";
-import path from "path";
-import { promisify } from "node:util";
-import child_process from "node:child_process";
-import { VITE_CREATE_PROJECT_COMMAND } from "../config/serverConfig.js";
-
-const exec = promisify(child_process.exec);
-
-async function runVite({ cwd, projectName, template }) {
-  const command = VITE_CREATE_PROJECT_COMMAND;
-  const fullCommand = `${command} ${projectName} -- --template ${template}`;
-
-  try {
-    const { stdout, stderr } = await exec(fullCommand, { cwd });
-    if (stderr) {
-      console.error("Error output:", stderr);
-    }
-    return stdout;
-  } catch (error) {
-    console.error("Command execution failed:", error);
-    throw error;
-  }
-}
+import { createProjectService } from "../service/ProjectService.js";
 
 export const createProject = async (req, res) => {
   try {
     const { projectName, template } = req.body;
-    const projectId = uuid4();
-    const projectDir = path.join("./projects", projectId);
-
-    await fs.mkdir(projectDir, { recursive: true });
-
-    const output = await runVite({ cwd: projectDir, projectName, template });
-
-    console.log("Project created:\n", output);
-
+    const response = await createProjectService(projectName, template);
+    const projectId = response;
     return res
       .status(200)
       .json({ message: "Project created successfully", data: { projectId } });
