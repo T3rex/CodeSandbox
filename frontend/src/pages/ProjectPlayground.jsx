@@ -1,12 +1,13 @@
 import { useParams } from "react-router-dom";
 import EditorComponent from "../components/molecules/EditorComponent";
+import EditorButton from "../components/atoms/EditorButton/EditorButton";
 
 function ProjectPlayground() {
   const { projectId } = useParams();
   return (
     <div>
-      <h1>Project Playground</h1>
-      <p>Project ID: {projectId}</p>
+      <EditorButton isActive={false} />
+      <EditorButton isActive={true} />
       <EditorComponent />
     </div>
   );

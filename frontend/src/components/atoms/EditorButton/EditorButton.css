@@ -1,0 +1,30 @@
+.editor-button {
+  background-color: rgb(48, 48, 59);
+  width: fit-content;
+  min-width: 150px;
+  max-width: 200px;
+  height: 35px;
+  color: white;
+  border-left: none;
+  border-bottom: none;
+  border-radius: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 0.6em 1em;
+  font-size: 16px;
+  text-align: start;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.25s;
+  margin-right: 0.2rem;
+}
+
+.editor-button:hover {
+  background-color: rgb(60, 60, 70);
+}
+
+button:focus,
+button:focus-visible {
+  outline: 0px;
+}
