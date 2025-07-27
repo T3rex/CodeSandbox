@@ -1,4 +1,7 @@
-import { createProjectService } from "../service/ProjectService.js";
+import {
+  createProjectService,
+  getProjectTreeService,
+} from "../service/ProjectService.js";
 
 export const createProject = async (req, res) => {
   try {
@@ -14,5 +17,20 @@ export const createProject = async (req, res) => {
       error: "Vite project creation failed",
       message: error.message,
     });
+  }
+};
+
+export const getProjectTree = async (req, res) => {
+  try {
+    const tree = await getProjectTreeService(req.params.projectId);
+    return res.status(200).json({
+      data: tree,
+      success: true,
+      message: "Successfully fetched the tree",
+    });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: "Error while generating tree", message: error.message });
   }
 };
