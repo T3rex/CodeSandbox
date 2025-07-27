@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import EditorComponent from "../components/molecules/EditorComponent";
+import EditorComponent from "../components/molecules/Editor/EditorComponent.jsx";
 import EditorButton from "../components/atoms/EditorButton/EditorButton";
 import TreeStructure from "../components/organisms/TreeStructure";
 import { useEffect } from "react";
