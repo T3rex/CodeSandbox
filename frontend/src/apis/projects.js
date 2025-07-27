@@ -16,3 +16,13 @@ export const createProjectApi = async (projectName, template) => {
     throw error;
   }
 };
+
+export const getProjectTreeApi = async (projectId) => {
+  try {
+    const response = await axios.get(`/api/v1/projects/${projectId}/tree`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching project tree:", error);
+    throw error;
+  }
+};
