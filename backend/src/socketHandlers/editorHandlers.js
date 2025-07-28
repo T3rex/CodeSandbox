@@ -1,0 +1,108 @@
+import fs from "fs/promises";
+
+export const handleEditorSocketEvents = (socket) => {
+  socket.on("writeFile", async ({ data, pathToFileFolder }) => {
+    try {
+      const response = await fs.writeFile(pathToFileFolder, data);
+      socket.emit("writeFileSuccess", {
+        data: "File written successfully",
+        success: true,
+      });
+    } catch (error) {
+      console.log("Error writting file" + error);
+      socket.emit("writeFileError", {
+        data: "Error writing the file",
+        success: false,
+      });
+    }
+  });
+
+  socket.on("createFile", async ({ pathToFileFolder, data }) => {
+    try {
+      await fs.access(pathToFileFolder, fs.constants.F_OK);
+
+      socket.emit("createFileError", {
+        success: false,
+        data: "File already exist",
+      });
+    } catch (error) {
+      try {
+        await fs.writeFile(pathToFileFolder, data || "");
+        socket.emit("createFileSuccess", {
+          success: true,
+          data: "File created successfully",
+        });
+      } catch (writeErr) {
+        console.error("Error writing file:", writeErr);
+        socket.emit("createFileError", {
+          success: false,
+          data: "Failed to write file",
+        });
+      }
+    }
+  });
+
+  socket.on("readFile", async ({ pathToFileFolder }) => {
+    try {
+      const data = await fs.readFile(pathToFileFolder);
+      socket.emit("readFileSuccess", {
+        success: true,
+        data: data.toString(),
+      });
+    } catch (error) {
+      console.error("Error writing file:", error);
+      socket.emit("readFileError", {
+        success: false,
+        data: "Failed to read the file",
+      });
+    }
+  });
+
+  socket.on("deleteFile", async ({ pathToFileFolder }) => {
+    try {
+      await fs.unlink(pathToFileFolder);
+      socket.emit("deleteFileSuccess", {
+        success: true,
+        data: "File deleted successfully",
+      });
+    } catch (error) {
+      console.log("Error deleting the file" + error);
+      socket.emit("deleteFileError", {
+        success: false,
+        data: "Error while deleting the file",
+      });
+    }
+  });
+
+  socket.on("createFolder", async ({ pathToFileFolder }) => {
+    try {
+      await fs.mkdir(pathToFileFolder);
+      socket.emit("createFolderSuccess", {
+        success: true,
+        data: "Folder created successfully",
+      });
+    } catch (error) {
+      console.log("Error while creating the folder" + error);
+      socket.emit("createFolderError", {
+        success: false,
+        data: "Error while creating the folder ",
+      });
+    }
+  });
+
+  socket.on("deleteFolder", async ({ pathToFileFolder }) => {
+    try {
+      await fs.rmdir(pathToFileFolder, { recursive: true, force: true });
+      socket.emit("deleteFolderSuccess", {
+        success: true,
+        data: "Folder deleted successfully",
+      });
+    } catch (error) {
+      console.log("Error while deleting the folder" + error);
+      socket.emit("deleteFolderError", {
+        success: true,
+        data: "Error while deleting the folder",
+      });
+    }
+  });
+};
