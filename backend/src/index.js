@@ -26,7 +26,7 @@ const editorNameSpace = io.of("/editor");
 
 editorNameSpace.on("connection", (socket) => {
   console.log("Editor connected");
-  let projectId = 6546546467615646;
+  let projectId = socket.handshake.query.projectId;
 
   if (projectId) {
     var watcher = chokidar.watch(`./projects/${projectId}`, {
