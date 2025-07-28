@@ -10,7 +10,7 @@ function EditorButton({ isActive }) {
         borderRight: isActive ? "2px solid #646cff" : "none",
       }}
     >
-      Editor Button
+      index.jsx
     </button>
   );
 }

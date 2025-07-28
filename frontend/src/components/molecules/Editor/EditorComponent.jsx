@@ -11,10 +11,10 @@ function EditorComponent() {
   return (
     <div>
       <Editor
-        width="100vw"
+        width="70vw"
         height="100vh"
         defaultLanguage="javascript"
-        defaultValue="// some comment"
+        defaultValue="// Write your code here"
         onMount={(editor, monaco) => {
           handleTheme(editor, monaco);
         }}

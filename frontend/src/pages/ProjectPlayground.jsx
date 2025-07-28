@@ -15,10 +15,24 @@ function ProjectPlayground() {
   }, [, setProjectId, projectIdFromUrl]);
   return (
     <div>
-      <EditorButton isActive={true} />
-      <EditorButton isActive={true} />
-      <EditorComponent />
-      {projectId && <TreeStructure />}
+      <div style={{ display: "flex" }}>
+        {projectId && <TreeStructure />}
+        <div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "start",
+              marginLeft: "",
+              backgroundColor: "#39354dff",
+              marginBottom: "5px",
+            }}
+          >
+            <EditorButton isActive={true} />
+            <EditorButton isActive={false} />
+          </div>
+          <EditorComponent />
+        </div>
+      </div>
     </div>
   );
 }
