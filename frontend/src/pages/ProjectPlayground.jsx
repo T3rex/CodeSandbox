@@ -29,6 +29,8 @@ function ProjectPlayground() {
           >
             <EditorButton isActive={true} />
             <EditorButton isActive={false} />
+            <EditorButton isActive={false} />
+            <EditorButton isActive={false} />
           </div>
           <EditorComponent />
         </div>
