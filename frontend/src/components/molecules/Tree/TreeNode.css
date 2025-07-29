@@ -6,16 +6,13 @@
   font-size: large;
   width: 100%;
   box-sizing: border-box;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 /* Consistent node layout (folder names with arrow) */
 .tree-toggle {
   display: flex;
   align-items: center;
-  background: none;
+  background: transparent;
   border: none;
   color: white;
   cursor: pointer;
@@ -23,10 +20,18 @@
   border-radius: 4px;
   transition: background 0.2s ease;
   width: 100%;
-  overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  overflow: hidden;
   box-sizing: border-box;
+}
+
+.tree-toggle > span {
+  flex-grow: 1;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .tree-toggle:hover {

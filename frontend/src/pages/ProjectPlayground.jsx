@@ -33,6 +33,7 @@ function ProjectPlayground() {
               marginLeft: "",
               backgroundColor: "#39354dff",
               marginBottom: "5px",
+              zIndex: 1,
             }}
           >
             <EditorButton isActive={true} />

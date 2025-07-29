@@ -3,6 +3,7 @@ import { SlArrowRight, SlArrowDown } from "react-icons/sl";
 import "./TreeNode.css";
 import useEditorSocketStore from "../../../store/editorSocketStore";
 import { setFileIcon } from "../../../utils/FileIconUtil.jsx";
+import useFileContextMenuStore from "../../../store/fileContextMenuStore.js";
 
 function TreeNode({ fileFolderData }) {
   const [visibility, setVisibility] = useState({});
@@ -15,6 +16,12 @@ function TreeNode({ fileFolderData }) {
   }, [fileFolderData.children]);
 
   const { editorSocket } = useEditorSocketStore();
+  const {
+    setFile,
+    setX: setFileContextMenuX,
+    setY: setFileContextMenuY,
+    setIsOpen: setFileContextMenuIsOpen,
+  } = useFileContextMenuStore();
 
   const toggleVisibility = (name) => {
     setVisibility((prev) => ({ ...prev, [name]: !prev[name] }));
@@ -26,6 +33,15 @@ function TreeNode({ fileFolderData }) {
         pathToFileFolder: fileFolderData?.path,
       });
     }
+  };
+
+  const handleContextMenuForFiles = (e, path) => {
+    e.preventDefault();
+    console.log("Context menu for file:", path);
+    setFile(path);
+    setFileContextMenuX(e.clientX);
+    setFileContextMenuY(e.clientY);
+    setFileContextMenuIsOpen(true);
   };
 
   return (
@@ -41,13 +57,16 @@ function TreeNode({ fileFolderData }) {
           ) : (
             <SlArrowRight className="tree-icon" />
           )}
-          {fileFolderData.name}
+          <span>{fileFolderData.name}</span>
         </button>
       ) : (
         /** File**/
         <div
           className="tree-leaf"
           onClick={() => handleFileClick(fileFolderData)}
+          onContextMenu={(e) =>
+            handleContextMenuForFiles(e, fileFolderData.path)
+          }
         >
           <div>{setFileIcon(fileFolderData.name.split(".").at(-1))}</div>
           {fileFolderData.name}

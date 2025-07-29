@@ -1,13 +1,13 @@
 import { create } from "zustand";
 import useActiveFileTabStore from "./activeFileTabStore";
+import useTreeStructureStore from "./treeStructureStore";
 
 const useEditorSocketStore = create((set) => ({
   editorSocket: null,
   setEditorSocket: (incomingSocket) => {
     const { activeFileTab, setActiveFileTab } =
       useActiveFileTabStore.getState();
-    /*listens for  readFileSuccessevents AND updates the active file tab 
-    IF the current active tab is undefined or the path matches */
+    const { setTreeStructure } = useTreeStructureStore.getState();
     incomingSocket?.on("readFileSuccess", ({ path, extension, value }) => {
       const currentActiveTab = activeFileTab?.path;
 
@@ -24,6 +24,10 @@ const useEditorSocketStore = create((set) => ({
     });
     set({
       editorSocket: incomingSocket,
+    });
+
+    incomingSocket.on("deleteFileSuccess", () => {
+      setTreeStructure();
     });
   },
 }));
