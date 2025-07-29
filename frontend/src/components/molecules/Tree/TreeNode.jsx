@@ -1,6 +1,8 @@
 import { useEffect, useState, useMemo } from "react";
 import { SlArrowRight, SlArrowDown } from "react-icons/sl";
 import "./TreeNode.css";
+import useEditorSocketStore from "../../../store/editorSocketStore";
+import { setFileIcon } from "../../../utils/FileIconUtil.jsx";
 
 function TreeNode({ fileFolderData }) {
   const [visibility, setVisibility] = useState({});
@@ -12,13 +14,24 @@ function TreeNode({ fileFolderData }) {
     ];
   }, [fileFolderData.children]);
 
+  const { editorSocket } = useEditorSocketStore();
+
   const toggleVisibility = (name) => {
     setVisibility((prev) => ({ ...prev, [name]: !prev[name] }));
+  };
+
+  const handleFileClick = (fileFolderData) => {
+    if (editorSocket) {
+      editorSocket?.emit("readFile", {
+        pathToFileFolder: fileFolderData?.path,
+      });
+    }
   };
 
   return (
     <div className="tree-node">
       {fileFolderData.children ? (
+        /** Folder**/
         <button
           className="tree-toggle"
           onClick={() => toggleVisibility(fileFolderData.name)}
@@ -31,7 +44,14 @@ function TreeNode({ fileFolderData }) {
           {fileFolderData.name}
         </button>
       ) : (
-        <div className="tree-leaf">{fileFolderData.name}</div>
+        /** File**/
+        <div
+          className="tree-leaf"
+          onClick={() => handleFileClick(fileFolderData)}
+        >
+          <div>{setFileIcon(fileFolderData.name.split(".").at(-1))}</div>
+          {fileFolderData.name}
+        </div>
       )}
 
       {visibility[fileFolderData.name] &&

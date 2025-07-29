@@ -3,7 +3,7 @@
   padding-left: 10px;
   color: white;
   font-family: "Segoe UI", sans-serif;
-  font-size: 16px;
+  font-size: large;
   width: 100%;
   box-sizing: border-box;
   white-space: nowrap;
@@ -42,7 +42,8 @@
 
 /* File/leaf nodes */
 .tree-leaf {
-  display: block;
+  display: flex;
+  gap: 8px;
   padding: 5px 8px;
   margin-left: 5px;
   cursor: default;
@@ -53,6 +54,8 @@
   text-overflow: ellipsis;
   box-sizing: border-box;
   text-align: left;
+  cursor: pointer;
+  font-size: large;
 }
 
 .tree-leaf:hover {
