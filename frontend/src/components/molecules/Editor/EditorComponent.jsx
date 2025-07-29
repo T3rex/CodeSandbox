@@ -12,13 +12,20 @@ function EditorComponent() {
   };
   const { activeFileTab } = useActiveFileTabStore();
   const { editorSocket } = useEditorSocketStore();
+  let timer = null;
 
+  //Debounce function to handle changes
   const handleChange = (value) => {
-    const editorContent = value;
-    editorSocket.emit("writeFile", {
-      data: editorContent,
-      pathToFileFolder: activeFileTab?.path,
-    });
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => {
+      const editorContent = value;
+      editorSocket.emit("writeFile", {
+        data: editorContent,
+        pathToFileFolder: activeFileTab?.path,
+      });
+    }, 2000);
   };
 
   return (
