@@ -1,7 +1,7 @@
 import Editor from "@monaco-editor/react";
 import useEditorSocketStore from "../../../store/editorSocketStore";
-import { useEffect } from "react";
 import useActiveFileTabStore from "../../../store/activeFileTabStore";
+import { data } from "react-router-dom";
 
 function EditorComponent() {
   const handleTheme = (editor, monaco) => {
@@ -10,24 +10,16 @@ function EditorComponent() {
       monaco.editor.setTheme("Dracula");
     });
   };
-
+  const { activeFileTab } = useActiveFileTabStore();
   const { editorSocket } = useEditorSocketStore();
-  const { activeFileTab, setActiveFileTab } = useActiveFileTabStore();
 
-  useEffect(() => {
-    editorSocket?.on(
-      "readFileSuccess",
-      ({ path, extension, value, success }) => {
-        if (success) {
-          extension = extension.split(".").at(-1);
-          setActiveFileTab(path, value, extension);
-        }
-      }
-    );
-    return () => {
-      editorSocket?.off("readFileSuccess");
-    };
-  }, [editorSocket]);
+  const handleChange = (value) => {
+    const editorContent = value;
+    editorSocket.emit("writeFile", {
+      data: editorContent,
+      pathToFileFolder: activeFileTab?.path,
+    });
+  };
 
   return (
     <div>
@@ -40,6 +32,7 @@ function EditorComponent() {
         onMount={(editor, monaco) => {
           handleTheme(editor, monaco);
         }}
+        onChange={handleChange}
       />
     </div>
   );
