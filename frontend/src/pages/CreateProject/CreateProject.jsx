@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import useCreateProject from "../hooks/apis/mutations/useCreateProject";
+import useCreateProject from "../../hooks/apis/mutations/useCreateProject";
 
 const CreateProject = () => {
   const { createProjectMutate, isPending, isError } = useCreateProject(

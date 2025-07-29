@@ -21,12 +21,10 @@ function TreeStructure() {
   return (
     <div
       style={{
-        width: "20vw",
+        width: "100%",
         maxWidth: "100%",
-        height: "100vh",
+        height: "100%",
         backgroundColor: "rgb(48, 48, 59)",
-        padding: "10px",
-        boxSizing: "border-box",
         borderRight: "1px solid #ddd",
         display: "flex",
         flexDirection: "column",

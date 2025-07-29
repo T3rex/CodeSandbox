@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
-import CreateProject from "./pages/CreateProject";
+import CreateProject from "./pages/CreateProject/CreateProject.jsx";
 import { PingComponent } from "./components/atoms/PingComponent.jsx";
-import ProjectPlayground from "./pages/ProjectPlayground.jsx";
+import ProjectPlayground from "./pages/ProjectPlayground/ProjectPlayground.jsx";
 
 function Router() {
   return (

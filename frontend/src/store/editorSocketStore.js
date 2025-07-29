@@ -7,12 +7,14 @@ const useEditorSocketStore = create((set) => ({
   setEditorSocket: (incomingSocket) => {
     const { activeFileTab, setActiveFileTab } =
       useActiveFileTabStore.getState();
+
     const { setTreeStructure } = useTreeStructureStore.getState();
+
     incomingSocket?.on("readFileSuccess", ({ path, extension, value }) => {
       const currentActiveTab = activeFileTab?.path;
 
       if (currentActiveTab === undefined || path) {
-        const cleanExtension = extension?.split(".").at(-1) ?? "";
+        const cleanExtension = extension?.split(".").pop() ?? "";
         setActiveFileTab(path, value, cleanExtension);
       }
     });
@@ -22,12 +24,12 @@ const useEditorSocketStore = create((set) => ({
         pathToFileFolder: useActiveFileTabStore.getState().activeFileTab.path,
       });
     });
-    set({
-      editorSocket: incomingSocket,
-    });
 
     incomingSocket.on("deleteFileSuccess", () => {
       setTreeStructure();
+    });
+    set({
+      editorSocket: incomingSocket,
     });
   },
 }));

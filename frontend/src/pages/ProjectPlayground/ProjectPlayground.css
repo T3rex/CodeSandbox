@@ -1,0 +1,24 @@
+/* ProjectPlayground.css */
+
+.project-playground-container {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.tree-structure-wrapper {
+  width: 20%;
+}
+
+.editor-wrapper {
+  width: 80%;
+  height: 100vh;
+}
+
+.editor-buttons {
+  display: flex;
+  justify-content: start;
+  background-color: #39354dff;
+  margin-bottom: 5px;
+}
