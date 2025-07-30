@@ -4,21 +4,41 @@ import { getFileIcon } from "../../utils/FileIconUtil";
 import { FaExternalLinkAlt } from "react-icons/fa";
 
 import "./CreateProject.css";
+import { useEffect, useState } from "react";
 
-const CreateProject = () => {
+const CreateProject = ({ template = "react" }) => {
+  const [projectName, setProjectName] = useState("");
+  const [error, setError] = useState("");
   const { createProjectMutate, isPending, isError } = useCreateProject(
-    "new_project",
-    "react"
+    projectName.split(" ").join("-").toLowerCase() || "my-app",
+    template
   );
 
   const navigate = useNavigate();
 
   async function handleCreateProject() {
     try {
+      if (!projectName.trim()) {
+        setError("Project name cannot be empty.");
+        return;
+      }
+      setError(null);
+
       const response = await createProjectMutate();
       navigate(`/project/${response.data.projectId}`);
     } catch (error) {}
   }
+
+  useEffect(() => {
+    let timer;
+    if (error) {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        setError("");
+      }, 3000);
+    }
+    return () => clearTimeout(timer);
+  }, [error]);
 
   return (
     <div className="container">
@@ -32,8 +52,18 @@ const CreateProject = () => {
         </div>
 
         <div className="project-name">
-          <p>Name your workspace</p>
-          <input type="text" />
+          <p>
+            Name your workspace{" "}
+            <span style={{ color: "red", fontWeight: "bold" }}> *</span>
+          </p>
+          <input
+            type="text"
+            onChange={(e) => setProjectName(e.target.value)}
+            value={projectName}
+            placeholder={`My ${template} app`}
+            required
+          />
+          {error && <p className="error">{error}</p>}
         </div>
 
         <button
