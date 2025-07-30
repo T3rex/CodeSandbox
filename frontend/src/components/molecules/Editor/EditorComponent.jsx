@@ -33,7 +33,7 @@ function EditorComponent() {
     <div>
       <Editor
         width="100%"
-        height="100vh"
+        height="96vh"
         defaultLanguage={undefined}
         language={extensionToFiletype(activeFileTab?.extension)}
         defaultValue="// Write your code here"
@@ -45,24 +45,15 @@ function EditorComponent() {
         options={{
           fontSize: 16,
           minimap: {
+            autohide: true,
             enabled: true,
+            renderCharacters: true,
             showSlider: "mouseover",
-            side: "right",
             scale: 1.2,
             size: "proportional",
-            renderCharacters: true,
-            showOverflow: true,
             maxColumn: 120,
-            alwaysShowScrollbar: false,
-            scrollbar: {
-              useShadows: true,
-              verticalHasArrows: false,
-              horizontalHasArrows: false,
-              arrowSize: 11,
-              vertical: "visible",
-              horizontal: "visible",
-            },
           },
+          scrollType: 1,
           scrollBeyondLastLine: true,
           automaticLayout: true,
           wordWrap: "on",

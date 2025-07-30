@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from "react";
 import { SlArrowRight, SlArrowDown } from "react-icons/sl";
 import "./TreeNode.css";
 import useEditorSocketStore from "../../../store/editorSocketStore";
-import { setFileIcon } from "../../../utils/FileIconUtil.jsx";
+import { getFileIcon } from "../../../utils/FileIconUtil.jsx";
 import useFileContextMenuStore from "../../../store/fileContextMenuStore.js";
 
 function TreeNode({ fileFolderData }) {
@@ -68,7 +68,7 @@ function TreeNode({ fileFolderData }) {
             handleContextMenuForFiles(e, fileFolderData.path)
           }
         >
-          <div>{setFileIcon(fileFolderData.name.split(".").at(-1))}</div>
+          <div>{getFileIcon(fileFolderData.name.split(".").pop())}</div>
           {fileFolderData.name}
         </div>
       )}
