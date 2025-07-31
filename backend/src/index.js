@@ -6,6 +6,7 @@ import { createServer } from "node:http";
 import { Server } from "socket.io";
 import chokidar from "chokidar";
 import { handleEditorSocketEvents } from "./socketHandlers/editorHandlers.js";
+import { handleContainerCreate } from "./container/handleContainerCreate.js";
 
 const app = express();
 const server = createServer(app);
@@ -23,6 +24,7 @@ app.use(cors());
 app.use("/api", router);
 
 const editorNameSpace = io.of("/editor");
+const terminalNameSpace = io.of("/terminal");
 
 editorNameSpace.on("connection", (socket) => {
   console.log("Editor connected");
@@ -42,12 +44,26 @@ editorNameSpace.on("connection", (socket) => {
       console.log(event, path);
     });
   }
-
   handleEditorSocketEvents(socket, editorNameSpace);
+
+  terminalNameSpace.on("connection", (socket) => {
+    console.log("Terminal connected");
+    let projectId = socket.handshake.query.projectId;
+
+    socket.on("shellInput", (data) => {
+      console.log("Received shell input:", data);
+      socket.emit("shellOutput", data);
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Terminal disconnected");
+    });
+    handleContainerCreate(projectId, socket);
+  });
 
   socket.on("disconnect", async () => {
     await watcher.close();
-    console.log("editor disconnected");
+    console.log("Editor disconnected");
   });
 });
 

@@ -33,7 +33,7 @@ function EditorComponent() {
     <div>
       <Editor
         width="100%"
-        height="96vh"
+        height="60vh"
         defaultLanguage={undefined}
         language={extensionToFiletype(activeFileTab?.extension)}
         defaultValue="// Write your code here"
