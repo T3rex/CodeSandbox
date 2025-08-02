@@ -12,13 +12,13 @@ function BrowserTerminal() {
 
   useEffect(() => {
     const terminal = new Terminal({
-      cursorBlink: false,
+      cursorBlink: true,
       convertEol: true,
       cursorStyle: "block",
       cursorWidth: 2,
       drawBoldTextInBrightColors: false,
       fontFamily: "'Fira Code', monospace",
-      fontSize: 15,
+      fontSize: 18,
       lineHeight: 1.5,
       letterSpacing: 0.5,
       disableStdin: false,
@@ -53,10 +53,6 @@ function BrowserTerminal() {
     terminal.loadAddon(fitAddon);
     fitAddon.fit();
 
-    // socket.current = io(`${import.meta.env.VITE_BACKEND_URL}/terminal`, {
-    //   query: { projectId: projectIdFromUrl },
-    // });
-
     socket.current = new WebSocket(
       `ws://localhost:3000/terminal?projectId=${projectIdFromUrl}`
     );
@@ -75,7 +71,13 @@ function BrowserTerminal() {
   return (
     <div
       ref={terminalRef}
-      style={{ width: "100%", height: "29vh", overflow: "auto" }}
+      style={{
+        width: "99%",
+        height: "300px",
+        overflow: "auto",
+        paddingLeft: "10px",
+        paddingBottom: "20px",
+      }}
     ></div>
   );
 }

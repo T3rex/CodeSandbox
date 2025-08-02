@@ -35,7 +35,19 @@ function ProjectPlayground() {
           <EditorButton isActive={false} />
         </div>
         <EditorComponent />
-        <BrowserTerminal />
+        <div className="terminal-wrapper">
+          <h2
+            style={{
+              color: "#ffffff",
+              margin: 0,
+              padding: "10px",
+              backgroundColor: "#353333ff",
+            }}
+          >
+            Terminal
+          </h2>
+          <BrowserTerminal />
+        </div>
       </div>
     </div>
   );

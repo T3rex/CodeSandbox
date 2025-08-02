@@ -9,11 +9,11 @@ import { FaGitAlt } from "react-icons/fa";
 const iconMap = {
   jsx: <FaReact color="#61DAFB" size={20} />,
   react: <FaReact color="#61DAFB" size={30} />,
-  js: <FaJs color="#F7DF1E" size={20} />,
+  js: <FaJs color="#f8e65dff" size={20} />,
   json: <BsFiletypeJson size={20} color="#F7DF1E" />,
   txt: <FiFileText size={20} color="#6C757D" />,
   html: <FaHtml5 size={20} color="#E34F26" />,
-  css: <SiCsswizardry size={20} color="#264DE4" />,
+  css: <SiCsswizardry size={20} color="#7e57c2" />,
   ts: <SiTypescript size={20} color="#007ACC" />,
   tsx: <TbFileTypeTsx size={20} color="#007ACC" />,
   md: <IoLogoMarkdown size={20} color="#000000" />,

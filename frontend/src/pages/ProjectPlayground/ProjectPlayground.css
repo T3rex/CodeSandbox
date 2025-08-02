@@ -25,3 +25,10 @@
   background-color: #39354dff;
   margin-bottom: 5px;
 }
+
+.terminal-wrapper {
+  width: 100%;
+  background-color: #1e1e1e;
+  overflow: hidden;
+  box-sizing: border-box;
+}
