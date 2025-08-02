@@ -36,7 +36,6 @@ export const handleContainerCreate = async (
 
     // Upgrade the HTTP connection to a WebSocket connection
     webSocketForTerminal.handleUpgrade(req, tcp, head, (establishedWSConn) => {
-      console.log("WebSocket connection established for terminal");
       webSocketForTerminal.emit(
         "connection",
         establishedWSConn,

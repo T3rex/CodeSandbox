@@ -8,19 +8,28 @@ import useEditorSocketStore from "../../store/editorSocketStore.js";
 import { io } from "socket.io-client";
 import "./ProjectPlayground.css";
 import BrowserTerminal from "../../components/molecules/BrowserTerminal/BrowserTerminal.jsx";
+import { BsFillTerminalFill } from "react-icons/bs";
+import useTerminalSocketStore from "../../store/terminalSocketStore.js";
 
 function ProjectPlayground() {
   const { projectId: projectIdFromUrl } = useParams();
   const { setProjectId, projectId } = useTreeStructureStore();
   const { setEditorSocket } = useEditorSocketStore();
+  const { setTerminalSocket } = useTerminalSocketStore();
 
   useEffect(() => {
     setProjectId(projectIdFromUrl);
     const editorSocketConn = io(`${import.meta.env.VITE_BACKEND_URL}/editor`, {
       query: { projectId: projectIdFromUrl },
     });
+
+    const terminalSocketConn = new WebSocket(
+      `ws://localhost:3000/terminal?projectId=${projectIdFromUrl}`
+    );
+
     setEditorSocket(editorSocketConn);
-  }, [setProjectId, projectIdFromUrl]);
+    setTerminalSocket(terminalSocketConn);
+  }, [setProjectId, projectIdFromUrl, setEditorSocket, setTerminalSocket]);
 
   return (
     <div className="project-playground-container">
@@ -42,9 +51,13 @@ function ProjectPlayground() {
               margin: 0,
               padding: "10px",
               backgroundColor: "#353333ff",
+              display: "flex",
+              opacity: 0.3,
             }}
           >
-            Terminal
+            <BsFillTerminalFill style={{ marginRight: "10px" }} />
+
+            <span>Terminal</span>
           </h2>
           <BrowserTerminal />
         </div>

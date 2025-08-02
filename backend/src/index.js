@@ -71,6 +71,7 @@ server.on("upgrade", (req, tcp, head) => {
 });
 
 webSocketForTerminal.on("connection", (ws, req, container) => {
+  console.log("WebSocket connection established for terminal");
   handleTerminalConnection(ws, container);
   ws.on("close", async () => {
     console.log("WebSocket connection closed, stopping container");

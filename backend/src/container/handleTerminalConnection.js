@@ -19,7 +19,7 @@ export const handleTerminalConnection = (ws, container) => {
           console.error("Error starting exec instance:", err);
           return;
         }
-
+        console.log("Exec instance started, processing stream output");
         processStreamOutput(stream, ws);
         ws.on("message", (data) => {
           stream.write(data);

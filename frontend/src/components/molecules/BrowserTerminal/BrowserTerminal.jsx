@@ -2,13 +2,12 @@ import "@xterm/xterm/css/xterm.css";
 import { Terminal } from "@xterm/xterm";
 import { useEffect, useRef } from "react";
 import { FitAddon } from "@xterm/addon-fit";
-import { useParams } from "react-router-dom";
 import { AttachAddon } from "@xterm/addon-attach";
+import useTerminalSocketStore from "../../../store/terminalSocketStore";
 
 function BrowserTerminal() {
-  const terminalRef = useRef();
-  const socket = useRef();
-  const { projectId: projectIdFromUrl } = useParams();
+  const terminalRef = useRef(null);
+  const { terminalSocket } = useTerminalSocketStore();
 
   useEffect(() => {
     const terminal = new Terminal({
@@ -48,35 +47,58 @@ function BrowserTerminal() {
         brightWhite: "#e5e5e5",
       },
     });
-    terminal.open(terminalRef.current);
+
     const fitAddon = new FitAddon();
     terminal.loadAddon(fitAddon);
-    fitAddon.fit();
 
-    socket.current = new WebSocket(
-      `ws://localhost:3000/terminal?projectId=${projectIdFromUrl}`
-    );
+    // Open terminal and fit it
+    if (terminalRef.current) {
+      terminal.open(terminalRef.current);
+      setTimeout(() => {
+        fitAddon.fit();
+      }, 0);
+    }
 
-    socket.current.onopen = () => {
-      const attachAddon = new AttachAddon(socket.current);
-      terminal.loadAddon(attachAddon);
+    // Attach WebSocket if ready, else wait for it to open
+    let socketOpenHandler = null;
+    if (terminalSocket) {
+      if (terminalSocket.readyState === WebSocket.OPEN) {
+        const attachAddon = new AttachAddon(terminalSocket);
+        terminal.loadAddon(attachAddon);
+      } else {
+        socketOpenHandler = () => {
+          const attachAddon = new AttachAddon(terminalSocket);
+          terminal.loadAddon(attachAddon);
+        };
+        terminalSocket.onopen = socketOpenHandler;
+      }
+    }
+
+    // Optional: Refit terminal on window resize
+    const handleResize = () => {
+      fitAddon.fit();
     };
+    window.addEventListener("resize", handleResize);
 
+    // Cleanup
     return () => {
       terminal.dispose();
-      terminalRef.current = null;
+      if (terminalSocket && socketOpenHandler) {
+        terminalSocket.onopen = null;
+      }
+      window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [terminalSocket]);
 
   return (
     <div
       ref={terminalRef}
       style={{
         width: "99%",
-        height: "300px",
+        height: "100%",
         overflow: "auto",
         paddingLeft: "10px",
-        paddingBottom: "20px",
+        paddingBottom: "50px",
       }}
     ></div>
   );
