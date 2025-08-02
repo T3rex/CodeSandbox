@@ -26,7 +26,14 @@ const CreateProject = ({ template = "react" }) => {
 
       const response = await createProjectMutate();
       navigate(`/project/${response.data.projectId}`);
-    } catch (error) {}
+    } catch (error) {
+      console.error("Error creating project:", error);
+      if (error.response && error.response.data) {
+        setError(error.response.data.message || "Failed to create project.");
+      } else {
+        setError("An unexpected error occurred.");
+      }
+    }
   }
 
   useEffect(() => {

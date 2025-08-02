@@ -35,9 +35,7 @@ function ProjectPlayground() {
           <EditorButton isActive={false} />
         </div>
         <EditorComponent />
-        <div>
-          <BrowserTerminal />
-        </div>
+        <BrowserTerminal />
       </div>
     </div>
   );

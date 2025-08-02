@@ -7,6 +7,8 @@ import { Server } from "socket.io";
 import chokidar from "chokidar";
 import { handleEditorSocketEvents } from "./socketHandlers/editorHandlers.js";
 import { handleContainerCreate } from "./container/handleContainerCreate.js";
+import { WebSocketServer } from "ws";
+import { handleTerminalConnection } from "./container/handleTerminalConnection.js";
 
 const app = express();
 const server = createServer(app);
@@ -24,7 +26,6 @@ app.use(cors());
 app.use("/api", router);
 
 const editorNameSpace = io.of("/editor");
-const terminalNameSpace = io.of("/terminal");
 
 editorNameSpace.on("connection", (socket) => {
   console.log("Editor connected");
@@ -46,21 +47,6 @@ editorNameSpace.on("connection", (socket) => {
   }
   handleEditorSocketEvents(socket, editorNameSpace);
 
-  terminalNameSpace.on("connection", (socket) => {
-    console.log("Terminal connected");
-    let projectId = socket.handshake.query.projectId;
-
-    socket.on("shellInput", (data) => {
-      console.log("Received shell input:", data);
-      socket.emit("shellOutput", data);
-    });
-
-    socket.on("disconnect", () => {
-      console.log("Terminal disconnected");
-    });
-    handleContainerCreate(projectId, socket);
-  });
-
   socket.on("disconnect", async () => {
     await watcher.close();
     console.log("Editor disconnected");
@@ -69,4 +55,31 @@ editorNameSpace.on("connection", (socket) => {
 
 server.listen(port, () => {
   console.log(`App listening on port ${port}`);
+});
+
+const webSocketForTerminal = new WebSocketServer({
+  noServer: true,
+});
+
+server.on("upgrade", (req, tcp, head) => {
+  const isTerminal = req.url.includes("/terminal");
+  if (isTerminal) {
+    const projectId = req.url.split("=")[1];
+    console.log("WebSocket upgrade for terminal with projectId:", projectId);
+    handleContainerCreate(projectId, webSocketForTerminal, req, tcp, head);
+  }
+});
+
+webSocketForTerminal.on("connection", (ws, req, container) => {
+  handleTerminalConnection(ws, container);
+  ws.on("close", async () => {
+    console.log("WebSocket connection closed, stopping container");
+    try {
+      await container.stop();
+      await container.remove();
+      console.log("Container stopped and removed successfully");
+    } catch (error) {
+      console.error("Error stopping or removing container:", error);
+    }
+  });
 });
