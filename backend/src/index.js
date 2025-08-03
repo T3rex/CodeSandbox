@@ -41,8 +41,10 @@ editorNameSpace.on("connection", (socket) => {
       },
       ignoreInitial: true,
     });
-    watcher.on("all", (event, path) => {
-      console.log(event, path);
+    watcher.on("all", (event) => {
+      if (event !== "change") {
+        socket.emit("treeStructureUpdate");
+      }
     });
   }
   socket.on("getPort", () => {

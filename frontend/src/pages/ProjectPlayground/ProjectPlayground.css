@@ -1,4 +1,6 @@
 .project-playground-container {
+  --focus-border: #007fd4;
+  --separator-border: #cdcaca;
   display: flex;
   height: 100vh;
   width: 100%;
@@ -9,7 +11,7 @@
   height: 100%;
   width: 100%;
   background-color: #2b2b2b;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .right-pane-wrapper {

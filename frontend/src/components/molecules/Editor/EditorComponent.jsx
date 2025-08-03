@@ -41,31 +41,31 @@ function EditorComponent() {
            \////\\\\\\\\\  \///\\\\\/   \//\\\\\\\/\\ \/\\\\\\\\\\\\\\\  /\\\/\///\\\ 
                \/////////     \/////      \///////\//  \///////////////  \///    \///
 
-        +-------------------------------------------------------------------------------+
-        |                                                                               |
-        |                  Welcome to CodEx — Code Without Limits                       |
-        |                                                                               |
-        |  # CodEx is a powerful online code editor that offers a seamless coding       |
-        |    experience — no local setup required.                                      |
-        |                                                                               |
-        |  # It's a cloud-based tool for developers who want to code, test, and share   |
-        |    instantly. Think of it as your personal coding playground — no install.    |
-        |                                                                               |
-        |          🚀 Start building your ideas right from the browser!                 |
-        |                                                                               |
-        |                              Key Features                                     |
-        |                                                                               |
-        |    👌  Zero-Setup           → Start coding immediately in the browser         |
-        |    📦  Sandboxed Sessions   → Isolated, safe coding environments              |
-        |    ▶️  Live App Preview     → Preview your app live with inbuilt browser      |  
-        |    🔗  Real-Time Sync       → Auto-save and collaborate via WebSockets        |
-        |    🖥️  Interactive Terminal → Execute commands in a live terminal             |
-        |    📝  Multi-File Tabs      → Edit multiple files simultaneously              |
-        |    📂  File Tree View       → Easily browse and organize project files        |
-        |    🌙  Theming Support      → Dark/Light/Dracula themes via Monaco            |
-        |                                                                               |
-        |                                                                               |
-        +-------------------------------------------------------------------------------+
+    +-------------------------------------------------------------------------------+
+    |                                                                               |
+    |                  Welcome to CodEx — Code Without Limits                       |
+    |                                                                               |
+    |  # CodEx is a powerful online code editor that offers a seamless coding       |
+    |    experience — no local setup required.                                      |
+    |                                                                               |
+    |  # It's a cloud-based tool for developers who want to code, test, and share   |
+    |    instantly. Think of it as your personal coding playground — no install.    |
+    |                                                                               |
+    |          🚀 Start building your ideas right from the browser!                 |
+    |                                                                               |
+    |                              Key Features                                     |
+    |                                                                               |
+    |    👌  Zero-Setup           → Start coding immediately in the browser         |
+    |    📦  Sandboxed Sessions   → Isolated, safe coding environments              |
+    |    ▶️  Live App Preview     → Preview your app live with inbuilt browser      |  
+    |    🔗  Real-Time Sync       → Auto-save and collaborate via WebSockets        |
+    |    🖥️  Interactive Terminal → Execute commands in a live terminal             |
+    |    📝  Multi-File Tabs      → Edit multiple files simultaneously              |
+    |    📂  File Tree View       → Easily browse and organize project files        |
+    |    🌙  Theming Support      → Dark/Light/Dracula themes via Monaco            |
+    |                                                                               |
+    |                                                                               |
+    +-------------------------------------------------------------------------------+
 
         `;
 

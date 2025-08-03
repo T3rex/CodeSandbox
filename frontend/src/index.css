@@ -5,3 +5,22 @@ body {
   color: white;
   background-color: #151515;
 }
+
+::-webkit-scrollbar {
+  width: 1em;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border: 1px solid #444;
+}
+
+::-webkit-scrollbar-thumb {
+  cursor: pointer;
+  transition: all 1s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #7d7c7c;
+  transition: all 1s ease;
+}

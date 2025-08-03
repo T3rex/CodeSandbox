@@ -59,12 +59,7 @@ function ProjectPlayground() {
             <Allotment vertical>
               {/* Editor Section */}
               <Allotment.Pane preferredSize="80%">
-                <div
-                  className="editor-section"
-                  style={{
-                    padding: openFileTabs?.length > 0 ? "4px 0px" : "0px",
-                  }}
-                >
+                <div className="editor-section">
                   <div className="editor-buttons">
                     {openFileTabs?.map((tab) => (
                       <EditorButton
@@ -82,7 +77,7 @@ function ProjectPlayground() {
               {/* Terminal Section */}
               <Allotment.Pane
                 preferredSize="20%"
-                minSize={50}
+                minSize={40}
                 snap
                 visible={true}
               >

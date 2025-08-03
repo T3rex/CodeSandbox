@@ -39,6 +39,7 @@ function TreeStructure() {
           marginBottom: "5px",
           fontSize: "18px",
           textAlign: "Center",
+          paddingTop: "1em",
         }}
       >
         Explorer

@@ -98,7 +98,6 @@ function BrowserTerminal() {
         // // height: "300px",
         // overflow: "none",
         paddingLeft: "10px",
-        // paddingBottom: "50px",
       }}
     ></div>
   );

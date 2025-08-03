@@ -31,6 +31,10 @@ const useEditorSocketStore = create((set) => ({
     set({
       editorSocket: incomingSocket,
     });
+
+    incomingSocket.on("treeStructureUpdate", () => {
+      setTreeStructure();
+    });
   },
 }));
 
