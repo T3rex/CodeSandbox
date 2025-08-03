@@ -45,55 +45,62 @@ function ProjectPlayground() {
 
   return (
     <div className="project-playground-container">
-      <div className="tree-structure-wrapper">
-        {projectId && <TreeStructure />}
-      </div>
+      <Allotment>
+        {/* Left Pane: Tree */}
+        <Allotment.Pane preferredSize="20%" snap>
+          <div className="tree-structure-wrapper">
+            {projectId && <TreeStructure />}
+          </div>
+        </Allotment.Pane>
 
-      <div className="editor-wrapper">
-        <Allotment vertical={true}>
-          {/* Editor Section */}
-          <Allotment.Pane preferredSize="75%">
-            <div className="editor-section">
-              <div className="editor-buttons">
-                {openFileTabs?.map((tab) => (
-                  <EditorButton
-                    key={tab.path}
-                    isActive={tab.isActive}
-                    path={tab.path}
-                    name={tab.name}
-                  />
-                ))}
-              </div>
-              <EditorComponent />
-            </div>
-          </Allotment.Pane>
+        {/* Right Pane: Editor + Terminal */}
+        <Allotment.Pane preferredSize="80%" minSize={200}>
+          <div className="right-pane-wrapper">
+            <Allotment vertical>
+              {/* Editor Section */}
+              <Allotment.Pane preferredSize="80%">
+                <div
+                  className="editor-section"
+                  style={{
+                    padding: openFileTabs?.length > 0 ? "4px 0px" : "0px",
+                  }}
+                >
+                  <div className="editor-buttons">
+                    {openFileTabs?.map((tab) => (
+                      <EditorButton
+                        key={tab.path}
+                        isActive={tab.isActive}
+                        path={tab.path}
+                        name={tab.name}
+                      />
+                    ))}
+                  </div>
+                  <EditorComponent />
+                </div>
+              </Allotment.Pane>
 
-          {/* Terminal Section */}
-          <Allotment.Pane preferredSize="25%" minSize={100}>
-            <div className="terminal-wrapper">
-              <h2
-                style={{
-                  color: "#ffffff",
-                  margin: 0,
-                  padding: "10px",
-                  backgroundColor: "#353333ff",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  opacity: 0.5,
-                }}
+              {/* Terminal Section */}
+              <Allotment.Pane
+                preferredSize="20%"
+                minSize={50}
+                snap
+                visible={true}
               >
-                <BsFillTerminalFill
-                  onClick={fetchPort}
-                  style={{ cursor: "pointer" }}
-                />
-                <span>Terminal</span>
-              </h2>
-              <BrowserTerminal />
-            </div>
-          </Allotment.Pane>
-        </Allotment>
-      </div>
+                <div className="terminal-wrapper">
+                  <h2 className="terminal-header">
+                    <BsFillTerminalFill
+                      onClick={fetchPort}
+                      style={{ cursor: "pointer" }}
+                    />
+                    <span>Terminal</span>
+                  </h2>
+                  <BrowserTerminal />
+                </div>
+              </Allotment.Pane>
+            </Allotment>
+          </div>
+        </Allotment.Pane>
+      </Allotment>
     </div>
   );
 }

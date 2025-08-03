@@ -15,11 +15,18 @@ const iconMap = {
   json: <BsFiletypeJson size={20} color="#F7DF1E" />,
   txt: <FiFileText size={20} color="#6C757D" />,
   html: <FaHtml5 size={20} color="#E34F26" />,
-  css: <SiCsswizardry size={20} color="#7e57c2" />,
+  css: (
+    <SiCsswizardry
+      size={20}
+      color="#7e57c2"
+      style={{
+        backgroundColor: "white",
+      }}
+    />
+  ),
   ts: <SiTypescript size={20} color="#007ACC" />,
   cts: <SiTypescript size={20} color="#007ACC" />,
   mts: <SiTypescript size={20} color="#007ACC" />,
-
   tsx: <TbFileTypeTsx size={20} color="#007ACC" />,
   md: <IoLogoMarkdown size={20} color="#000000" />,
   gitignore: <FaGitAlt size={20} color="#F05032" />,

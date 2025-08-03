@@ -6,14 +6,15 @@
 }
 
 .tree-structure-wrapper {
-  width: 350px;
+  height: 100%;
+  width: 100%;
   background-color: #2b2b2b;
-  border-right: 1px solid #444;
-  overflow-x: hidden;
+  overflow-y: auto;
 }
 
-.editor-wrapper {
-  flex: 1;
+.right-pane-wrapper {
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -22,23 +23,33 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
 .editor-buttons {
-  height: fit-content;
   display: flex;
-  padding: 4px;
   background-color: #1e1e1e;
-  overflow-x: auto;
-  overflow-y: hidden;
   border-bottom: 1px solid #444;
+  overflow-x: auto;
 }
 
 .terminal-wrapper {
   height: 100%;
+  width: 100%;
   background-color: #1e1e1e;
   border-top: 1px solid #444;
   display: flex;
   flex-direction: column;
-  overflow-y: hidden;
+}
+
+.terminal-header {
+  color: #ffffff;
+  margin: 0;
+  padding: 10px;
+  background-color: #353333ff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0.5;
 }

@@ -56,7 +56,7 @@ function BrowserTerminal() {
       terminal.open(terminalRef.current);
       setTimeout(() => {
         fitAddon.fit();
-      }, 0);
+      }, 1000);
     }
 
     // Attach WebSocket if ready, else wait for it to open
@@ -94,11 +94,11 @@ function BrowserTerminal() {
     <div
       ref={terminalRef}
       style={{
-        width: "99%",
-        height: "300px",
-        overflow: "none",
+        // // width: "99%",
+        // // height: "300px",
+        // overflow: "none",
         paddingLeft: "10px",
-        paddingBottom: "50px",
+        // paddingBottom: "50px",
       }}
     ></div>
   );
