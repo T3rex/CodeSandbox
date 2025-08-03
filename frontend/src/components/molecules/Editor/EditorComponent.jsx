@@ -3,7 +3,7 @@ import Editor from "@monaco-editor/react";
 import useEditorSocketStore from "../../../store/editorSocketStore";
 import useActiveFileTabStore from "../../../store/activeFileTabStore";
 import { extensionToFiletype } from "../../../utils/extensionToFiletype";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 function EditorComponent() {
   const handleTheme = (editor, monaco) => {
     import("monaco-themes/themes/Dracula.json").then((data) => {
@@ -51,16 +51,16 @@ ________/\\\\\\\\\_______________________/\\\___/\\\\\\\\\\\\\\\_______________
         |  # It's a cloud-based tool for developers who want to code, test, and share   |
         |    instantly. Think of it as your personal coding playground — no install.    |
         |                                                                               |
-        |          $ Start building your ideas right from the browser! 🚀               |
+        |          🚀 Start building your ideas right from the browser!                 |
         |                                                                               |
         |                              Key Features                                     |
         |                                                                               |
-        |    🚀  Zero-Setup           → Start coding immediately in the browser         |
+        |    👌  Zero-Setup           → Start coding immediately in the browser         |
         |    📦  Sandboxed Sessions   → Isolated, safe coding environments              |
         |    ▶️  Live App Preview     → Preview your app live with inbuilt browser      |  
         |    🔗  Real-Time Sync       → Auto-save and collaborate via WebSockets        |
         |    🖥️  Interactive Terminal → Execute commands in a live terminal             |
-        |    📝  Multi-File Tabs      → Edit multiple files simultaneouslyx             |
+        |    📝  Multi-File Tabs      → Edit multiple files simultaneously              |
         |    📂  File Tree View       → Easily browse and organize project files        |
         |    🌙  Theming Support      → Dark/Light/Dracula themes via Monaco            |
         |                                                                               |
@@ -69,14 +69,30 @@ ________/\\\\\\\\\_______________________/\\\___/\\\\\\\\\\\\\\\_______________
 
         `;
 
+  const getValue = () => {
+    if (activeFileTab?.path) {
+      return activeFileTab?.value;
+    }
+    return defaultValue;
+  };
+
   return (
-    <div>
+    <div
+      className="editor-pane"
+      style={{
+        minHeight: "92%",
+        width: "100%",
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <Editor
         width="100%"
-        height="60vh"
+        height="100%"
         language={extensionToFiletype(activeFileTab?.extension) || "plaintext"}
         defaultValue={defaultValue}
-        value={activeFileTab?.value || defaultValue}
+        value={getValue()}
         onMount={(editor, monaco) => {
           handleTheme(editor, monaco);
         }}

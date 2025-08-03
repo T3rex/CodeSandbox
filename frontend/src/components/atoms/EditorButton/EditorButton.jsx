@@ -4,6 +4,7 @@ import useActiveFileTabStore from "../../../store/activeFileTabStore";
 import { IoMdClose } from "react-icons/io";
 import useOpenFileTabsStore from "../../../store/openFilesTabsStore";
 import { useCallback, useState } from "react";
+import { getFileIcon } from "../../../utils/FileIconUtil";
 
 function EditorButton({ path, name }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -71,17 +72,20 @@ function EditorButton({ path, name }) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
         color: isActive || isHovered ? "white" : "#718193ff",
         borderTop: isActive ? "2px solid #646cff" : "none",
         borderRight: isActive ? "2px solid #646cff" : "none",
       }}
       onClick={handleOnClick}
     >
+      {getFileIcon(name.split(".").pop())}
       <span>{name}</span>
-      {(isActive || isHovered) && <IoMdClose onClick={handleClose} />}
+      {
+        <IoMdClose
+          onClick={handleClose}
+          style={{ display: isActive || isHovered ? "block" : "hidden" }}
+        />
+      }
     </button>
   );
 }

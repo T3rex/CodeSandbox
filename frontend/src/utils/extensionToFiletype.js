@@ -16,6 +16,5 @@ const extensionToFiletypeConfig = {
 
 export const extensionToFiletype = (extension) => {
   if (!extension) return undefined;
-
-  return extensionToFiletypeConfig[extension].toLowerCase();
+  return extensionToFiletypeConfig[extension]?.toLowerCase();
 };

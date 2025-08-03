@@ -96,7 +96,7 @@ function BrowserTerminal() {
       style={{
         width: "99%",
         height: "300px",
-        overflow: "auto",
+        overflow: "none",
         paddingLeft: "10px",
         paddingBottom: "50px",
       }}

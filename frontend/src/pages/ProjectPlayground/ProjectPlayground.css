@@ -1,34 +1,44 @@
-/* ProjectPlayground.css */
-
 .project-playground-container {
   display: flex;
-  margin: 0;
-  padding: 0;
+  height: 100vh;
   width: 100%;
+  overflow: hidden;
 }
 
 .tree-structure-wrapper {
-  width: 20%;
-  border-right: 1px solid #ddd;
+  width: 350px;
+  background-color: #2b2b2b;
+  border-right: 1px solid #444;
+  overflow-x: hidden;
 }
 
 .editor-wrapper {
-  width: 80%;
-  height: 100vh;
+  flex: 1;
   display: flex;
   flex-direction: column;
 }
 
-.editor-buttons {
+.editor-section {
   display: flex;
-  justify-content: start;
-  background-color: #39354dff;
-  margin-bottom: 5px;
+  flex-direction: column;
+  height: 100%;
+}
+
+.editor-buttons {
+  height: fit-content;
+  display: flex;
+  padding: 4px;
+  background-color: #1e1e1e;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-bottom: 1px solid #444;
 }
 
 .terminal-wrapper {
-  width: 100%;
+  height: 100%;
   background-color: #1e1e1e;
-  overflow: hidden;
-  box-sizing: border-box;
+  border-top: 1px solid #444;
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
 }

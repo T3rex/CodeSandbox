@@ -2,7 +2,7 @@
   background-color: rgb(48, 48, 59);
   width: fit-content;
   min-width: 150px;
-  max-width: 200px;
+  max-width: 250px;
   height: 35px;
   color: white;
   border-left: none;
@@ -18,6 +18,10 @@
   cursor: pointer;
   transition: all 0.25s;
   margin-right: 0.2rem;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .editor-button:hover {
@@ -35,4 +39,6 @@ button:focus-visible {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  padding: 0.2em;
+  box-sizing: border-box;
 }
