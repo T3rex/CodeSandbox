@@ -4,6 +4,7 @@ import "./TreeNode.css";
 import useEditorSocketStore from "../../../store/editorSocketStore";
 import { getFileIcon } from "../../../utils/FileIconUtil.jsx";
 import useFileContextMenuStore from "../../../store/fileContextMenuStore.js";
+import useOpenFileTabsStore from "../../../store/openFilesTabsStore.js";
 
 function TreeNode({ fileFolderData }) {
   const [visibility, setVisibility] = useState({});
@@ -23,6 +24,8 @@ function TreeNode({ fileFolderData }) {
     setIsOpen: setFileContextMenuIsOpen,
   } = useFileContextMenuStore();
 
+  const { addFileTab, openFileTabs } = useOpenFileTabsStore();
+
   const toggleVisibility = (name) => {
     setVisibility((prev) => ({ ...prev, [name]: !prev[name] }));
   };
@@ -33,6 +36,10 @@ function TreeNode({ fileFolderData }) {
         pathToFileFolder: fileFolderData?.path,
       });
     }
+    addFileTab({
+      name: fileFolderData.name,
+      path: fileFolderData.path,
+    });
   };
 
   const handleContextMenuForFiles = (e, path) => {

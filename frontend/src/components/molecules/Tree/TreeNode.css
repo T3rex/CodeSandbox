@@ -24,6 +24,7 @@
   text-overflow: ellipsis;
   overflow: hidden;
   box-sizing: border-box;
+  font-size: large;
 }
 
 .tree-toggle > span {

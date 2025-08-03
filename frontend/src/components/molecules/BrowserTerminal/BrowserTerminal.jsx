@@ -19,7 +19,7 @@ function BrowserTerminal() {
       fontFamily: "'Fira Code', monospace",
       fontSize: 18,
       lineHeight: 1.5,
-      letterSpacing: 0.5,
+      letterSpacing: 0.3,
       disableStdin: false,
       allowTransparency: true,
       rendererType: "canvas",
@@ -74,7 +74,7 @@ function BrowserTerminal() {
       }
     }
 
-    // Optional: Refit terminal on window resize
+    //Refit terminal on window resize
     const handleResize = () => {
       fitAddon.fit();
     };
@@ -95,7 +95,7 @@ function BrowserTerminal() {
       ref={terminalRef}
       style={{
         width: "99%",
-        height: "100%",
+        height: "300px",
         overflow: "auto",
         paddingLeft: "10px",
         paddingBottom: "50px",

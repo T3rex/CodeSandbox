@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import EditorComponent from "../../components/molecules/Editor/EditorComponent.jsx";
 import EditorButton from "../../components/atoms/EditorButton/EditorButton.jsx";
 import TreeStructure from "../../components/organisms/TreeStructure.jsx";
-import { useEffect } from "react";
+import { use, useEffect } from "react";
 import useTreeStructureStore from "../../store/treeStructureStore.js";
 import useEditorSocketStore from "../../store/editorSocketStore.js";
 import { io } from "socket.io-client";
@@ -10,12 +10,14 @@ import "./ProjectPlayground.css";
 import BrowserTerminal from "../../components/molecules/BrowserTerminal/BrowserTerminal.jsx";
 import { BsFillTerminalFill } from "react-icons/bs";
 import useTerminalSocketStore from "../../store/terminalSocketStore.js";
+import useOpenFileTabsStore from "../../store/openFilesTabsStore.js";
 
 function ProjectPlayground() {
   const { projectId: projectIdFromUrl } = useParams();
   const { setProjectId, projectId } = useTreeStructureStore();
-  const { setEditorSocket } = useEditorSocketStore();
+  const { setEditorSocket, editorSocket } = useEditorSocketStore();
   const { setTerminalSocket } = useTerminalSocketStore();
+  const { openFileTabs } = useOpenFileTabsStore();
 
   useEffect(() => {
     setProjectId(projectIdFromUrl);
@@ -31,6 +33,10 @@ function ProjectPlayground() {
     setTerminalSocket(terminalSocketConn);
   }, [setProjectId, projectIdFromUrl, setEditorSocket, setTerminalSocket]);
 
+  const fetchPort = () => {
+    editorSocket.emit("getPort");
+  };
+
   return (
     <div className="project-playground-container">
       <div className="tree-structure-wrapper">
@@ -38,10 +44,14 @@ function ProjectPlayground() {
       </div>
       <div className="editor-wrapper">
         <div className="editor-buttons">
-          <EditorButton isActive={true} />
-          <EditorButton isActive={false} />
-          <EditorButton isActive={false} />
-          <EditorButton isActive={false} />
+          {openFileTabs?.map((tab) => (
+            <EditorButton
+              key={tab.path}
+              isActive={tab.isActive}
+              path={tab.path}
+              name={tab.name}
+            />
+          ))}
         </div>
         <EditorComponent />
         <div className="terminal-wrapper">
@@ -55,7 +65,10 @@ function ProjectPlayground() {
               opacity: 0.3,
             }}
           >
-            <BsFillTerminalFill style={{ marginRight: "10px" }} />
+            <BsFillTerminalFill
+              style={{ marginRight: "10px" }}
+              onClick={fetchPort}
+            />
 
             <span>Terminal</span>
           </h2>

@@ -45,6 +45,10 @@ editorNameSpace.on("connection", (socket) => {
       console.log(event, path);
     });
   }
+  socket.on("getPort", () => {
+    console.log("Get port request received");
+  });
+
   handleEditorSocketEvents(socket, editorNameSpace);
 
   socket.on("disconnect", async () => {
@@ -71,10 +75,8 @@ server.on("upgrade", (req, tcp, head) => {
 });
 
 webSocketForTerminal.on("connection", (ws, req, container) => {
-  console.log("WebSocket connection established for terminal");
   handleTerminalConnection(ws, container);
   ws.on("close", async () => {
-    console.log("WebSocket connection closed, stopping container");
     try {
       await container.stop();
       await container.remove();
