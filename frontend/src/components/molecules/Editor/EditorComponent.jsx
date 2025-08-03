@@ -57,11 +57,12 @@ ________/\\\\\\\\\_______________________/\\\___/\\\\\\\\\\\\\\\_______________
         |                                                                               |
         |    🚀  Zero-Setup           → Start coding immediately in the browser         |
         |    📦  Sandboxed Sessions   → Isolated, safe coding environments              |
-        |    📝  Multi-File Tabs      → Edit multiple files simultaneously              |
-        |    🌙  Theming Support      → Dark/Light/Dracula themes via Monaco            |
+        |    ▶️  Live App Preview     → Preview your app live with inbuilt browser      |  
         |    🔗  Real-Time Sync       → Auto-save and collaborate via WebSockets        |
         |    🖥️  Interactive Terminal → Execute commands in a live terminal             |
+        |    📝  Multi-File Tabs      → Edit multiple files simultaneouslyx             |
         |    📂  File Tree View       → Easily browse and organize project files        |
+        |    🌙  Theming Support      → Dark/Light/Dracula themes via Monaco            |
         |                                                                               |
         |                                                                               |
         +-------------------------------------------------------------------------------+
@@ -73,9 +74,9 @@ ________/\\\\\\\\\_______________________/\\\___/\\\\\\\\\\\\\\\_______________
       <Editor
         width="100%"
         height="60vh"
-        language={extensionToFiletype(activeFileTab?.extension)}
+        language={extensionToFiletype(activeFileTab?.extension) || "plaintext"}
         defaultValue={defaultValue}
-        value={activeFileTab ? activeFileTab?.value : defaultValue}
+        value={activeFileTab?.value || defaultValue}
         onMount={(editor, monaco) => {
           handleTheme(editor, monaco);
         }}
@@ -108,7 +109,7 @@ ________/\\\\\\\\\_______________________/\\\___/\\\\\\\\\\\\\\\_______________
           glyphMargin: true,
           folding: true,
           foldingStrategy: "auto",
-          renderWhitespace: "all",
+          renderWhitespace: "selection",
           renderControlCharacters: true,
           overviewRulerLanes: 3,
           overviewRulerBorder: true,

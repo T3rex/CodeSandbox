@@ -16,7 +16,6 @@ const extensionToFiletypeConfig = {
 
 export const extensionToFiletype = (extension) => {
   if (!extension) return undefined;
-  console.log("Extension received:", extension);
-  console.log("Mapped filetype:", extensionToFiletypeConfig[extension]);
+
   return extensionToFiletypeConfig[extension].toLowerCase();
 };

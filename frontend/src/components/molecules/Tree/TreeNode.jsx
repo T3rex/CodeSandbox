@@ -24,7 +24,7 @@ function TreeNode({ fileFolderData }) {
     setIsOpen: setFileContextMenuIsOpen,
   } = useFileContextMenuStore();
 
-  const { addFileTab, openFileTabs } = useOpenFileTabsStore();
+  const { addFileTab } = useOpenFileTabsStore();
 
   const toggleVisibility = (name) => {
     setVisibility((prev) => ({ ...prev, [name]: !prev[name] }));
