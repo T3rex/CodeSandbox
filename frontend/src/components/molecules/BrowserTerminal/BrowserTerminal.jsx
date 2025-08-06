@@ -56,6 +56,7 @@ function BrowserTerminal() {
       terminal.open(terminalRef.current);
       setTimeout(() => {
         fitAddon.fit();
+        console.log("Terminal opened and fitted");
       }, 1000);
     }
 

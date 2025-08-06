@@ -1,14 +1,11 @@
-import express from "express";
-import { port } from "./config/serverConfig.js";
 import cors from "cors";
+import express from "express";
+import chokidar from "chokidar";
+import { Server } from "socket.io";
 import router from "./routes/index.js";
 import { createServer } from "node:http";
-import { Server } from "socket.io";
-import chokidar from "chokidar";
+import { port } from "./config/serverConfig.js";
 import { handleEditorSocketEvents } from "./socketHandlers/editorHandlers.js";
-import { handleContainerCreate } from "./container/handleContainerCreate.js";
-import { WebSocketServer } from "ws";
-import { handleTerminalConnection } from "./container/handleTerminalConnection.js";
 
 const app = express();
 const server = createServer(app);
@@ -61,30 +58,4 @@ editorNameSpace.on("connection", (socket) => {
 
 server.listen(port, () => {
   console.log(`App listening on port ${port}`);
-});
-
-const webSocketForTerminal = new WebSocketServer({
-  noServer: true,
-});
-
-server.on("upgrade", (req, tcp, head) => {
-  const isTerminal = req.url.includes("/terminal");
-  if (isTerminal) {
-    const projectId = req.url.split("=")[1];
-    console.log("WebSocket upgrade for terminal with projectId:", projectId);
-    handleContainerCreate(projectId, webSocketForTerminal, req, tcp, head);
-  }
-});
-
-webSocketForTerminal.on("connection", (ws, req, container) => {
-  handleTerminalConnection(ws, container);
-  ws.on("close", async () => {
-    try {
-      await container.stop();
-      await container.remove();
-      console.log("Container stopped and removed successfully");
-    } catch (error) {
-      console.error("Error stopping or removing container:", error);
-    }
-  });
 });

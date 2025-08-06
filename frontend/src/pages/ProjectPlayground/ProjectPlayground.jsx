@@ -32,7 +32,7 @@ function ProjectPlayground() {
     });
 
     const terminalSocketConn = new WebSocket(
-      `ws://localhost:3000/terminal?projectId=${projectIdFromUrl}`
+      `${import.meta.env.VITE_WS_URL}/terminal?projectId=${projectIdFromUrl}`
     );
 
     setEditorSocket(editorSocketConn);

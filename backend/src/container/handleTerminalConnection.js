@@ -1,5 +1,5 @@
-export const handleTerminalConnection = (ws, container) => {
-  container.exec(
+export const handleTerminalConnection = async (ws, container) => {
+  await container.exec(
     {
       Cmd: ["/bin/bash"],
       AttachStdin: true,
@@ -8,20 +8,20 @@ export const handleTerminalConnection = (ws, container) => {
       Tty: true,
       User: "sandbox",
     },
-    (err, exec) => {
+    async (err, exec) => {
       if (err) {
         console.error("Error creating exec instance:", err);
         return;
       }
 
-      exec.start({ hijack: true, stdin: true }, (err, stream) => {
+      await exec.start({ hijack: true, stdin: true }, (err, stream) => {
         if (err) {
           console.error("Error starting exec instance:", err);
           return;
         }
-        console.log("Exec instance started, processing stream output");
         processStreamOutput(stream, ws);
         ws.on("message", (data) => {
+          console.log("Received data from client:", data);
           stream.write(data);
         });
       });
