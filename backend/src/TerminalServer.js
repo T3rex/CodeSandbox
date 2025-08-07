@@ -26,22 +26,28 @@ const webSocketForTerminal = new WebSocketServer({
 
 webSocketForTerminal.on("connection", async (ws, req) => {
   const isTerminal = req.url.includes("/terminal");
+
   if (isTerminal) {
     const projectId = req.url.split("=")[1];
     const container = await handleContainerCreate(
       projectId,
       webSocketForTerminal
     );
+
     if (container) {
-      handleTerminalConnection(ws, container);
+      await handleTerminalConnection(ws, container);
     }
+
+    ws.on("close", async () => {
+      try {
+        console.log("WebSocket connection closed for project:", projectId);
+        await container.remove({ force: true });
+        console.log("Container removed:", container.id);
+      } catch (error) {
+        console.error("Error stopping or removing container:", error);
+      }
+    });
+
+    ws.on;
   }
-  // ws.on("close", async () => {
-  //   try {
-  //     await container.remove({ force: true });
-  //     console.log("Container removed:" + container.id);
-  //   } catch (error) {
-  //     console.error("Error stopping or removing container:", error);
-  //   }
-  // });
 });

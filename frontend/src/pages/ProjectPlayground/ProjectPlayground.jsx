@@ -47,7 +47,7 @@ function ProjectPlayground() {
   }, [setProjectId, projectIdFromUrl, setEditorSocket, setTerminalSocket]);
 
   const fetchPort = () => {
-    editorSocket?.emit("getPort");
+    editorSocket?.emit("getPort", { containerName: projectId });
   };
 
   return (

@@ -38,7 +38,6 @@ export const handleContainerCreate = async (projectId) => {
         PortBindings: { "5173/tcp": [{ HostPort: "0" }] },
       },
     });
-    console.log(path.resolve(`${process.cwd()}/../projects/${projectId}`));
     console.log("Container created:", container.id);
     await container.start();
     console.log("Container started:", container.id);
@@ -48,3 +47,19 @@ export const handleContainerCreate = async (projectId) => {
     console.error("Error creating container:", error);
   }
 };
+
+export async function getContainerPort(containerName) {
+  const containerList = await docker.listContainers({
+    all: true,
+    filters: {
+      name: [containerName],
+    },
+  });
+
+  if (containerList.length > 0) {
+    const container = await docker.getContainer(containerList[0].Id).inspect();
+    const hostPort = container.NetworkSettings.Ports["5173/tcp"][0].HostPort;
+    console.log(hostPort);
+    return hostPort;
+  }
+}

@@ -110,4 +110,9 @@ export const handleEditorSocketEvents = (socket, editorNameSpace) => {
       });
     }
   });
+
+  socket.on("getPort", async ({ containerName }) => {
+    const port = await getContainerPort(containerName);
+    socket.emit("getPortSuccess", { data: port });
+  });
 };

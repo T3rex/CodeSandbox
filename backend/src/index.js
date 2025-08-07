@@ -6,6 +6,7 @@ import router from "./routes/index.js";
 import { createServer } from "node:http";
 import { port } from "./config/serverConfig.js";
 import { handleEditorSocketEvents } from "./socketHandlers/editorHandlers.js";
+import { getContainerPort } from "./container/handleContainerCreate.js";
 
 const app = express();
 const server = createServer(app);
@@ -44,9 +45,6 @@ editorNameSpace.on("connection", (socket) => {
       }
     });
   }
-  socket.on("getPort", () => {
-    console.log("Get port request received");
-  });
 
   handleEditorSocketEvents(socket, editorNameSpace);
 

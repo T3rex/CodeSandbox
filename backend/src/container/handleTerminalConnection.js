@@ -21,7 +21,6 @@ export const handleTerminalConnection = async (ws, container) => {
         }
         processStreamOutput(stream, ws);
         ws.on("message", (data) => {
-          console.log("Received data from client:", data);
           stream.write(data);
         });
       });
