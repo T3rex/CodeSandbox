@@ -8,12 +8,18 @@ export const createProjectService = async (projectName, template) => {
   try {
     const projectId = uuid4();
     const projectDir = path.join("./projects", projectId);
+    const customConfigPath = path.join("./src/utils", "CustomVite.config.js");
+    const projectConfigPath = path.join(
+      projectDir,
+      projectName,
+      "vite.config.js"
+    );
 
     await fs.mkdir(projectDir, { recursive: true });
 
-    const output = await runVite({ cwd: projectDir, projectName, template });
-
-    console.log("Project created:\n", output);
+    await runVite({ cwd: projectDir, projectName, template });
+    // Copy the custom Vite config file to the project directory
+    await fs.copyFile(customConfigPath, projectConfigPath);
 
     return projectId;
   } catch (error) {
