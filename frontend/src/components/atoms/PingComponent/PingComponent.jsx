@@ -1,4 +1,4 @@
-import usePing from "../../hooks/apis/queries/usePing";
+import usePing from "../../../hooks/apis/queries/usePing.js";
 export const PingComponent = () => {
   const { isLoading, isError, data, error, setToggle } = usePing();
   return (

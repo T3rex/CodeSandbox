@@ -26,11 +26,6 @@ function ProjectPlayground() {
 
   const { openFileTabs } = useOpenFileTabsStore();
 
-  const fetchPort = () => {
-    console.log("Fetching port for project:", projectId);
-    editorSocket?.emit("getPort", { containerName: projectId });
-  };
-
   useEffect(() => {
     setProjectId(projectIdFromUrl);
 
@@ -74,7 +69,7 @@ function ProjectPlayground() {
           <div className="right-pane-wrapper">
             <Allotment vertical>
               {/* Editor Section */}
-              <Allotment.Pane preferredSize="80%">
+              <Allotment.Pane preferredSize="70%">
                 <div className="editor-section">
                   <div className="editor-buttons">
                     {openFileTabs?.map((tab) => (
@@ -92,17 +87,14 @@ function ProjectPlayground() {
 
               {/* Terminal Section */}
               <Allotment.Pane
-                preferredSize="20%"
+                preferredSize="30%"
                 minSize={40}
                 snap
                 visible={true}
               >
                 <div className="terminal-wrapper">
                   <h2 className="terminal-header">
-                    <BsFillTerminalFill
-                      onClick={fetchPort}
-                      style={{ cursor: "pointer" }}
-                    />
+                    <BsFillTerminalFill style={{ cursor: "pointer" }} />
                     <span>Terminal</span>
                   </h2>
                   <BrowserTerminal />

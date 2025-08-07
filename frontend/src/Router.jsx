@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import CreateProject from "./pages/CreateProject/CreateProject.jsx";
-import { PingComponent } from "./components/atoms/PingComponent.jsx";
+import { PingComponent } from "./components/atoms/PingComponent/PingComponent.jsx";
 import ProjectPlayground from "./pages/ProjectPlayground/ProjectPlayground.jsx";
 
 function Router() {

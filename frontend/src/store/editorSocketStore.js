@@ -40,7 +40,6 @@ const useEditorSocketStore = create((set) => ({
     });
 
     incomingSocket.on("getPortSuccess", ({ data }) => {
-      console.log("Port received from backend:", data);
       setPort(data);
     });
   },

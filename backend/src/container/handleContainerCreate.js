@@ -49,17 +49,25 @@ export const handleContainerCreate = async (projectId) => {
 };
 
 export async function getContainerPort(containerName) {
-  const containerList = await docker.listContainers({
-    all: true,
-    filters: {
-      name: [containerName],
-    },
-  });
+  try {
+    const containerList = await docker.listContainers({
+      all: true,
+      filters: {
+        name: [containerName],
+      },
+    });
 
-  if (containerList.length > 0) {
-    const container = await docker.getContainer(containerList[0].Id).inspect();
-    const hostPort = container.NetworkSettings.Ports["5173/tcp"][0].HostPort;
+    if (containerList.length > 0) {
+      const container = await docker
+        .getContainer(containerList[0].Id)
+        .inspect();
+      const hostPort =
+        container?.NetworkSettings?.Ports["5173/tcp"][0]?.HostPort;
 
-    return hostPort;
+      return hostPort;
+    }
+  } catch (error) {
+    console.error("Error retrieving container port:", error);
+    return undefined;
   }
 }

@@ -7,7 +7,7 @@ function Browser() {
   const browserRef = useRef(null);
 
   const { port } = usePortStore();
-  console.log("Port in Browser component:", port);
+  const url = `http://localhost:${port}`;
 
   const handleRefresh = () => {
     if (browserRef.current) {
@@ -18,7 +18,7 @@ function Browser() {
 
   useEffect(() => {
     if (browserRef.current && port) {
-      browserRef.current.src = `http://localhost:${port}`;
+      browserRef.current.src = url;
     }
   }, [port]);
 
@@ -42,12 +42,12 @@ function Browser() {
           borderRadius: "0px",
           border: "none",
         }}
-        value={`http://localhost:${port}`}
+        value={url}
         prefix={
           <IoMdRefresh
             onClick={handleRefresh}
             size={20}
-            style={{ cursor: "pointer", paddingLeft: "10px" }}
+            style={{ cursor: "pointer" }}
           />
         }
       />
@@ -60,7 +60,6 @@ function Browser() {
           border: "none",
           backgroundColor: "#282a35",
         }}
-        src={`http://localhost:${port}`}
       />
     </Row>
   );

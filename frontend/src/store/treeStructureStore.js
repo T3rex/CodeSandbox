@@ -13,7 +13,6 @@ const useTreeStructureStore = create((set, get) => {
         queryKey: [`projecttree-${id}`],
         queryFn: () => getProjectTreeApi(id),
       });
-      console.log(response.data);
       set({
         treeStructure: response.data,
       });
