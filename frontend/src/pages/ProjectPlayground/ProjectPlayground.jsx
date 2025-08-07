@@ -16,13 +16,20 @@ import useTerminalSocketStore from "../../store/terminalSocketStore.js";
 import useOpenFileTabsStore from "../../store/openFilesTabsStore.js";
 
 import "./ProjectPlayground.css";
+import Browser from "../../components/organisms/Browser/Browser.jsx";
 
 function ProjectPlayground() {
   const { projectId: projectIdFromUrl } = useParams();
   const { setProjectId, projectId } = useTreeStructureStore();
   const { setEditorSocket, editorSocket } = useEditorSocketStore();
   const { setTerminalSocket } = useTerminalSocketStore();
+
   const { openFileTabs } = useOpenFileTabsStore();
+
+  const fetchPort = () => {
+    console.log("Fetching port for project:", projectId);
+    editorSocket?.emit("getPort", { containerName: projectId });
+  };
 
   useEffect(() => {
     setProjectId(projectIdFromUrl);
@@ -46,9 +53,11 @@ function ProjectPlayground() {
     };
   }, [setProjectId, projectIdFromUrl, setEditorSocket, setTerminalSocket]);
 
-  const fetchPort = () => {
-    editorSocket?.emit("getPort", { containerName: projectId });
-  };
+  useEffect(() => {
+    if (editorSocket) {
+      editorSocket?.emit("getPort", { containerName: projectId });
+    }
+  }, [editorSocket]);
 
   return (
     <div className="project-playground-container">
@@ -103,6 +112,9 @@ function ProjectPlayground() {
           </div>
         </Allotment.Pane>
       </Allotment>
+      <div>
+        <Browser />
+      </div>
     </div>
   );
 }

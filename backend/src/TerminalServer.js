@@ -6,6 +6,7 @@ import { createServer } from "node:http";
 import { handleContainerCreate } from "./container/handleContainerCreate.js";
 import { WebSocketServer } from "ws";
 import { handleTerminalConnection } from "./container/handleTerminalConnection.js";
+import { getContainerPort } from "./container/handleContainerCreate.js";
 
 const app = express();
 const server = createServer(app);
@@ -47,7 +48,5 @@ webSocketForTerminal.on("connection", async (ws, req) => {
         console.error("Error stopping or removing container:", error);
       }
     });
-
-    ws.on;
   }
 });

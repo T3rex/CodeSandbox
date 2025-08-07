@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-const useOpenFileTabsStore = create((set, get) => {
+const useOpenFileTabsStore = create((set) => {
   return {
     openFileTabs: [],
     addFileTab: (tab) =>
