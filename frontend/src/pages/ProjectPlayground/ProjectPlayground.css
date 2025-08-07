@@ -55,3 +55,12 @@
   gap: 10px;
   opacity: 0.5;
 }
+
+.browser-wrapper {
+  height: 100%;
+  width: 100%;
+  background-color: #282a35;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

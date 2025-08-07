@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import useTreeStructureStore from "../../store/treeStructureStore";
-import TreeNode from "../molecules/Tree/TreeNode";
-import useFileContextMenuStore from "../../store/fileContextMenuStore.js";
-import FileContextMenu from "../molecules/ContextMenu/FileContextMenu";
+import useTreeStructureStore from "../../../store/treeStructureStore.js";
+import TreeNode from "../../molecules/Tree/TreeNode.jsx";
+import useFileContextMenuStore from "../../../store/fileContextMenuStore.js";
+import FileContextMenu from "../../molecules/ContextMenu/FileContextMenu.jsx";
 
 function TreeStructure() {
   const { treeStructure, setTreeStructure } = useTreeStructureStore();

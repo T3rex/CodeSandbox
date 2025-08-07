@@ -7,7 +7,7 @@ import "allotment/dist/style.css";
 
 import EditorComponent from "../../components/molecules/Editor/EditorComponent.jsx";
 import EditorButton from "../../components/atoms/EditorButton/EditorButton.jsx";
-import TreeStructure from "../../components/organisms/TreeStructure.jsx";
+import TreeStructure from "../../components/organisms/TreeStructure/TreeStructure.jsx";
 import BrowserTerminal from "../../components/molecules/BrowserTerminal/BrowserTerminal.jsx";
 
 import useTreeStructureStore from "../../store/treeStructureStore.js";
@@ -69,8 +69,8 @@ function ProjectPlayground() {
           </div>
         </Allotment.Pane>
 
-        {/* Right Pane: Editor + Terminal */}
-        <Allotment.Pane preferredSize="80%" minSize={200}>
+        {/* Middle Pane: Editor + Terminal */}
+        <Allotment.Pane preferredSize="55%" minSize={200}>
           <div className="right-pane-wrapper">
             <Allotment vertical>
               {/* Editor Section */}
@@ -111,10 +111,13 @@ function ProjectPlayground() {
             </Allotment>
           </div>
         </Allotment.Pane>
+        {/* Right Pane: Browser */}
+        <Allotment.Pane preferredSize="25%" snap>
+          <div className="browser-wrapper">
+            <Browser />
+          </div>
+        </Allotment.Pane>
       </Allotment>
-      <div>
-        <Browser />
-      </div>
     </div>
   );
 }

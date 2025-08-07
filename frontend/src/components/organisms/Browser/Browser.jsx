@@ -25,43 +25,44 @@ function Browser() {
   return !port ? (
     <div>Loading...</div>
   ) : (
-    <div>
-      <Row
+    <Row
+      style={{
+        height: "100%",
+        width: "100%",
+        backgroundColor: "#22212b",
+      }}
+    >
+      <Input
         style={{
-          height: "100%",
-          backgroundColor: "#22212b",
+          width: "100%",
+          height: "40px",
+          color: "white",
+          fontFamily: "Fira Code",
+          backgroundColor: "#343747ff",
+          borderRadius: "0px",
+          border: "none",
         }}
-      >
-        <Input
-          style={{
-            width: "100%",
-            height: "40px",
-            color: "white",
-            fontFamily: "Fira Code",
-            backgroundColor: "#282a35",
-          }}
-          value={`http://localhost:${port}`}
-          prefix={
-            <IoMdRefresh
-              onClick={handleRefresh}
-              size={20}
-              style={{ cursor: "pointer" }}
-            />
-          }
-        />
-        <iframe
-          ref={browserRef}
-          title="Browser"
-          style={{
-            width: "100%",
-            height: "400px",
-            border: "none",
-            backgroundColor: "#282a35",
-          }}
-          src={`http://localhost:${port}`}
-        />
-      </Row>
-    </div>
+        value={`http://localhost:${port}`}
+        prefix={
+          <IoMdRefresh
+            onClick={handleRefresh}
+            size={20}
+            style={{ cursor: "pointer", paddingLeft: "10px" }}
+          />
+        }
+      />
+      <iframe
+        ref={browserRef}
+        title="Browser"
+        style={{
+          width: "100%",
+          height: "100%",
+          border: "none",
+          backgroundColor: "#282a35",
+        }}
+        src={`http://localhost:${port}`}
+      />
+    </Row>
   );
 }
 
