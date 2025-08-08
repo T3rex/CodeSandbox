@@ -5,10 +5,10 @@ import { FitAddon } from "@xterm/addon-fit";
 import { AttachAddon } from "@xterm/addon-attach";
 import useTerminalSocketStore from "../../../store/terminalSocketStore";
 
-function BrowserTerminal({ terminalResized }) {
+function BrowserTerminal({ fitAddonRef }) {
   const terminalRef = useRef(null);
   const { terminalSocket } = useTerminalSocketStore();
-  const fitAddonRef = useRef(null);
+  // const fitAddonRef = useRef(null);
 
   useEffect(() => {
     const terminal = new Terminal({
@@ -86,12 +86,12 @@ function BrowserTerminal({ terminalResized }) {
     };
   }, [terminalSocket]);
 
-  useEffect(() => {
-    if (terminalResized && fitAddonRef.current) {
-      fitAddonRef.current.fit();
-      console.log("Terminal fitted");
-    }
-  }, [terminalResized]);
+  // useEffect(() => {
+  //   if (terminalResized && fitAddonRef.current) {
+  //     fitAddonRef.current.fit();
+  //     console.log("Terminal fitted");
+  //   }
+  // }, [terminalResized]);
 
   return (
     <div

@@ -23,19 +23,29 @@ function ProjectPlayground() {
   const { setProjectId, projectId } = useTreeStructureStore();
   const { setEditorSocket, editorSocket } = useEditorSocketStore();
   const { setTerminalSocket } = useTerminalSocketStore();
-  const [terminalResized, setTerminalResized] = useState(0);
+  // const [terminalResized, setTerminalResized] = useState(0);
   const { openFileTabs } = useOpenFileTabsStore();
+  const fitAddonRef = useRef(null);
+  const lastFitTime = useRef(0);
 
-  const timerIdRef = useRef(null);
+  // const timerIdRef = useRef(null);
 
-  const debouncedTerminalResize = () => {
-    if (timerIdRef.current) {
-      clearTimeout(timerIdRef.current);
+  // const debouncedTerminalResize = () => {
+  //   if (timerIdRef.current) {
+  //     clearTimeout(timerIdRef.current);
+  //   }
+  //   timerIdRef.current = setTimeout(() => {
+  //     setTerminalResized((prev) => prev + 1);
+  //     console.log("Resized");
+  //   }, 100);
+  // };
+
+  const onSplitterChange = () => {
+    const now = Date.now();
+    if (now - lastFitTime.current > 50) {
+      fitAddonRef.current?.fit();
+      lastFitTime.current = now;
     }
-    timerIdRef.current = setTimeout(() => {
-      setTerminalResized((prev) => prev + 1);
-      console.log("Resized");
-    }, 100);
   };
 
   useEffect(() => {
@@ -79,12 +89,7 @@ function ProjectPlayground() {
         {/* Middle Pane: Editor + Terminal */}
         <Allotment.Pane preferredSize="55%" minSize={200}>
           <div className="right-pane-wrapper">
-            <Allotment
-              vertical
-              onChange={() => {
-                debouncedTerminalResize();
-              }}
-            >
+            <Allotment vertical onChange={onSplitterChange}>
               {/* Editor Section */}
               <Allotment.Pane preferredSize="70%">
                 <div className="editor-section">
@@ -114,7 +119,8 @@ function ProjectPlayground() {
                     <BsFillTerminalFill style={{ cursor: "pointer" }} />
                     <span>Terminal</span>
                   </h2>
-                  <BrowserTerminal terminalResized={terminalResized} />
+                  {/* <BrowserTerminal terminalResized={terminalResized} /> */}
+                  <BrowserTerminal fitAddonRef={fitAddonRef} />
                 </div>
               </Allotment.Pane>
             </Allotment>
