@@ -5,9 +5,10 @@ import { FitAddon } from "@xterm/addon-fit";
 import { AttachAddon } from "@xterm/addon-attach";
 import useTerminalSocketStore from "../../../store/terminalSocketStore";
 
-function BrowserTerminal() {
+function BrowserTerminal({ terminalResized }) {
   const terminalRef = useRef(null);
   const { terminalSocket } = useTerminalSocketStore();
+  const fitAddonRef = useRef(null);
 
   useEffect(() => {
     const terminal = new Terminal({
@@ -23,7 +24,7 @@ function BrowserTerminal() {
       disableStdin: false,
       allowTransparency: true,
       rendererType: "canvas",
-      scrollback: 1000,
+      scrollback: 2000,
       theme: {
         background: "#1e1e1e",
         foreground: "#d4d4d4",
@@ -49,6 +50,7 @@ function BrowserTerminal() {
     });
 
     const fitAddon = new FitAddon();
+    fitAddonRef.current = fitAddon;
     terminal.loadAddon(fitAddon);
 
     // Open terminal and fit it
@@ -75,29 +77,29 @@ function BrowserTerminal() {
       }
     }
 
-    //Refit terminal on window resize
-    const handleResize = () => {
-      fitAddon.fit();
-    };
-    window.addEventListener("resize", handleResize);
-
     // Cleanup
     return () => {
       terminal.dispose();
       if (terminalSocket && socketOpenHandler) {
         terminalSocket.onopen = null;
       }
-      window.removeEventListener("resize", handleResize);
     };
   }, [terminalSocket]);
+
+  useEffect(() => {
+    if (terminalResized && fitAddonRef.current) {
+      fitAddonRef.current.fit();
+      console.log("Terminal fitted");
+    }
+  }, [terminalResized]);
 
   return (
     <div
       ref={terminalRef}
       style={{
         // // width: "99%",
-        // // height: "300px",
-        // overflow: "none",
+        height: "100%",
+        // overflow: "auto",
         paddingLeft: "10px",
       }}
     ></div>

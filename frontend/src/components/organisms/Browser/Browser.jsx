@@ -11,14 +11,19 @@ function Browser() {
 
   const handleRefresh = () => {
     if (browserRef.current) {
-      const currentSrc = browserRef.current.src;
-      browserRef.current.src = currentSrc;
+      browserRef.current.src = url; // Refresh the iframe by resetting its src
     }
   };
 
   useEffect(() => {
     if (browserRef.current && port) {
       browserRef.current.src = url;
+      browserRef.current.onload = () => {
+        console.log("Browser loaded successfully");
+      };
+      browserRef.current.onerror = () => {
+        console.error("Failed to load the browser content");
+      };
     }
   }, [port]);
 

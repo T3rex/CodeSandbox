@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import { io } from "socket.io-client";
 import { BsFillTerminalFill } from "react-icons/bs";
 import { Allotment } from "allotment";
@@ -23,8 +23,20 @@ function ProjectPlayground() {
   const { setProjectId, projectId } = useTreeStructureStore();
   const { setEditorSocket, editorSocket } = useEditorSocketStore();
   const { setTerminalSocket } = useTerminalSocketStore();
-
+  const [terminalResized, setTerminalResized] = useState(0);
   const { openFileTabs } = useOpenFileTabsStore();
+
+  const timerIdRef = useRef(null);
+
+  const debouncedTerminalResize = () => {
+    if (timerIdRef.current) {
+      clearTimeout(timerIdRef.current);
+    }
+    timerIdRef.current = setTimeout(() => {
+      setTerminalResized((prev) => prev + 1);
+      console.log("Resized");
+    }, 100);
+  };
 
   useEffect(() => {
     setProjectId(projectIdFromUrl);
@@ -67,7 +79,12 @@ function ProjectPlayground() {
         {/* Middle Pane: Editor + Terminal */}
         <Allotment.Pane preferredSize="55%" minSize={200}>
           <div className="right-pane-wrapper">
-            <Allotment vertical>
+            <Allotment
+              vertical
+              onChange={() => {
+                debouncedTerminalResize();
+              }}
+            >
               {/* Editor Section */}
               <Allotment.Pane preferredSize="70%">
                 <div className="editor-section">
@@ -97,7 +114,7 @@ function ProjectPlayground() {
                     <BsFillTerminalFill style={{ cursor: "pointer" }} />
                     <span>Terminal</span>
                   </h2>
-                  <BrowserTerminal />
+                  <BrowserTerminal terminalResized={terminalResized} />
                 </div>
               </Allotment.Pane>
             </Allotment>
