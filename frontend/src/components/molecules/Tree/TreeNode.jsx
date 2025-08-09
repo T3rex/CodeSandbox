@@ -1,8 +1,9 @@
-import { useEffect, useState, useMemo } from "react";
-import { SlArrowRight, SlArrowDown } from "react-icons/sl";
 import "./TreeNode.css";
-import useEditorSocketStore from "../../../store/editorSocketStore";
+import { useState, useMemo } from "react";
+import { SlArrowRight, SlArrowDown } from "react-icons/sl";
 import { getFileIcon } from "../../../utils/FileIconUtil.jsx";
+import RenameInput from "../../atoms/RenameInput/RenameInput.jsx";
+import useEditorSocketStore from "../../../store/editorSocketStore";
 import useFileContextMenuStore from "../../../store/fileContextMenuStore.js";
 import useOpenFileTabsStore from "../../../store/openFilesTabsStore.js";
 import useActiveFileTabStore from "../../../store/activeFileTabStore.js";
@@ -26,14 +27,13 @@ function TreeNode({ fileFolderData }) {
 
   const { editorSocket } = useEditorSocketStore();
   const {
-    setFile: setFileContextMenuFile,
+    setFile: setFileContextMenuFilePath,
     setX: setFileContextMenuX,
     setY: setFileContextMenuY,
     setIsOpen: setFileContextMenuIsOpen,
-    file: fileContextMenu,
+    file: contextMenuFilePath,
     isOpen: isFileContextMenuOpen,
     editMode: fileContextMenuEditMode,
-    setEditMode: setFileContextMenuEditMode,
   } = useFileContextMenuStore();
 
   const { addFileTab } = useOpenFileTabsStore();
@@ -56,60 +56,10 @@ function TreeNode({ fileFolderData }) {
 
   const handleContextMenuForFiles = (e, path) => {
     e.preventDefault();
-    setFileContextMenuFile(path);
+    setFileContextMenuFilePath(path);
     setFileContextMenuX(e.clientX);
     setFileContextMenuY(e.clientY);
     setFileContextMenuIsOpen(true);
-  };
-
-  const handleFileNameChange = (e, fileFolderData) => {
-    e.preventDefault();
-    const dirName = fileFolderData.path.split("/").slice(0, -1).join("/");
-    const newFileName = e.target.value.trim() || fileFolderData.name;
-    const newFilePath = dirName + "/" + newFileName;
-    if (newFilePath === fileFolderData.path) {
-      setFileContextMenuEditMode(false);
-      return;
-    }
-    const collision = hasNameCollision(newFileName, dirName, treeStructure);
-    if (collision) {
-      setCollisionPath(fileFolderData.path);
-      console.log("File name collision detected", collision);
-      return;
-    }
-    setCollisionPath("");
-    setFileContextMenuEditMode(false);
-    editorSocket?.emit("renameFile", {
-      oldPath: fileFolderData.path,
-      newPath: newFilePath,
-    });
-  };
-
-  const hasNameCollision = (newFileName, parentDirPath, treeStructure) => {
-    const parentDirStructure = findParentDirectory(
-      parentDirPath,
-      treeStructure
-    );
-    console.log("Parent Directory Structure:", parentDirStructure);
-    if (!parentDirStructure) return false;
-    return parentDirStructure.children.some(
-      (child) => child.name === newFileName
-    );
-  };
-
-  const findParentDirectory = (parentDirPath, treeStructure) => {
-    if (treeStructure.path === parentDirPath) return treeStructure;
-
-    if (!treeStructure.children) return null;
-
-    for (const child of treeStructure.children) {
-      if (child.path === parentDirPath) return child;
-
-      const found = findParentDirectory(parentDirPath, child);
-      if (found) return found;
-    }
-
-    return null;
   };
 
   return (
@@ -135,8 +85,10 @@ function TreeNode({ fileFolderData }) {
               ? "active-file-highlight"
               : ""
           }   ${
-            (fileContextMenu == fileFolderData.path && isFileContextMenuOpen) ||
-            (fileContextMenu == fileFolderData.path && fileContextMenuEditMode)
+            (contextMenuFilePath == fileFolderData.path &&
+              isFileContextMenuOpen) ||
+            (contextMenuFilePath == fileFolderData.path &&
+              fileContextMenuEditMode)
               ? "file-folder-focus"
               : ""
           } ${
@@ -152,33 +104,11 @@ function TreeNode({ fileFolderData }) {
           <div>{getFileIcon(fileFolderData.name.split(".").pop())}</div>
           <span>
             {fileContextMenuEditMode &&
-            fileContextMenu === fileFolderData.path ? (
-              <input
-                className="rename-input"
-                type="text"
-                defaultValue={fileFolderData.name}
-                onBlur={(e) => {
-                  handleFileNameChange(e, fileFolderData);
-                }}
-                onChange={(e) => {
-                  const newFileName = e.target.value.trim();
-                  const collision = hasNameCollision(
-                    newFileName,
-                    fileFolderData.path.split("/").slice(0, -1).join("/"),
-                    treeStructure
-                  );
-                  setCollisionPath(collision ? fileFolderData.path : "");
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    handleFileNameChange(e, fileFolderData);
-                  } else if (e.key === "Escape") {
-                    setFileContextMenuEditMode(false);
-                  }
-                }}
-                onFocus={(e) => e.target.select()}
-                autoFocus
-                spellCheck="false"
+            contextMenuFilePath === fileFolderData.path ? (
+              <RenameInput
+                fileFolderData={fileFolderData}
+                treeStructure={treeStructure}
+                setCollisionPath={setCollisionPath}
               />
             ) : (
               fileFolderData.name

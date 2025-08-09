@@ -14,8 +14,6 @@ function FileContextMenu({ x, y, path }) {
   const handleFileRename = () => {
     setEditMode(true);
     setIsOpen(false);
-
-    console.log("Renaming file at path:");
   };
 
   return (
