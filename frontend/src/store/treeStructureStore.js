@@ -16,6 +16,7 @@ const useTreeStructureStore = create((set, get) => {
       set({
         treeStructure: response.data,
       });
+      console.log("Tree structure updated:", response.data);
     },
     setProjectId: (projectId) => {
       set({ projectId: projectId });

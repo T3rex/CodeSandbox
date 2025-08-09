@@ -6,9 +6,11 @@ import { getFileIcon } from "../../../utils/FileIconUtil.jsx";
 import useFileContextMenuStore from "../../../store/fileContextMenuStore.js";
 import useOpenFileTabsStore from "../../../store/openFilesTabsStore.js";
 import useActiveFileTabStore from "../../../store/activeFileTabStore.js";
+import useTreeStructureStore from "../../../store/treeStructureStore.js";
 
 function TreeNode({ fileFolderData }) {
   const [visibility, setVisibility] = useState({});
+  const [collisionPath, setCollisionPath] = useState("");
 
   const sortedChildren = useMemo(() => {
     if (!fileFolderData.children) return [];
@@ -19,6 +21,8 @@ function TreeNode({ fileFolderData }) {
   }, [fileFolderData.children]);
 
   const { activeFileTab } = useActiveFileTabStore();
+
+  const { treeStructure } = useTreeStructureStore();
 
   const { editorSocket } = useEditorSocketStore();
   const {
@@ -67,10 +71,45 @@ function TreeNode({ fileFolderData }) {
       setFileContextMenuEditMode(false);
       return;
     }
-    editorSocket.emit("renameFile", {
+    const collision = hasNameCollision(newFileName, dirName, treeStructure);
+    if (collision) {
+      setCollisionPath(fileFolderData.path);
+      console.log("File name collision detected", collision);
+      return;
+    }
+    setCollisionPath("");
+    setFileContextMenuEditMode(false);
+    editorSocket?.emit("renameFile", {
       oldPath: fileFolderData.path,
       newPath: newFilePath,
     });
+  };
+
+  const hasNameCollision = (newFileName, parentDirPath, treeStructure) => {
+    const parentDirStructure = findParentDirectory(
+      parentDirPath,
+      treeStructure
+    );
+    console.log("Parent Directory Structure:", parentDirStructure);
+    if (!parentDirStructure) return false;
+    return parentDirStructure.children.some(
+      (child) => child.name === newFileName
+    );
+  };
+
+  const findParentDirectory = (parentDirPath, treeStructure) => {
+    if (treeStructure.path === parentDirPath) return treeStructure;
+
+    if (!treeStructure.children) return null;
+
+    for (const child of treeStructure.children) {
+      if (child.path === parentDirPath) return child;
+
+      const found = findParentDirectory(parentDirPath, child);
+      if (found) return found;
+    }
+
+    return null;
   };
 
   return (
@@ -100,7 +139,11 @@ function TreeNode({ fileFolderData }) {
             (fileContextMenu == fileFolderData.path && fileContextMenuEditMode)
               ? "file-folder-focus"
               : ""
-          }`}
+          } ${
+            collisionPath == fileFolderData.path && fileContextMenuEditMode
+              ? "file-collision"
+              : ""
+          }  `}
           onClick={() => handleFileClick(fileFolderData)}
           onContextMenu={(e) =>
             handleContextMenuForFiles(e, fileFolderData.path)
@@ -114,22 +157,27 @@ function TreeNode({ fileFolderData }) {
                 className="rename-input"
                 type="text"
                 defaultValue={fileFolderData.name}
-                // onChange={(e) => handleFileNameChange(e, fileFolderData)}
                 onBlur={(e) => {
-                  setFileContextMenuEditMode(false);
-                  console.log("blur event triggered");
                   handleFileNameChange(e, fileFolderData);
+                }}
+                onChange={(e) => {
+                  const newFileName = e.target.value.trim();
+                  const collision = hasNameCollision(
+                    newFileName,
+                    fileFolderData.path.split("/").slice(0, -1).join("/"),
+                    treeStructure
+                  );
+                  setCollisionPath(collision ? fileFolderData.path : "");
                 }}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
-                    setFileContextMenuEditMode(false);
                     handleFileNameChange(e, fileFolderData);
                   } else if (e.key === "Escape") {
                     setFileContextMenuEditMode(false);
                   }
                 }}
-                autoFocus
                 onFocus={(e) => e.target.select()}
+                autoFocus
                 spellCheck="false"
               />
             ) : (

@@ -47,7 +47,6 @@ const useEditorSocketStore = create((set) => ({
     });
 
     incomingSocket.on("renameFileSuccess", ({ data }) => {
-      // setTreeStructure();
       removeFileTab({ path: data.oldPath });
       incomingSocket.emit("readFile", {
         pathToFileFolder: data.newPath,

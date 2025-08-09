@@ -119,21 +119,30 @@ export const handleEditorSocketEvents = (socket, editorNameSpace) => {
 
   socket.on("renameFile", async (data) => {
     try {
-      const { oldPath, newPath } = data;
-      await fs.rename(oldPath, newPath);
-      socket.emit("renameFileSuccess", {
-        success: true,
-        data: {
-          oldPath,
-          newPath,
-        },
+      await fs.access(data.newPath, fs.constants.F_OK);
+
+      socket.emit("pathExistsError", {
+        success: false,
+        data: "File already exist",
       });
     } catch (error) {
-      console.error("Error renaming file:", error);
-      socket.emit("renameFileError", {
-        success: false,
-        data: "Error renaming file",
-      });
+      try {
+        const { oldPath, newPath } = data;
+        await fs.rename(oldPath, newPath);
+        socket.emit("renameFileSuccess", {
+          success: true,
+          data: {
+            oldPath,
+            newPath,
+          },
+        });
+      } catch (error) {
+        console.error("Error renaming file:", error);
+        socket.emit("renameFileError", {
+          success: false,
+          data: "Error renaming file",
+        });
+      }
     }
   });
 };
