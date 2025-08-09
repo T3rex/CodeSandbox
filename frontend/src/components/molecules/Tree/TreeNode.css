@@ -84,3 +84,17 @@
 .file-folder-focus {
   border: 1px solid white;
 }
+
+.rename-input {
+  font-size: large;
+  color: white;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.rename-input::selection {
+  background-color: rgba(255, 255, 255, 0.3);
+  color: white;
+}

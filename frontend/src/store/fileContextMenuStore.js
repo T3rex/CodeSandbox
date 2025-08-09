@@ -5,6 +5,14 @@ const useFileContextMenuStore = create((set) => ({
   y: null,
   isOpen: false,
   file: null,
+  e: null,
+  editMode: false,
+  setEditMode: (incomingEditMode) => {
+    set({ editMode: incomingEditMode });
+  },
+  setE: (incomingE) => {
+    set({ e: incomingE });
+  },
   setX: (incomingX) => {
     set({ x: incomingX });
   },

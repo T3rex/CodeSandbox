@@ -76,6 +76,10 @@ function EditorComponent() {
     return defaultValue;
   };
 
+  useEffect(() => {
+    getValue();
+  }, [activeFileTab]);
+
   return (
     <div
       className="editor-pane"

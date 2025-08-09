@@ -116,4 +116,24 @@ export const handleEditorSocketEvents = (socket, editorNameSpace) => {
     const port = await getContainerPort(containerName);
     socket.emit("getPortSuccess", { data: port });
   });
+
+  socket.on("renameFile", async (data) => {
+    try {
+      const { oldPath, newPath } = data;
+      await fs.rename(oldPath, newPath);
+      socket.emit("renameFileSuccess", {
+        success: true,
+        data: {
+          oldPath,
+          newPath,
+        },
+      });
+    } catch (error) {
+      console.error("Error renaming file:", error);
+      socket.emit("renameFileError", {
+        success: false,
+        data: "Error renaming file",
+      });
+    }
+  });
 };

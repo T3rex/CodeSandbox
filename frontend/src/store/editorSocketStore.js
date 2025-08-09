@@ -2,6 +2,7 @@ import { create } from "zustand";
 import useActiveFileTabStore from "./activeFileTabStore";
 import useTreeStructureStore from "./treeStructureStore";
 import usePortStore from "./PortStore.js";
+import useOpenFileTabsStore from "./openFilesTabsStore.js";
 
 const useEditorSocketStore = create((set) => ({
   editorSocket: null,
@@ -13,13 +14,15 @@ const useEditorSocketStore = create((set) => ({
 
     const { setPort } = usePortStore.getState();
 
-    incomingSocket?.on("readFileSuccess", ({ path, extension, value }) => {
-      const currentActiveTab = activeFileTab?.path;
+    const { addFileTab, removeFileTab } = useOpenFileTabsStore.getState();
 
-      if (currentActiveTab === undefined || path) {
-        const cleanExtension = extension?.split(".").pop() ?? "";
-        setActiveFileTab(path, value, cleanExtension);
-      }
+    incomingSocket?.on("readFileSuccess", ({ path, extension, value }) => {
+      // const currentActiveTab = activeFileTab?.path;
+
+      // if (currentActiveTab === undefined || path) {
+      const cleanExtension = extension?.split(".").pop() ?? "";
+      setActiveFileTab(path, value, cleanExtension);
+      // }
     });
 
     incomingSocket.on("writeFileSuccess", ({ data, success }) => {
@@ -41,6 +44,18 @@ const useEditorSocketStore = create((set) => ({
 
     incomingSocket.on("getPortSuccess", ({ data }) => {
       setPort(data);
+    });
+
+    incomingSocket.on("renameFileSuccess", ({ data }) => {
+      // setTreeStructure();
+      removeFileTab({ path: data.oldPath });
+      incomingSocket.emit("readFile", {
+        pathToFileFolder: data.newPath,
+      });
+      addFileTab({
+        name: data.newPath.split("/").pop(),
+        path: data.newPath,
+      });
     });
   },
 }));

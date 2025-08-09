@@ -13,11 +13,13 @@ const useOpenFileTabsStore = create((set) => {
           openFileTabs: [...state.openFileTabs, tab],
         };
       }),
-    removeFileTab: (tab) =>
+    removeFileTab: (tab) => {
+      console.log("Removing file tab:", tab);
       set((state) => {
         const newTabs = state.openFileTabs.filter((t) => t.path !== tab.path);
         return { openFileTabs: newTabs };
-      }),
+      });
+    },
   };
 });
 

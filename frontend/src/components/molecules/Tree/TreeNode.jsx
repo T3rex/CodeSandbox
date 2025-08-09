@@ -9,6 +9,7 @@ import useActiveFileTabStore from "../../../store/activeFileTabStore.js";
 
 function TreeNode({ fileFolderData }) {
   const [visibility, setVisibility] = useState({});
+
   const sortedChildren = useMemo(() => {
     if (!fileFolderData.children) return [];
     return [
@@ -21,12 +22,14 @@ function TreeNode({ fileFolderData }) {
 
   const { editorSocket } = useEditorSocketStore();
   const {
-    setFile,
+    setFile: setFileContextMenuFile,
     setX: setFileContextMenuX,
     setY: setFileContextMenuY,
     setIsOpen: setFileContextMenuIsOpen,
-    file,
-    isOpen,
+    file: fileContextMenu,
+    isOpen: isFileContextMenuOpen,
+    editMode: fileContextMenuEditMode,
+    setEditMode: setFileContextMenuEditMode,
   } = useFileContextMenuStore();
 
   const { addFileTab } = useOpenFileTabsStore();
@@ -49,10 +52,25 @@ function TreeNode({ fileFolderData }) {
 
   const handleContextMenuForFiles = (e, path) => {
     e.preventDefault();
-    setFile(path);
+    setFileContextMenuFile(path);
     setFileContextMenuX(e.clientX);
     setFileContextMenuY(e.clientY);
     setFileContextMenuIsOpen(true);
+  };
+
+  const handleFileNameChange = (e, fileFolderData) => {
+    e.preventDefault();
+    const dirName = fileFolderData.path.split("/").slice(0, -1).join("/");
+    const newFileName = e.target.value.trim() || fileFolderData.name;
+    const newFilePath = dirName + "/" + newFileName;
+    if (newFilePath === fileFolderData.path) {
+      setFileContextMenuEditMode(false);
+      return;
+    }
+    editorSocket.emit("renameFile", {
+      oldPath: fileFolderData.path,
+      newPath: newFilePath,
+    });
   };
 
   return (
@@ -78,7 +96,10 @@ function TreeNode({ fileFolderData }) {
               ? "active-file-highlight"
               : ""
           }   ${
-            file == fileFolderData.path && isOpen ? "file-folder-focus" : ""
+            (fileContextMenu == fileFolderData.path && isFileContextMenuOpen) ||
+            (fileContextMenu == fileFolderData.path && fileContextMenuEditMode)
+              ? "file-folder-focus"
+              : ""
           }`}
           onClick={() => handleFileClick(fileFolderData)}
           onContextMenu={(e) =>
@@ -86,7 +107,35 @@ function TreeNode({ fileFolderData }) {
           }
         >
           <div>{getFileIcon(fileFolderData.name.split(".").pop())}</div>
-          {fileFolderData.name}
+          <span>
+            {fileContextMenuEditMode &&
+            fileContextMenu === fileFolderData.path ? (
+              <input
+                className="rename-input"
+                type="text"
+                defaultValue={fileFolderData.name}
+                // onChange={(e) => handleFileNameChange(e, fileFolderData)}
+                onBlur={(e) => {
+                  setFileContextMenuEditMode(false);
+                  console.log("blur event triggered");
+                  handleFileNameChange(e, fileFolderData);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    setFileContextMenuEditMode(false);
+                    handleFileNameChange(e, fileFolderData);
+                  } else if (e.key === "Escape") {
+                    setFileContextMenuEditMode(false);
+                  }
+                }}
+                autoFocus
+                onFocus={(e) => e.target.select()}
+                spellCheck="false"
+              />
+            ) : (
+              fileFolderData.name
+            )}
+          </span>
         </div>
       )}
 
