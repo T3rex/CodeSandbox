@@ -45,6 +45,7 @@ function ProjectPlayground() {
     if (now - lastFitTime.current > 50) {
       fitAddonRef.current?.fit();
       lastFitTime.current = now;
+      console.log("fitted");
     }
   };
 

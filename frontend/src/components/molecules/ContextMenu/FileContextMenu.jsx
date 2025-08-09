@@ -17,7 +17,10 @@ function FileContextMenu({ x, y, path }) {
         left: x,
         top: y,
       }}
-      onMouseLeave={() => setIsOpen(false)}
+      onMouseLeave={() => {
+        setIsOpen(false);
+        console.log("mouseLeave");
+      }}
     >
       <button onClick={handleFileDelete}>Delete File</button>
       <button>Rename File</button>

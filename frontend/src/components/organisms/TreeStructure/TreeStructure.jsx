@@ -29,7 +29,7 @@ function TreeStructure() {
         display: "flex",
         flexDirection: "column",
         overflowX: "hidden",
-        position: "sticky",
+        position: "relative",
         top: 0,
       }}
     >

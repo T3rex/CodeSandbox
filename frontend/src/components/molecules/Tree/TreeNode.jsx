@@ -5,6 +5,7 @@ import useEditorSocketStore from "../../../store/editorSocketStore";
 import { getFileIcon } from "../../../utils/FileIconUtil.jsx";
 import useFileContextMenuStore from "../../../store/fileContextMenuStore.js";
 import useOpenFileTabsStore from "../../../store/openFilesTabsStore.js";
+import useActiveFileTabStore from "../../../store/activeFileTabStore.js";
 
 function TreeNode({ fileFolderData }) {
   const [visibility, setVisibility] = useState({});
@@ -16,12 +17,16 @@ function TreeNode({ fileFolderData }) {
     ];
   }, [fileFolderData.children]);
 
+  const { activeFileTab } = useActiveFileTabStore();
+
   const { editorSocket } = useEditorSocketStore();
   const {
     setFile,
     setX: setFileContextMenuX,
     setY: setFileContextMenuY,
     setIsOpen: setFileContextMenuIsOpen,
+    file,
+    isOpen,
   } = useFileContextMenuStore();
 
   const { addFileTab } = useOpenFileTabsStore();
@@ -44,7 +49,6 @@ function TreeNode({ fileFolderData }) {
 
   const handleContextMenuForFiles = (e, path) => {
     e.preventDefault();
-    console.log("Context menu for file:", path);
     setFile(path);
     setFileContextMenuX(e.clientX);
     setFileContextMenuY(e.clientY);
@@ -69,7 +73,13 @@ function TreeNode({ fileFolderData }) {
       ) : (
         /** File**/
         <div
-          className="tree-leaf"
+          className={`tree-leaf ${
+            activeFileTab?.path == fileFolderData.path
+              ? "active-file-highlight"
+              : ""
+          }   ${
+            file == fileFolderData.path && isOpen ? "file-folder-focus" : ""
+          }`}
           onClick={() => handleFileClick(fileFolderData)}
           onContextMenu={(e) =>
             handleContextMenuForFiles(e, fileFolderData.path)
