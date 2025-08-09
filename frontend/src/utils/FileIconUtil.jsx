@@ -29,7 +29,7 @@ const iconMap = {
   mts: <SiTypescript size={20} color="#007ACC" />,
   tsx: <TbFileTypeTsx size={20} color="#007ACC" />,
   md: <IoLogoMarkdown size={20} color="#000000" />,
-  gitignore: <FaGitAlt size={20} color="#F05032" />,
+  gitignore: <FaGitAlt size={22} color="#F05032" />,
 };
 
 export const getFileIcon = (type) => {

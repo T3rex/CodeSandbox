@@ -55,6 +55,7 @@ function Browser() {
             style={{ cursor: "pointer" }}
           />
         }
+        spellCheck="false"
       />
       <iframe
         ref={browserRef}

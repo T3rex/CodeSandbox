@@ -101,7 +101,9 @@ function TreeNode({ fileFolderData }) {
             handleContextMenuForFiles(e, fileFolderData.path)
           }
         >
-          <div>{getFileIcon(fileFolderData.name.split(".").pop())}</div>
+          <div className="leaf-icon">
+            {getFileIcon(fileFolderData.name.split(".").pop())}
+          </div>
           <span>
             {fileContextMenuEditMode &&
             contextMenuFilePath === fileFolderData.path ? (
@@ -111,7 +113,7 @@ function TreeNode({ fileFolderData }) {
                 setCollisionPath={setCollisionPath}
               />
             ) : (
-              fileFolderData.name
+              <span>{fileFolderData.name}</span>
             )}
           </span>
         </div>

@@ -51,6 +51,7 @@
   display: flex;
   gap: 8px;
   padding: 5px 8px;
+
   margin-left: 5px;
   cursor: default;
   opacity: 0.85;
@@ -62,12 +63,29 @@
   text-align: left;
   cursor: pointer;
   font-size: large;
+  align-items: center;
+}
+
+.tree-leaf > span {
+  padding-top: auto;
+  padding-bottom: auto;
+  flex-grow: 1;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .tree-leaf:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
+.leaf-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 /* Child indentation */
 .tree-children {
   padding-left: 14px;
