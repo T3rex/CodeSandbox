@@ -8,6 +8,7 @@ import useFileContextMenuStore from "../../../store/fileContextMenuStore.js";
 import useOpenFileTabsStore from "../../../store/openFilesTabsStore.js";
 import useActiveFileTabStore from "../../../store/activeFileTabStore.js";
 import useTreeStructureStore from "../../../store/treeStructureStore.js";
+import { IoFolder, IoFolderOpenOutline } from "react-icons/io5";
 
 function TreeNode({ fileFolderData }) {
   const [visibility, setVisibility] = useState({});
@@ -23,7 +24,7 @@ function TreeNode({ fileFolderData }) {
 
   const { activeFileTab } = useActiveFileTabStore();
 
-  const { treeStructure } = useTreeStructureStore();
+  const { treeStructure, projectId } = useTreeStructureStore();
 
   const { editorSocket } = useEditorSocketStore();
   const {
@@ -71,11 +72,21 @@ function TreeNode({ fileFolderData }) {
           onClick={() => toggleVisibility(fileFolderData.name)}
         >
           {visibility[fileFolderData.name] ? (
-            <SlArrowDown className="tree-icon" />
+            <span className="folder-icon">
+              <SlArrowDown className="tree-icon" />
+              {fileFolderData.name !== projectId && (
+                <IoFolderOpenOutline color="#2196f3" size={18} />
+              )}
+            </span>
           ) : (
-            <SlArrowRight className="tree-icon" />
+            <span>
+              <SlArrowRight className="tree-icon" />
+              {fileFolderData.name !== projectId && (
+                <IoFolder color="#2196f3" size={18} />
+              )}
+            </span>
           )}
-          <span>{fileFolderData.name}</span>
+          <span className="folder-name">{fileFolderData.name}</span>
         </button>
       ) : (
         /** File**/

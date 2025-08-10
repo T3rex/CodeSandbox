@@ -81,14 +81,14 @@ function ProjectPlayground() {
     <div className="project-playground-container">
       <Allotment>
         {/* Left Pane: Tree */}
-        <Allotment.Pane preferredSize="20%" snap>
+        <Allotment.Pane preferredSize="15%" snap>
           <div className="tree-structure-wrapper">
             {projectId && <TreeStructure />}
           </div>
         </Allotment.Pane>
 
         {/* Middle Pane: Editor + Terminal */}
-        <Allotment.Pane preferredSize="55%" minSize={200}>
+        <Allotment.Pane preferredSize="60%" minSize={200}>
           <div className="right-pane-wrapper">
             <Allotment vertical onChange={onSplitterChange}>
               {/* Editor Section */}

@@ -28,7 +28,7 @@ const iconMap = {
   cts: <SiTypescript size={20} color="#007ACC" />,
   mts: <SiTypescript size={20} color="#007ACC" />,
   tsx: <TbFileTypeTsx size={20} color="#007ACC" />,
-  md: <IoLogoMarkdown size={20} color="#000000" />,
+  md: <IoLogoMarkdown size={22} color="#000000" />,
   gitignore: <FaGitAlt size={22} color="#F05032" />,
 };
 
