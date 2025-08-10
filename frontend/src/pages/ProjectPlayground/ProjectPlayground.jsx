@@ -21,24 +21,11 @@ import Browser from "../../components/organisms/Browser/Browser.jsx";
 function ProjectPlayground() {
   const { projectId: projectIdFromUrl } = useParams();
   const { setProjectId, projectId } = useTreeStructureStore();
-  const { setEditorSocket, editorSocket } = useEditorSocketStore();
+  const { setEditorSocket } = useEditorSocketStore();
   const { setTerminalSocket } = useTerminalSocketStore();
-  // const [terminalResized, setTerminalResized] = useState(0);
   const { openFileTabs } = useOpenFileTabsStore();
   const fitAddonRef = useRef(null);
   const lastFitTime = useRef(0);
-
-  // const timerIdRef = useRef(null);
-
-  // const debouncedTerminalResize = () => {
-  //   if (timerIdRef.current) {
-  //     clearTimeout(timerIdRef.current);
-  //   }
-  //   timerIdRef.current = setTimeout(() => {
-  //     setTerminalResized((prev) => prev + 1);
-  //     console.log("Resized");
-  //   }, 100);
-  // };
 
   const onSplitterChange = () => {
     const now = Date.now();

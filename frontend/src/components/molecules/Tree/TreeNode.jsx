@@ -1,5 +1,5 @@
 import "./TreeNode.css";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { SlArrowRight, SlArrowDown } from "react-icons/sl";
 import { getFileIcon } from "../../../utils/FileIconUtil.jsx";
 import RenameInput from "../../atoms/RenameInput/RenameInput.jsx";
@@ -62,6 +62,12 @@ function TreeNode({ fileFolderData }) {
     setFileContextMenuY(e.clientY);
     setFileContextMenuIsOpen(true);
   };
+
+  useEffect(() => {
+    if (fileFolderData.name === projectId) {
+      setVisibility((prev) => ({ ...prev, [fileFolderData.name]: true }));
+    }
+  }, []);
 
   return (
     <div className="tree-node">
