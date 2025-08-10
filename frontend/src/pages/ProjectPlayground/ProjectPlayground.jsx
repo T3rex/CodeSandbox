@@ -71,12 +71,6 @@ function ProjectPlayground() {
     };
   }, [setProjectId, projectIdFromUrl, setEditorSocket, setTerminalSocket]);
 
-  useEffect(() => {
-    if (editorSocket) {
-      editorSocket?.emit("getPort", { containerName: projectId });
-    }
-  }, [editorSocket]);
-
   return (
     <div className="project-playground-container">
       <Allotment>

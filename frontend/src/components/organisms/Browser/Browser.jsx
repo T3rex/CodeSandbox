@@ -2,16 +2,22 @@ import { use, useEffect, useRef } from "react";
 import usePortStore from "../../../store/PortStore.js";
 import { Input, Row } from "antd";
 import { IoMdRefresh } from "react-icons/io";
+import useEditorSocketStore from "../../../store/editorSocketStore.js";
+import useTerminalSocketStore from "../../../store/terminalSocketStore.js";
+import { useParams } from "react-router-dom";
 
 function Browser() {
   const browserRef = useRef(null);
+  const { projectId } = useParams();
+  const { editorSocket } = useEditorSocketStore();
+  const { terminalSocket } = useTerminalSocketStore();
 
   const { port } = usePortStore();
   const url = `http://localhost:${port}`;
 
   const handleRefresh = () => {
     if (browserRef.current) {
-      browserRef.current.src = url; // Refresh the iframe by resetting its src
+      browserRef.current.src = url;
     }
   };
 
@@ -27,9 +33,13 @@ function Browser() {
     }
   }, [port]);
 
-  return !port ? (
-    <div>Loading...</div>
-  ) : (
+  useEffect(() => {
+    if (terminalSocket) {
+      editorSocket?.emit("getPort", { containerName: projectId });
+    }
+  }, [terminalSocket]);
+
+  return (
     <Row
       style={{
         height: "100%",
