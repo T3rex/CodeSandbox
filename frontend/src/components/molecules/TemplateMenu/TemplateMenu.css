@@ -1,0 +1,25 @@
+.template-menu {
+  padding: 1.5rem;
+  border: 0.5px solid #353535;
+  border-radius: 12px;
+  background-color: #1f1f1f;
+  box-shadow: 0 0 0 1px #3e3e3e inset;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.template-heading {
+  color: #999999;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+}
+
+.template-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 1rem;
+}

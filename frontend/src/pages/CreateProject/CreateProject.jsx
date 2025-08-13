@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useCreateProject from "../../hooks/apis/mutations/useCreateProject";
 import { getFileIcon } from "../../utils/FileIconUtil";
 import { FaExternalLinkAlt } from "react-icons/fa";
@@ -6,7 +6,8 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 import "./CreateProject.css";
 import { useEffect, useState } from "react";
 
-const CreateProject = ({ template = "react" }) => {
+const CreateProject = () => {
+  const { template } = useParams();
   const [projectName, setProjectName] = useState("");
   const [error, setError] = useState("");
   const { createProjectMutate, isPending, isError } = useCreateProject(

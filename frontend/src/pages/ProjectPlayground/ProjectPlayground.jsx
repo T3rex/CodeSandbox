@@ -69,7 +69,7 @@ function ProjectPlayground() {
         </Allotment.Pane>
 
         {/* Middle Pane: Editor + Terminal */}
-        <Allotment.Pane preferredSize="60%" minSize={200}>
+        <Allotment.Pane preferredSize="65%" minSize={200}>
           <div className="right-pane-wrapper">
             <Allotment vertical onChange={onSplitterChange}>
               {/* Editor Section */}
@@ -109,7 +109,7 @@ function ProjectPlayground() {
           </div>
         </Allotment.Pane>
         {/* Right Pane: Browser */}
-        <Allotment.Pane preferredSize="25%" snap>
+        <Allotment.Pane preferredSize="30%" snap>
           <div className="browser-wrapper">
             <Browser />
           </div>
