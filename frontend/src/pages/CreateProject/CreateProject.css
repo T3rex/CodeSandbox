@@ -50,6 +50,7 @@ p {
   font-weight: 500;
   color: #ffffff;
   font-size: 1.2rem;
+  text-transform: capitalize;
 }
 
 .template p {
@@ -104,6 +105,27 @@ p {
   font-weight: semibold;
   text-align: left;
   font-style: italic;
+}
+
+.language-select {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: row;
+}
+
+.language-select input {
+  cursor: pointer;
+}
+.language-select input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.language-select label {
+  display: flex;
+  gap: 5px;
+  font-weight: 200;
+  cursor: pointer;
 }
 
 .create-project-btn {

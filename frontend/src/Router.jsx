@@ -9,8 +9,8 @@ import Dashboard from "./pages/Dashboard/Dashboard.jsx";
 function Router() {
   return (
     <Routes>
-      <Route path="/" element={<Dashboard />} />
-      <Route path="/:template" element={<CreateProject />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/template/:template" element={<CreateProject />} />
       <Route path="/ping" element={<PingComponent />} />
       <Route path="/project/:projectId" element={<ProjectPlayground />} />
     </Routes>

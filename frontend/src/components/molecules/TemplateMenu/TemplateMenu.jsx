@@ -8,34 +8,40 @@ function TemplateMenu() {
       <p className="template-heading">Featured Web Template</p>
       <div className="template-container">
         <TemplateCard
-          logo="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
+          logo="/template_logos/reactLogo.png"
           title="React"
           description="Code a new React app in Typescript or JavaScript, built with Vite"
+          template="react"
         />
         <TemplateCard
-          logo="https://images.seeklogo.com/logo-png/50/2/angular-icon-logo-png_seeklogo-507324.png"
+          logo="/template_logos/angularLogo.png"
           title="Angular"
           description="Code a new Angular app in Typescript built with ng-cli"
+          template="angular"
         />
         <TemplateCard
-          logo="https://images.seeklogo.com/logo-png/44/2/qwik-logo-png_seeklogo-443207.png"
+          logo="/template_logos/qwikLogo.png"
           title="Qwik"
           description="Code a new Qwik app in TypeScript or JavaScript, built with Vite"
+          template="qwik"
         />
         <TemplateCard
-          logo="https://avatars.githubusercontent.com/u/26872990?v=4"
+          logo="/template_logos/preactLogo.png"
           title="PReact"
           description="Code a new PReact app in Typescript or JavaScript, built with Vite"
+          template="preact"
         />
         <TemplateCard
-          logo="https://img.icons8.com/nolan/512/vue-js.png"
+          logo="/template_logos/vueLogo.png"
           title="Vue"
           description="Code a new Vue  app in Typescript or JavaScript, built with Vite"
+          template="vue"
         />
         <TemplateCard
-          logo="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Svelte_Logo.svg/1200px-Svelte_Logo.svg.png"
+          logo="/template_logos/svelteLogo.png"
           title="Svelte"
           description="Code a new Svelte app in Typescript or JavaScript, built with Vite"
+          template="svelte"
         />
       </div>
     </div>

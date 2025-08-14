@@ -19,7 +19,9 @@ export const createProjectService = async (projectName, template) => {
 
     await runVite({ cwd: projectDir, projectName, template });
     // Copy the custom Vite config file to the project directory
-    await fs.copyFile(customConfigPath, projectConfigPath);
+    if (template === "react" || template === "react-ts") {
+      await fs.copyFile(customConfigPath, projectConfigPath);
+    }
 
     return projectId;
   } catch (error) {

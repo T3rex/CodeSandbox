@@ -1,6 +1,6 @@
 .template-card {
   max-width: 100%;
-  border-radius: 8px; /* smoother edges */
+  border-radius: 0.5rem; /* smoother edges */
   padding: 16px 25px;
   gap: 1.2rem;
   color: #fff;
@@ -11,12 +11,27 @@
   background-color: #151515;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 3px solid transparent;
 }
 
 .template-card:hover {
+  --angle: 0deg;
   transform: translateY(-3px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-  background-color: #2d2c2c;
+  background-color: rgb(32, 31, 31);
+  border-radius: 0.5rem;
+  border: 3px solid transparent;
+  border-image: conic-gradient(
+      from var(--angle),
+      #ffc400 0%,
+      #ff9100 20%,
+      #f8682f 40%,
+      #e62c6d 60%,
+      #b25aff 80%,
+      #ffc400 100%
+    )
+    1;
+  border-image-slice: 1;
 }
 
 .template-card img {

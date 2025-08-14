@@ -1,8 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import useCreateProject from "../../hooks/apis/mutations/useCreateProject";
-import { getFileIcon } from "../../utils/FileIconUtil";
 import { FaExternalLinkAlt } from "react-icons/fa";
-
+import { Link } from "react-router-dom";
 import "./CreateProject.css";
 import { useEffect, useState } from "react";
 
@@ -10,6 +9,7 @@ const CreateProject = () => {
   const { template } = useParams();
   const [projectName, setProjectName] = useState("");
   const [error, setError] = useState("");
+  const [language, setLanguage] = useState("javascript");
   const { createProjectMutate, isPending, isError } = useCreateProject(
     projectName.split(" ").join("-").toLowerCase() || "my-app",
     template
@@ -24,7 +24,9 @@ const CreateProject = () => {
         return;
       }
       setError(null);
-
+      if (language == "typescript") {
+        template = `${template}-ts`;
+      }
       const response = await createProjectMutate();
       navigate(`/project/${response.data.projectId}`);
     } catch (error) {
@@ -54,9 +56,15 @@ const CreateProject = () => {
         <h2>New Workspace</h2>
         <p>Template</p>
         <div className="template">
-          <div>{getFileIcon("react")}</div>
-          <div id="templateName"> React</div>
-          <p>Change</p> <FaExternalLinkAlt className="link" />
+          <img
+            width={35}
+            src={`/template_logos/${template}Logo.png`}
+            alt={template}
+          />
+          <div id="templateName">{template}</div>
+          <Link to={`/dashboard`} style={{ display: "flex" }}>
+            <p>Change</p> <FaExternalLinkAlt className="link" />
+          </Link>
         </div>
 
         <div className="project-name">
@@ -71,7 +79,35 @@ const CreateProject = () => {
             placeholder={`My ${template} app`}
             required
           />
+          {
+            <p className={{ display: projectName ? "" : "none" }}>
+              {projectName.split(" ").join("-").toLowerCase()}
+            </p>
+          }
           {error && <p className="error">{error}</p>}
+          {/* Select language */}
+          <div className="language-select">
+            <label style={{ marginRight: "10px" }}>
+              <input
+                type="radio"
+                name="language"
+                value="javascript"
+                checked={language === "javascript"}
+                onChange={(e) => setLanguage(e.target.value)}
+              />{" "}
+              JavaScript
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="language"
+                value="typescript"
+                checked={language === "typescript"}
+                onChange={(e) => setLanguage(e.target.value)}
+              />{" "}
+              TypeScript
+            </label>
+          </div>
         </div>
 
         <button
