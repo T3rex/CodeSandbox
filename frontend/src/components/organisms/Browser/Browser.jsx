@@ -16,6 +16,10 @@ function Browser() {
   const url = `http://localhost:${port}`;
 
   const handleRefresh = () => {
+    if (!port) {
+      editorSocket?.emit("getPort", { containerName: projectId });
+      return;
+    }
     if (browserRef.current) {
       browserRef.current.src = url;
     }
