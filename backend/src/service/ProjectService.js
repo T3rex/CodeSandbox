@@ -5,9 +5,9 @@ import { runVite } from "../utils/ViteUtility.js";
 import dirTree from "directory-tree";
 
 export const createProjectService = async (projectName, template) => {
+  const projectId = uuid4();
+  const projectDir = path.join("./projects", projectId);
   try {
-    const projectId = uuid4();
-    const projectDir = path.join("./projects", projectId);
     const customConfigPath = path.join("./src/utils", "CustomVite.config.js");
     const projectConfigPath = path.join(
       projectDir,
@@ -19,12 +19,28 @@ export const createProjectService = async (projectName, template) => {
 
     await runVite({ cwd: projectDir, projectName, template });
     // Copy the custom Vite config file to the project directory
-    if (template === "react" || template === "react-ts") {
-      await fs.copyFile(customConfigPath, projectConfigPath);
+    // if (template === "react" || template === "react-ts") {
+    //   await fs.copyFile(customConfigPath, projectConfigPath);
+    // }
+    let content = await fs.readFile(projectConfigPath, "utf8");
+
+    if (!content.includes("server:")) {
+      // Inject inside defineConfig({})
+      content = content.replace(
+        /(defineConfig\s*\(\s*\{)([\s\S]*)(\}\s*\))/,
+        (match, start, inner, end) => {
+          return `${start}${inner.trim()}\n  server: { host: true }\n${end}`;
+        }
+      );
+    } else {
+      console.log("Server config already exists, skipping.");
     }
+
+    await fs.writeFile(projectConfigPath, content, "utf8");
 
     return projectId;
   } catch (error) {
+    fs.rmdir(projectDir, { recursive: true });
     throw new Error("Error in service layer: " + error.message);
   }
 };
