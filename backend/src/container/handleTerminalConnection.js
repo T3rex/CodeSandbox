@@ -7,7 +7,6 @@ export const handleTerminalConnection = async (ws, container) => {
     stream.on("data", (chunk) => {
       ws.send(chunk); // raw passthrough, no buffering
     });
-
     // Send WebSocket input to Docker instantly
     ws.on("message", (data) => {
       if (stream.writable) {
