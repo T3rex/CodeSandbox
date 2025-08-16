@@ -27,7 +27,11 @@ async function createExecInstance(container) {
   return new Promise((resolve, reject) => {
     container.exec(
       {
-        Cmd: ["/bin/bash"],
+        Cmd: [
+          "/bin/bash",
+          "-c",
+          "cd */ && npm install && (npm start || npm run dev) & bash",
+        ],
         AttachStdin: true,
         AttachStdout: true,
         AttachStderr: true,
