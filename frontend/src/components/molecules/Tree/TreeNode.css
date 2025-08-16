@@ -137,3 +137,14 @@
   background-color: rgba(255, 0, 0, 0.2);
   border: 1px solid red;
 }
+
+.file-actions {
+  display: none; /* hidden by default */
+  gap: 6px;
+  align-items: center;
+  color: #b9b9b9;
+}
+
+.tree-leaf:hover .file-actions {
+  display: flex; /* show only on hover */
+}

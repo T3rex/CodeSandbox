@@ -9,6 +9,8 @@ import useOpenFileTabsStore from "../../../store/openFilesTabsStore.js";
 import useActiveFileTabStore from "../../../store/activeFileTabStore.js";
 import useTreeStructureStore from "../../../store/treeStructureStore.js";
 import { IoFolder, IoFolderOpenOutline } from "react-icons/io5";
+import { FaRegEdit } from "react-icons/fa";
+import { RiDeleteBin5Line } from "react-icons/ri";
 
 function TreeNode({ fileFolderData }) {
   const [visibility, setVisibility] = useState({});
@@ -35,6 +37,7 @@ function TreeNode({ fileFolderData }) {
     file: contextMenuFilePath,
     isOpen: isFileContextMenuOpen,
     editMode: fileContextMenuEditMode,
+    setEditMode: setFileContextMenuEditMode,
   } = useFileContextMenuStore();
 
   const { addFileTab } = useOpenFileTabsStore();
@@ -133,6 +136,32 @@ function TreeNode({ fileFolderData }) {
               <span>{fileFolderData.name}</span>
             )}
           </span>
+          {!fileContextMenuEditMode && (
+            <div
+              className="file-actions"
+              style={{ padding: "0 4px", marginRight: "0 4px" }}
+            >
+              <FaRegEdit
+                size={15}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setFileContextMenuFilePath(fileFolderData.path);
+                  setFileContextMenuEditMode(true);
+                }}
+              />
+              <RiDeleteBin5Line
+                size={15}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  editorSocket?.emit("deleteFile", {
+                    pathToFileFolder: fileFolderData.path,
+                  });
+                }}
+              />
+            </div>
+          )}
         </div>
       )}
 
