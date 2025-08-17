@@ -148,3 +148,24 @@
 .tree-leaf:hover .file-actions {
   display: flex; /* show only on hover */
 }
+
+.new-fileFolder {
+  background: rgba(0, 123, 255, 0.2);
+  height: fit-content;
+  width: fit-content;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+.new-fileFolder input {
+  font-size: large;
+  color: white;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 5px;
+}

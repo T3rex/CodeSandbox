@@ -8,10 +8,20 @@ function FileContextMenu({ x, y, path }) {
   const { setIsOpen, setEditMode, isFolder } = useFileContextMenuStore();
 
   const handleFileDelete = () => {
-    editorSocket.emit("deleteFile", { pathToFileFolder: path });
+    if (isFolder) {
+      editorSocket?.emit("deleteFolder", { pathToFileFolder: path });
+    } else {
+      editorSocket?.emit("deleteFile", { pathToFileFolder: path });
+    }
+    setIsOpen(false);
   };
 
   const handleFileRename = () => {
+    setEditMode(true);
+    setIsOpen(false);
+  };
+
+  const handleNewFolder = () => {
     setEditMode(true);
     setIsOpen(false);
   };
@@ -27,12 +37,16 @@ function FileContextMenu({ x, y, path }) {
     >
       {isFolder && (
         <div className="folder-actions">
-          <button>New Folder</button>
+          <button onClick={handleNewFolder}>New Folder</button>
           <button>New File</button>
         </div>
       )}
-      <button onClick={handleFileRename}>Rename File</button>
-      <button onClick={handleFileDelete}>Delete File</button>
+      <button onClick={handleFileRename}>
+        {isFolder ? "Rename Folder" : "Rename File"}
+      </button>
+      <button onClick={handleFileDelete}>
+        {isFolder ? "Delete Folder" : "Delete File"}
+      </button>
     </div>
   );
 }

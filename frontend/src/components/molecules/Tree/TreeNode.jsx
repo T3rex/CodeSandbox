@@ -11,6 +11,7 @@ import useTreeStructureStore from "../../../store/treeStructureStore.js";
 import { IoFolder, IoFolderOpenOutline } from "react-icons/io5";
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin5Line } from "react-icons/ri";
+import NewFileFolderInput from "../../atoms/NewFileFolderInput/NewFileFolderInput.jsx";
 
 function TreeNode({ fileFolderData }) {
   const [visibility, setVisibility] = useState({});
@@ -87,30 +88,39 @@ function TreeNode({ fileFolderData }) {
     <div className="tree-node">
       {fileFolderData.children ? (
         /** Folder**/
-        <button
-          className="tree-toggle"
-          onClick={() => toggleVisibility(fileFolderData.name)}
-          onContextMenu={(e) =>
-            handleContextMenuForFolders(e, fileFolderData.path)
-          }
-        >
-          {visibility[fileFolderData.name] ? (
-            <span className="folder-icon">
-              <SlArrowDown className="tree-icon" />
-              {fileFolderData.name !== projectId && (
-                <IoFolderOpenOutline color="#2196f3" size={18} />
-              )}
-            </span>
-          ) : (
-            <span>
-              <SlArrowRight className="tree-icon" />
-              {fileFolderData.name !== projectId && (
-                <IoFolder color="#2196f3" size={18} />
-              )}
-            </span>
-          )}
-          <span className="folder-name">{fileFolderData.name}</span>
-        </button>
+        <>
+          <button
+            className="tree-toggle"
+            onClick={() => toggleVisibility(fileFolderData.name)}
+            onContextMenu={(e) => {
+              handleContextMenuForFolders(e, fileFolderData.path);
+              console.log(fileFolderData.children);
+            }}
+          >
+            {visibility[fileFolderData.name] ? (
+              <span className="folder-icon">
+                <SlArrowDown className="tree-icon" />
+                {fileFolderData.name !== projectId && (
+                  <IoFolderOpenOutline color="#2196f3" size={18} />
+                )}
+              </span>
+            ) : (
+              <span>
+                <SlArrowRight className="tree-icon" />
+                {fileFolderData.name !== projectId && (
+                  <IoFolder color="#2196f3" size={18} />
+                )}
+              </span>
+            )}
+            <span className="folder-name">{fileFolderData.name}</span>
+          </button>
+          {fileContextMenuEditMode &&
+            contextMenuFilePath === fileFolderData.path && (
+              <div className="tree-children">
+                <NewFileFolderInput fileFolderData={fileFolderData} />
+              </div>
+            )}
+        </>
       ) : (
         /** File**/
         <div

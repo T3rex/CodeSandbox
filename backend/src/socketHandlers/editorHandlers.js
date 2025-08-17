@@ -145,4 +145,21 @@ export const handleEditorSocketEvents = (socket, editorNameSpace) => {
       }
     }
   });
+
+  socket.on("createFolder", async ({ name, parent }) => {
+    try {
+      const newFolderPath = path.join(parent, name);
+      await fs.mkdir(newFolderPath);
+      socket.emit("createFolderSuccess", {
+        success: true,
+        data: "Folder created successfully",
+      });
+    } catch (error) {
+      console.log("Error while creating the folder" + error);
+      socket.emit("createFolderError", {
+        success: false,
+        data: "Error while creating the folder ",
+      });
+    }
+  });
 };

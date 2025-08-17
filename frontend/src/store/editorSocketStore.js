@@ -7,8 +7,11 @@ import useOpenFileTabsStore from "./openFilesTabsStore.js";
 const useEditorSocketStore = create((set) => ({
   editorSocket: null,
   setEditorSocket: (incomingSocket) => {
-    const { activeFileTab, setActiveFileTab } =
-      useActiveFileTabStore.getState();
+    set({
+      editorSocket: incomingSocket,
+    });
+
+    const { setActiveFileTab } = useActiveFileTabStore.getState();
 
     const { setTreeStructure } = useTreeStructureStore.getState();
 
@@ -34,9 +37,6 @@ const useEditorSocketStore = create((set) => ({
     incomingSocket.on("deleteFileSuccess", () => {
       setTreeStructure();
     });
-    set({
-      editorSocket: incomingSocket,
-    });
 
     incomingSocket.on("treeStructureUpdate", () => {
       setTreeStructure();
@@ -55,6 +55,13 @@ const useEditorSocketStore = create((set) => ({
         name: data.newPath.split("/").pop(),
         path: data.newPath,
       });
+    });
+    incomingSocket.on("createFolderSuccess", () => {
+      setTreeStructure();
+    });
+
+    incomingSocket.on("deleteFolderSuccess", () => {
+      setTreeStructure();
     });
   },
 }));
