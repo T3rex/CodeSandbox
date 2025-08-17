@@ -10,7 +10,7 @@ function TreeStructure() {
     x: fileContextX,
     y: fileContextY,
     isOpen: isFileContextOpen,
-    file,
+    path,
   } = useFileContextMenuStore();
   useState(false);
 
@@ -46,7 +46,7 @@ function TreeStructure() {
       </div>
       {treeStructure && <TreeNode fileFolderData={treeStructure} />}
       {isFileContextOpen && fileContextX && fileContextY && (
-        <FileContextMenu x={fileContextX} y={fileContextY} path={file} />
+        <FileContextMenu x={fileContextX} y={fileContextY} path={path} />
       )}
     </div>
   );

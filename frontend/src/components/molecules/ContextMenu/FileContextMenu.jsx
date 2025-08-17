@@ -5,7 +5,7 @@ import "./FileContextMenu.css";
 
 function FileContextMenu({ x, y, path }) {
   const { editorSocket } = useEditorSocketStore();
-  const { setIsOpen, setEditMode } = useFileContextMenuStore();
+  const { setIsOpen, setEditMode, isFolder } = useFileContextMenuStore();
 
   const handleFileDelete = () => {
     editorSocket.emit("deleteFile", { pathToFileFolder: path });
@@ -25,8 +25,14 @@ function FileContextMenu({ x, y, path }) {
       }}
       onMouseLeave={() => setIsOpen(false)}
     >
-      <button onClick={handleFileDelete}>Delete File</button>
+      {isFolder && (
+        <div className="folder-actions">
+          <button>New Folder</button>
+          <button>New File</button>
+        </div>
+      )}
       <button onClick={handleFileRename}>Rename File</button>
+      <button onClick={handleFileDelete}>Delete File</button>
     </div>
   );
 }

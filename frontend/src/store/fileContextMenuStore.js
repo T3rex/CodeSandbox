@@ -4,9 +4,10 @@ const useFileContextMenuStore = create((set) => ({
   x: null,
   y: null,
   isOpen: false,
-  file: null,
+  path: null,
   e: null,
   editMode: false,
+  isFolder: false,
   setEditMode: (incomingEditMode) => {
     set({ editMode: incomingEditMode });
   },
@@ -22,8 +23,11 @@ const useFileContextMenuStore = create((set) => ({
   setIsOpen: (incomingIsOpen) => {
     set({ isOpen: incomingIsOpen });
   },
-  setFile: (incomingFile) => {
-    set({ file: incomingFile });
+  setPath: (incomingFile) => {
+    set({ path: incomingFile });
+  },
+  setIsFolder: (incomingIsFolder) => {
+    set({ isFolder: incomingIsFolder });
   },
 }));
 

@@ -30,14 +30,15 @@ function TreeNode({ fileFolderData }) {
 
   const { editorSocket } = useEditorSocketStore();
   const {
-    setFile: setFileContextMenuFilePath,
+    setPath: setFileContextMenuFilePath,
     setX: setFileContextMenuX,
     setY: setFileContextMenuY,
     setIsOpen: setFileContextMenuIsOpen,
-    file: contextMenuFilePath,
+    path: contextMenuFilePath,
     isOpen: isFileContextMenuOpen,
     editMode: fileContextMenuEditMode,
     setEditMode: setFileContextMenuEditMode,
+    setIsFolder,
   } = useFileContextMenuStore();
 
   const { addFileTab } = useOpenFileTabsStore();
@@ -64,6 +65,16 @@ function TreeNode({ fileFolderData }) {
     setFileContextMenuX(e.clientX);
     setFileContextMenuY(e.clientY);
     setFileContextMenuIsOpen(true);
+    setIsFolder(false);
+  };
+
+  const handleContextMenuForFolders = (e, path) => {
+    e.preventDefault();
+    setFileContextMenuFilePath(path);
+    setFileContextMenuX(e.clientX);
+    setFileContextMenuY(e.clientY);
+    setFileContextMenuIsOpen(true);
+    setIsFolder(true);
   };
 
   useEffect(() => {
@@ -79,6 +90,9 @@ function TreeNode({ fileFolderData }) {
         <button
           className="tree-toggle"
           onClick={() => toggleVisibility(fileFolderData.name)}
+          onContextMenu={(e) =>
+            handleContextMenuForFolders(e, fileFolderData.path)
+          }
         >
           {visibility[fileFolderData.name] ? (
             <span className="folder-icon">
