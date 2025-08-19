@@ -116,6 +116,7 @@
 }
 
 .rename-input {
+  width: 100%;
   font-size: large;
   color: white;
   background-color: transparent;
@@ -127,15 +128,6 @@
 .rename-input::selection {
   background-color: rgba(255, 255, 255, 0.3);
   color: white;
-}
-
-.file-collision {
-  background-color: rgba(255, 0, 0, 0.2);
-  border: 1px solid red;
-}
-.file-collision:hover {
-  background-color: rgba(255, 0, 0, 0.2);
-  border: 1px solid red;
 }
 
 .file-actions {
@@ -167,5 +159,13 @@
   outline: none;
   box-sizing: border-box;
   width: 100%;
-  padding: 0 5px;
+}
+
+.file-collision {
+  background-color: rgba(255, 0, 0, 0.2);
+  border: 1px solid red;
+}
+.file-collision:hover {
+  background-color: rgba(255, 0, 0, 0.2);
+  border: 1px solid red;
 }

@@ -39,6 +39,7 @@ function TreeNode({ fileFolderData }) {
     isOpen: isFileContextMenuOpen,
     editMode: fileContextMenuEditMode,
     setEditMode: setFileContextMenuEditMode,
+    action: contextMenuAction,
     setIsFolder,
   } = useFileContextMenuStore();
 
@@ -112,9 +113,23 @@ function TreeNode({ fileFolderData }) {
                 )}
               </span>
             )}
-            <span className="folder-name">{fileFolderData.name}</span>
+            {/* <span className="folder-name">{fileFolderData.name}</span> */}
+            <span>
+              {fileContextMenuEditMode &&
+              contextMenuAction === "renameFolder" &&
+              contextMenuFilePath === fileFolderData.path ? (
+                <RenameInput
+                  fileFolderData={fileFolderData}
+                  treeStructure={treeStructure}
+                  setCollisionPath={setCollisionPath}
+                />
+              ) : (
+                <span className="folder-name">{fileFolderData.name}</span>
+              )}
+            </span>
           </button>
           {fileContextMenuEditMode &&
+            contextMenuAction !== "renameFolder" &&
             contextMenuFilePath === fileFolderData.path && (
               <div className="tree-children">
                 <NewFileFolderInput fileFolderData={fileFolderData} />

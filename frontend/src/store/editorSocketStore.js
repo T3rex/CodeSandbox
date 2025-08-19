@@ -19,6 +19,10 @@ const useEditorSocketStore = create((set) => ({
 
     const { addFileTab, removeFileTab } = useOpenFileTabsStore.getState();
 
+    incomingSocket.on("createFileSuccess", () => {
+      setTreeStructure();
+    });
+
     incomingSocket?.on("readFileSuccess", ({ path, extension, value }) => {
       // const currentActiveTab = activeFileTab?.path;
 
@@ -40,6 +44,7 @@ const useEditorSocketStore = create((set) => ({
 
     incomingSocket.on("treeStructureUpdate", () => {
       setTreeStructure();
+      console.log("Tree structure updated");
     });
 
     incomingSocket.on("getPortSuccess", ({ data }) => {
@@ -47,14 +52,16 @@ const useEditorSocketStore = create((set) => ({
     });
 
     incomingSocket.on("renameFileSuccess", ({ data }) => {
-      removeFileTab({ path: data.oldPath });
-      incomingSocket.emit("readFile", {
-        pathToFileFolder: data.newPath,
-      });
-      addFileTab({
-        name: data.newPath.split("/").pop(),
-        path: data.newPath,
-      });
+      if (data.isFile) {
+        removeFileTab({ path: data.oldPath });
+        incomingSocket.emit("readFile", {
+          pathToFileFolder: data.newPath,
+        });
+        addFileTab({
+          name: data.newPath.split("/").pop(),
+          path: data.newPath,
+        });
+      }
     });
     incomingSocket.on("createFolderSuccess", () => {
       setTreeStructure();

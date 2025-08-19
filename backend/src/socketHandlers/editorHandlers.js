@@ -20,7 +20,9 @@ export const handleEditorSocketEvents = (socket, editorNameSpace) => {
     }
   });
 
-  socket.on("createFile", async ({ pathToFileFolder, data }) => {
+  socket.on("createFile", async ({ name, parent, data = "" }) => {
+    const pathToFileFolder = path.join(parent, name);
+    console.log(pathToFileFolder);
     try {
       await fs.access(pathToFileFolder, fs.constants.F_OK);
 
@@ -129,11 +131,13 @@ export const handleEditorSocketEvents = (socket, editorNameSpace) => {
       try {
         const { oldPath, newPath } = data;
         await fs.rename(oldPath, newPath);
+        const stats = await fs.stat(path);
         socket.emit("renameFileSuccess", {
           success: true,
           data: {
             oldPath,
             newPath,
+            isFile: stats.isFile(),
           },
         });
       } catch (error) {

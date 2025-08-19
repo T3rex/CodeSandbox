@@ -8,6 +8,7 @@ const useFileContextMenuStore = create((set) => ({
   e: null,
   editMode: false,
   isFolder: false,
+  action: null,
   setEditMode: (incomingEditMode) => {
     set({ editMode: incomingEditMode });
   },
@@ -28,6 +29,9 @@ const useFileContextMenuStore = create((set) => ({
   },
   setIsFolder: (incomingIsFolder) => {
     set({ isFolder: incomingIsFolder });
+  },
+  setAction: (incomingAction) => {
+    set({ action: incomingAction });
   },
 }));
 

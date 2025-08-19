@@ -5,7 +5,8 @@ import "./FileContextMenu.css";
 
 function FileContextMenu({ x, y, path }) {
   const { editorSocket } = useEditorSocketStore();
-  const { setIsOpen, setEditMode, isFolder } = useFileContextMenuStore();
+  const { setIsOpen, setEditMode, isFolder, setAction } =
+    useFileContextMenuStore();
 
   const handleFileDelete = () => {
     if (isFolder) {
@@ -19,11 +20,20 @@ function FileContextMenu({ x, y, path }) {
   const handleFileRename = () => {
     setEditMode(true);
     setIsOpen(false);
+    const action = isFolder ? "renameFolder" : "renameFile";
+    setAction(action);
   };
 
   const handleNewFolder = () => {
     setEditMode(true);
     setIsOpen(false);
+    setAction("addFolder");
+  };
+
+  const handleNewFile = () => {
+    setEditMode(true);
+    setIsOpen(false);
+    setAction("addFile");
   };
 
   return (
@@ -38,7 +48,7 @@ function FileContextMenu({ x, y, path }) {
       {isFolder && (
         <div className="folder-actions">
           <button onClick={handleNewFolder}>New Folder</button>
-          <button>New File</button>
+          <button onClick={handleNewFile}>New File</button>
         </div>
       )}
       <button onClick={handleFileRename}>
