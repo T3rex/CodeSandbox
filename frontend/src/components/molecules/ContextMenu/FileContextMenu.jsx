@@ -10,9 +10,19 @@ function FileContextMenu({ x, y, path }) {
 
   const handleFileDelete = () => {
     if (isFolder) {
-      editorSocket?.emit("deleteFolder", { pathToFileFolder: path });
+      const response = confirm(
+        "Folder will be permanently deleted. Click cancel to abort."
+      );
+      if (response) {
+        editorSocket?.emit("deleteFolder", { pathToFileFolder: path });
+      }
     } else {
-      editorSocket?.emit("deleteFile", { pathToFileFolder: path });
+      const response = confirm(
+        "File will be permanently deleted. Click cancel to abort."
+      );
+      if (response) {
+        editorSocket?.emit("deleteFile", { pathToFileFolder: path });
+      }
     }
     setIsOpen(false);
   };
@@ -54,7 +64,7 @@ function FileContextMenu({ x, y, path }) {
       <button onClick={handleFileRename}>
         {isFolder ? "Rename Folder" : "Rename File"}
       </button>
-      <button onClick={handleFileDelete}>
+      <button onClick={handleFileDelete} style={{ color: "red" }}>
         {isFolder ? "Delete Folder" : "Delete File"}
       </button>
     </div>

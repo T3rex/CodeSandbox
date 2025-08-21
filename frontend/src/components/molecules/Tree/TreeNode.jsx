@@ -235,9 +235,14 @@ function TreeNode({ fileFolderData }) {
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  editorSocket?.emit("deleteFile", {
-                    pathToFileFolder: fileFolderData.path,
-                  });
+                  const response = confirm(
+                    "File will be permanently deleted. Click cancel to abort."
+                  );
+                  if (response) {
+                    editorSocket?.emit("deleteFile", {
+                      pathToFileFolder: fileFolderData.path,
+                    });
+                  }
                 }}
               />
             </div>
