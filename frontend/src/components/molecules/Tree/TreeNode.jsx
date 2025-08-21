@@ -12,6 +12,8 @@ import { IoFolder, IoFolderOpenOutline } from "react-icons/io5";
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import NewFileFolderInput from "../../atoms/NewFileFolderInput/NewFileFolderInput.jsx";
+import { LuFilePlus2 } from "react-icons/lu";
+import { BsFolderPlus } from "react-icons/bs";
 
 function TreeNode({ fileFolderData }) {
   const [visibility, setVisibility] = useState({});
@@ -40,6 +42,7 @@ function TreeNode({ fileFolderData }) {
     editMode: fileContextMenuEditMode,
     setEditMode: setFileContextMenuEditMode,
     action: contextMenuAction,
+    setAction: setFileContextMenuAction,
     setIsFolder,
   } = useFileContextMenuStore();
 
@@ -113,7 +116,6 @@ function TreeNode({ fileFolderData }) {
                 )}
               </span>
             )}
-            {/* <span className="folder-name">{fileFolderData.name}</span> */}
             <span>
               {fileContextMenuEditMode &&
               contextMenuAction === "renameFolder" &&
@@ -127,11 +129,50 @@ function TreeNode({ fileFolderData }) {
                 <span className="folder-name">{fileFolderData.name}</span>
               )}
             </span>
+            {!fileContextMenuEditMode && (
+              <div
+                className="folder-actions"
+                // style={{ padding: "0 4px", marginRight: " 4px" }}
+              >
+                <LuFilePlus2
+                  size={15}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setFileContextMenuFilePath(fileFolderData.path);
+                    setFileContextMenuEditMode(true);
+                    setFileContextMenuAction("addFile");
+                    setVisibility((prev) => ({
+                      ...prev,
+                      [fileFolderData.name]: !prev[fileFolderData.name],
+                    }));
+                  }}
+                />
+                <BsFolderPlus
+                  size={15}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setFileContextMenuFilePath(fileFolderData.path);
+                    setFileContextMenuEditMode(true);
+                    setFileContextMenuAction("addFolder");
+                    setVisibility((prev) => ({
+                      ...prev,
+                      [fileFolderData.name]: !prev[fileFolderData.name],
+                    }));
+                  }}
+                />
+              </div>
+            )}
           </button>
           {fileContextMenuEditMode &&
             contextMenuAction !== "renameFolder" &&
             contextMenuFilePath === fileFolderData.path && (
-              <div className="tree-children">
+              <div
+                className={`${
+                  contextMenuAction === "addFolder" ? "tree-children" : ""
+                }`}
+              >
                 <NewFileFolderInput fileFolderData={fileFolderData} />
               </div>
             )}

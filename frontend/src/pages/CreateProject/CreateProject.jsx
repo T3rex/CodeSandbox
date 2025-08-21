@@ -6,7 +6,7 @@ import "./CreateProject.css";
 import { useEffect, useState } from "react";
 
 const CreateProject = () => {
-  const { template } = useParams();
+  let { template } = useParams();
   const [projectName, setProjectName] = useState("");
   const [error, setError] = useState("");
   const [language, setLanguage] = useState("javascript");

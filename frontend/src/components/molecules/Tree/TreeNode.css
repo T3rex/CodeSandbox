@@ -131,13 +131,35 @@
 }
 
 .file-actions {
-  display: none; /* hidden by default */
+  display: none;
   gap: 6px;
   align-items: center;
+  justify-content: space-around;
   color: #b9b9b9;
 }
 
+.file-actions:hover {
+  color: white;
+}
+
 .tree-leaf:hover .file-actions {
+  display: flex; /* show only on hover */
+}
+
+.folder-actions {
+  display: none;
+  margin-left: auto;
+  gap: 6px;
+  align-items: center;
+  justify-content: space-around;
+  color: #b9b9b9;
+}
+
+.folder-actions:hover {
+  color: white;
+}
+
+.tree-toggle:hover .folder-actions {
   display: flex; /* show only on hover */
 }
 

@@ -46,7 +46,7 @@ function FileContextMenu({ x, y, path }) {
       onMouseLeave={() => setIsOpen(false)}
     >
       {isFolder && (
-        <div className="folder-actions">
+        <div>
           <button onClick={handleNewFolder}>New Folder</button>
           <button onClick={handleNewFile}>New File</button>
         </div>
