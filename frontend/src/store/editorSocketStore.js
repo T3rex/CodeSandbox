@@ -44,7 +44,6 @@ const useEditorSocketStore = create((set) => ({
 
     incomingSocket.on("treeStructureUpdate", () => {
       setTreeStructure();
-      console.log("Tree structure updated");
     });
 
     incomingSocket.on("getPortSuccess", ({ data }) => {
