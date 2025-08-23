@@ -9,3 +9,7 @@ export const DOCKER_SOCKET_PATH =
   process.env.DOCKER_SOCKET_PATH || "/home/hp/.docker/desktop/docker.sock";
 
 export const TERMINAL_PORT = process.env.TERMINAL_PORT || 4000;
+
+export const LOCAL_PROJECTS_DIRECTORY_PATH =
+  process.env.LOCAL_PROJECTS_DIRECTORY_PATH ||
+  "/home/hp/CodeSandbox/backend/projects";

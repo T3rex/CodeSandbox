@@ -1,6 +1,8 @@
 import Docker from "dockerode";
-import { DOCKER_SOCKET_PATH } from "../config/serverConfig.js";
-import path from "path";
+import {
+  DOCKER_SOCKET_PATH,
+  LOCAL_PROJECTS_DIRECTORY_PATH,
+} from "../config/serverConfig.js";
 
 const docker = new Docker({
   socketPath: DOCKER_SOCKET_PATH,
@@ -34,7 +36,9 @@ export const handleContainerCreate = async (projectId) => {
       Env: ["HOST=0.0.0.0"],
       HostConfig: {
         // Mounts the project directory into the container
-        Binds: [`${process.cwd()}/../projects/${projectId}:/home/sandbox/app`],
+        Binds: [
+          `${LOCAL_PROJECTS_DIRECTORY_PATH}/${projectId}:/home/sandbox/app`,
+        ],
         PortBindings: { "5173/tcp": [{ HostPort: "0" }] },
       },
     });
