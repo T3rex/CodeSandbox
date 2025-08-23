@@ -11,9 +11,10 @@ function Browser() {
   const { projectId } = useParams();
   const { editorSocket } = useEditorSocketStore();
   const { terminalSocket } = useTerminalSocketStore();
+  console.log(import.meta.env.VITE_PROJECT_HOST);
 
   const { port } = usePortStore();
-  const url = `http://localhost:${port}`;
+  const url = `${import.meta.env.VITE_PROJECT_HOST}:${port}`;
 
   const handleRefresh = () => {
     if (!port) {
