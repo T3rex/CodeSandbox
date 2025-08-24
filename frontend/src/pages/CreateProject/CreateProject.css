@@ -203,3 +203,11 @@ p {
   filter: blur(5rem);
   opacity: 0.5;
 }
+
+@media (max-width: 768px) {
+  .card {
+    width: 90%;
+    margin: 0 0.5rem;
+    padding: 1rem 2rem;
+  }
+}

@@ -5,15 +5,38 @@ import { Link } from "react-router-dom";
 import "./CreateProject.css";
 import { useEffect, useState } from "react";
 
+const messages = [
+  "Creating workspace...",
+  "Setting environment...",
+  "Initializing project...",
+];
+
 const CreateProject = () => {
   let { template } = useParams();
   const [projectName, setProjectName] = useState("");
   const [error, setError] = useState("");
   const [language, setLanguage] = useState("javascript");
+  const [index, setIndex] = useState(0);
   const { createProjectMutate, isPending, isError } = useCreateProject(
     projectName.split(" ").join("-").toLowerCase() || "my-app",
     template
   );
+
+  useEffect(() => {
+    if (!isPending) return;
+
+    const interval = setInterval(() => {
+      setIndex((prev) => {
+        if (prev < messages.length - 1) {
+          return prev + 1;
+        } else {
+          clearInterval(interval);
+        }
+      });
+    }, 2000); // change message every 2s
+
+    return () => clearInterval(interval);
+  }, [isPending]);
 
   const navigate = useNavigate();
 
@@ -117,7 +140,7 @@ const CreateProject = () => {
         >
           {"Create Project"}
         </button>
-        {isPending && <p>{"Creating project..."}</p>}
+        {isPending && <p>{messages[index]}</p>}
         {isError && <p>{"Error while creating project."}</p>}
       </div>
     </div>

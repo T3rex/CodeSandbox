@@ -64,7 +64,10 @@ function FileContextMenu({ x, y, path }) {
       <button onClick={handleFileRename}>
         {isFolder ? "Rename Folder" : "Rename File"}
       </button>
-      <button onClick={handleFileDelete} style={{ color: "red" }}>
+      <button
+        onClick={handleFileDelete}
+        style={{ color: "rgba(216, 65, 65, 1)", fontWeight: "600" }}
+      >
         {isFolder ? "Delete Folder" : "Delete File"}
       </button>
     </div>
