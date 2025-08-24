@@ -17,10 +17,11 @@ body {
 
 ::-webkit-scrollbar-thumb {
   cursor: pointer;
+  background: #444444;
   transition: all 1s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #7d7c7c;
+  background: #626262;
   transition: all 1s ease;
 }

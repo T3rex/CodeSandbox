@@ -4,33 +4,9 @@ import useEditorSocketStore from "../../../store/editorSocketStore";
 import useActiveFileTabStore from "../../../store/activeFileTabStore";
 import { extensionToFiletype } from "../../../utils/extensionToFiletype";
 import { useEffect, useRef } from "react";
-function EditorComponent() {
-  const handleTheme = (editor, monaco) => {
-    import("monaco-themes/themes/Dracula.json").then((data) => {
-      monaco.editor.defineTheme("Dracula", data);
-      monaco.editor.setTheme("Dracula");
-    });
-  };
-  const { activeFileTab } = useActiveFileTabStore();
-  const { editorSocket } = useEditorSocketStore();
-  const timer = useRef(null);
 
-  //Debounce function to handle changes
-  const handleChange = (value) => {
-    if (timer.current) {
-      clearTimeout(timer.current);
-    }
-    timer.current = setTimeout(() => {
-      const editorContent = value;
-      editorSocket.emit("writeFile", {
-        data: editorContent,
-        pathToFileFolder: activeFileTab?.path,
-      });
-    }, 2000);
-  };
-
-  // Removed invalid and unused 'default' variable declaration
-  const defaultValue = String.raw`
+// Removed invalid and unused 'default' variable declaration
+const defaultValue = String.raw`
        /\\\\\\\\\                        /\\\   /\\\\\\\\\\\\\\\           
       /\\\////////                       \/\\\  \/\\\///////////      
      /\\\/                                \/\\\  \/\\\      
@@ -69,6 +45,32 @@ function EditorComponent() {
 
         `;
 
+function EditorComponent() {
+  const handleTheme = (editor, monaco) => {
+    import("monaco-themes/themes/Kuroir Theme.json").then((data) => {
+      monaco.editor.defineTheme("kuroir-theme", data);
+      monaco.editor.setTheme("kuroir-theme");
+    });
+  };
+
+  const { activeFileTab } = useActiveFileTabStore();
+  const { editorSocket } = useEditorSocketStore();
+  const timer = useRef(null);
+
+  //Debounce function to handle changes
+  const handleChange = (value) => {
+    if (timer.current) {
+      clearTimeout(timer.current);
+    }
+    timer.current = setTimeout(() => {
+      const editorContent = value;
+      editorSocket.emit("writeFile", {
+        data: editorContent,
+        pathToFileFolder: activeFileTab?.path,
+      });
+    }, 2000);
+  };
+
   const getValue = () => {
     if (activeFileTab?.path) {
       return activeFileTab?.value;
@@ -98,47 +100,35 @@ function EditorComponent() {
         defaultValue={defaultValue}
         value={getValue()}
         onMount={(editor, monaco) => {
-          handleTheme(editor, monaco);
+          // handleTheme(editor, monaco);
         }}
+        theme="vs-dark"
         onChange={handleChange}
         options={{
-          fontSize: 16,
-          minimap: {
-            autohide: true,
-            enabled: true,
-            renderCharacters: true,
-            showSlider: "mouseover",
-            scale: 1.2,
-            size: "proportional",
-            maxColumn: 120,
-          },
-          scrollType: 0,
-          scrollBeyondLastLine: true,
-          automaticLayout: true,
-          wordWrap: "on",
-          lineNumbersMinChars: 4,
-          renderLineHighlight: "all",
-          contextmenu: true,
-          tabSize: 2,
-          formatOnType: true,
-          formatOnPaste: true,
+          fontSize: 14,
           fontFamily: "Fira Code, monospace",
           fontLigatures: true,
-          lineDecorationsWidth: 10,
-          lineNumbers: "on",
+          minimap: { enabled: activeFileTab?.extension ? true : false },
+          automaticLayout: true,
+          wordWrap: "off",
+          lineNumbers: activeFileTab?.extension ? "on" : "off",
+          renderLineHighlight: "line",
+          cursorBlinking: "blink",
+          cursorStyle: "line",
           glyphMargin: true,
-          folding: true,
-          foldingStrategy: "auto",
+          folding: activeFileTab?.extension ? true : false,
+          smoothScrolling: true,
+          cursorBlinking: "smooth",
+          cursorSmoothCaretAnimation: true,
           renderWhitespace: "selection",
           renderControlCharacters: true,
           overviewRulerLanes: 3,
           overviewRulerBorder: true,
           overviewRulerColor: "#000000",
-          selectionHighlight: true,
-          cursorBlinking: "smooth",
-          cursorSmoothCaretAnimation: true,
-          cursorStyle: "line",
-          stickyScroll: { enabled: false },
+          scrollbar: {
+            verticalScrollbarSize: 14,
+            horizontalScrollbarSize: 14,
+          },
         }}
       />
     </div>
