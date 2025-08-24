@@ -24,7 +24,7 @@ function TreeStructure() {
         width: "100%",
         maxWidth: "100%",
         height: "100%",
-        backgroundColor: "rgb(48, 48, 59)",
+        backgroundColor: "#252526",
         borderRight: "1px solid #ddd",
         display: "flex",
         flexDirection: "column",
@@ -39,7 +39,15 @@ function TreeStructure() {
           marginBottom: "5px",
           fontSize: "18px",
           textAlign: "Center",
-          paddingTop: "1em",
+          boxSizing: "border-box",
+          backgroundColor: "#1e1e1e",
+          borderBottom: "1px solid #ddd",
+          height: "2em",
+          lineHeight: "1em",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "105%",
         }}
       >
         Explorer
@@ -53,3 +61,4 @@ function TreeStructure() {
 }
 
 export default TreeStructure;
+// rgb(16 16 27)

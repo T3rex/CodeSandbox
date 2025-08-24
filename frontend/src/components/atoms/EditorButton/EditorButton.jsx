@@ -72,7 +72,7 @@ function EditorButton({ path, name }) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
-        color: isActive || isHovered ? "white" : "#718193ff",
+        color: isActive || isHovered ? "white" : "#bac9dbff",
         borderTop: isActive ? "2px solid #646cff" : "none",
         borderRight: isActive ? "2px solid #646cff" : "none",
       }}
@@ -83,7 +83,7 @@ function EditorButton({ path, name }) {
       {
         <IoMdClose
           onClick={handleClose}
-          style={{ display: isActive || isHovered ? "block" : "hidden" }}
+          style={{ visibility: isActive || isHovered ? "visible" : "hidden" }}
         />
       }
     </button>

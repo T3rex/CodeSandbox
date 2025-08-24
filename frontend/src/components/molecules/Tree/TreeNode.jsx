@@ -219,7 +219,7 @@ function TreeNode({ fileFolderData }) {
           {!fileContextMenuEditMode && (
             <div
               className="file-actions"
-              style={{ padding: "0 4px", marginRight: "0 4px" }}
+              // style={{ padding: "0 4px", marginRight: "0 4px" }}
             >
               <FaRegEdit
                 size={15}

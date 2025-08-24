@@ -108,7 +108,7 @@
 }
 
 .active-file-highlight {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(0, 123, 255, 0.245);
 }
 
 .file-folder-focus {
@@ -136,6 +136,8 @@
   align-items: center;
   justify-content: space-around;
   color: #b9b9b9;
+  padding: 0 4px;
+  margin-right: 4px;
 }
 
 .file-actions:hover {
@@ -153,6 +155,7 @@
   align-items: center;
   justify-content: space-around;
   color: #b9b9b9;
+  padding: 0 4px;
 }
 
 .folder-actions:hover {
