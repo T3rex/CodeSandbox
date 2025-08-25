@@ -51,26 +51,42 @@ export const handleContainerCreate = async (projectId) => {
   }
 };
 
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+// Get port using backoff delay
 export async function getContainerPort(containerName) {
-  try {
-    const containerList = await docker.listContainers({
-      all: true,
-      filters: {
-        name: [containerName],
-      },
-    });
+  let retryInterval = 2000;
+  const maxInterval = 10000;
 
-    if (containerList.length > 0) {
-      const container = await docker
-        .getContainer(containerList[0].Id)
-        .inspect();
-      const hostPort =
-        container?.NetworkSettings?.Ports["5173/tcp"][0]?.HostPort;
+  while (true) {
+    try {
+      const containerList = await docker.listContainers({
+        all: true,
+        filters: {
+          name: [containerName],
+        },
+      });
 
-      return hostPort;
+      if (containerList.length > 0) {
+        const container = await docker
+          .getContainer(containerList[0].Id)
+          .inspect();
+        const hostPort =
+          container?.NetworkSettings?.Ports["5173/tcp"]?.[0]?.HostPort;
+
+        if (hostPort) {
+          return hostPort;
+        }
+      }
+    } catch (error) {
+      console.error("Error retrieving container port:", error);
     }
-  } catch (error) {
-    console.error("Error retrieving container port:", error);
-    return undefined;
+
+    console.log(`Port not found yet, retrying in ${retryInterval / 1000}s...`);
+    await delay(retryInterval);
+
+    retryInterval = Math.min(retryInterval * 2, maxInterval);
   }
 }
