@@ -26,7 +26,7 @@ export const createProjectService = async (projectName, template) => {
         content = content.replace(
           /(defineConfig\s*\(\s*\{)([\s\S]*)(\}\s*\))/,
           (match, start, inner, end) => {
-            return `${start}${inner.trim()}\n  server: { host: true, allowedHosts: true } \n${end}`;
+            return `${start}${inner.trim()}\n  server: { host: true, allowedHosts: true, cors:true, strictPort: false,port: 0 } \n${end}`;
           }
         );
       } else {

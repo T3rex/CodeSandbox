@@ -5,7 +5,7 @@ import { VITE_CREATE_PROJECT_COMMAND } from "../config/serverConfig.js";
 async function runVite({ cwd, projectName, template }) {
   const exec = promisify(child_process.exec);
   const command = VITE_CREATE_PROJECT_COMMAND;
-  const fullCommand = `${command} ${projectName} -- --template ${template} --config backend/src/utils/CustomVite.config.js`;
+  const fullCommand = `${command} ${projectName} -- --template ${template}`;
 
   try {
     const { stdout, stderr } = await exec(fullCommand, { cwd });
