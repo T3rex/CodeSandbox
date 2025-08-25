@@ -32,7 +32,35 @@
   display: flex;
   background-color: #1e1e1e;
   border-bottom: 1px solid #444;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  width: 100%;
+
+  /* scrollbar overlays content instead of shifting it */
+  scrollbar-gutter: stable overlay;
+}
+
+.editor-buttons:hover {
   overflow-x: auto;
+}
+
+/* scrollbar styling */
+.editor-buttons::-webkit-scrollbar {
+  height: 0.3em;
+}
+
+.editor-buttons::-webkit-scrollbar-track {
+  background: transparent;
+  border: none;
+}
+
+.editor-buttons::-webkit-scrollbar-thumb {
+  background: transparent; /* hidden by default */
+  border-radius: 4px;
+}
+
+.editor-buttons:hover::-webkit-scrollbar-thumb {
+  background: #525252; /* visible only on hover */
 }
 
 .terminal-wrapper {

@@ -75,7 +75,10 @@ function ProjectPlayground() {
               {/* Editor Section */}
               <Allotment.Pane preferredSize="70%">
                 <div className="editor-section">
-                  <div className="editor-buttons">
+                  <div
+                    className="editor-buttons"
+                    style={{ height: openFileTabs.length > 0 ? "2.1em" : "0" }}
+                  >
                     {openFileTabs?.map((tab) => (
                       <EditorButton
                         key={tab.path}
