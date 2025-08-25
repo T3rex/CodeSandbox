@@ -5,16 +5,18 @@ import { IoMdRefresh } from "react-icons/io";
 import useEditorSocketStore from "../../../store/editorSocketStore.js";
 import useTerminalSocketStore from "../../../store/terminalSocketStore.js";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 
 function Browser() {
   const browserRef = useRef(null);
+  const timerRef = useRef(null);
   const { projectId } = useParams();
   const { editorSocket } = useEditorSocketStore();
   const { terminalSocket } = useTerminalSocketStore();
   const { port } = usePortStore();
-  console.log(import.meta.env.VITE_PROJECT_HOST);
+  const projectHost = import.meta.env.VITE_BACKEND_URL.replace(/:\d+/, "");
 
-  const url = `${import.meta.env.VITE_PROJECT_HOST}:${port}`;
+  const url = `${projectHost}:${port}`;
 
   const handleRefresh = () => {
     if (!port) {
@@ -24,19 +26,27 @@ function Browser() {
     if (browserRef.current) {
       browserRef.current.src = url;
     }
-    console.log(port);
+  };
+
+  const loadApp = async () => {
+    try {
+      const response = await axios.get(url, { timeout: 2000 });
+      if (response.status === 200 && browserRef.current) {
+        browserRef.current.src = url;
+      }
+      clearTimeout(timerRef.current);
+    } catch (error) {
+      timerRef.current = setTimeout(loadApp, 3000);
+    }
   };
 
   useEffect(() => {
     if (browserRef.current && port) {
-      browserRef.current.src = url;
-      browserRef.current.onload = () => {
-        console.log("Browser loaded successfully");
-      };
-      browserRef.current.onerror = () => {
-        console.error("Failed to load the browser content");
-      };
+      loadApp();
     }
+    return () => {
+      clearTimeout(timerRef.current);
+    };
   }, [port]);
 
   useEffect(() => {
