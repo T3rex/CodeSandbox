@@ -11,9 +11,9 @@ function Browser() {
   const { projectId } = useParams();
   const { editorSocket } = useEditorSocketStore();
   const { terminalSocket } = useTerminalSocketStore();
+  const { port } = usePortStore();
   console.log(import.meta.env.VITE_PROJECT_HOST);
 
-  const { port } = usePortStore();
   const url = `${import.meta.env.VITE_PROJECT_HOST}:${port}`;
 
   const handleRefresh = () => {
@@ -24,6 +24,7 @@ function Browser() {
     if (browserRef.current) {
       browserRef.current.src = url;
     }
+    console.log(port);
   };
 
   useEffect(() => {

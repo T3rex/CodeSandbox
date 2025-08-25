@@ -1,5 +1,4 @@
-<!-- prettier ignore -->
-
+<!-- prettier-ignore -->
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -13,10 +12,20 @@ Currently, two official plugins are available:
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
 
+#Build Project
+cd ~/CodeSandbox/frontend
+rm -rf dist
 export NODE_OPTIONS="--max-old-space-size=1024" # 1024 MB
 npm run build
 
-sudo cp -r dist/ /var/www/html/
+#Nginx config path
+sudo nano /etc/nginx/sites-available/default
+
+#Reset Nginx
+`sudo rm -rf /var/www/html/*`
+`sudo cp -r dist/* /var/www/html/`
 sudo nginx -t
 sudo systemctl restart nginx
-sudo systemctl enable nginx
+
+#HTTPS bot
+sudo certbot --nginx -d mycodebox.live -d www.mycodebox.live
