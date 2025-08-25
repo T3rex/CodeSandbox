@@ -16,7 +16,8 @@ RUN apt-get update && \
     curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
     apt-get install -y nodejs && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    npm install -g @angular/cli
 
 # Set up bash prompt for sandbox user
 RUN echo "export PS1='\[\e[32m\]● \[\e[1;34m\]\W\[\e[0m\]\$ '" >> /home/sandbox/.bashrc

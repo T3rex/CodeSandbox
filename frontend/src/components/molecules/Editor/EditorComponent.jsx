@@ -113,7 +113,6 @@ function EditorComponent() {
           wordWrap: "off",
           lineNumbers: activeFileTab?.extension ? "on" : "off",
           renderLineHighlight: "line",
-          cursorBlinking: "blink",
           cursorStyle: "line",
           glyphMargin: true,
           folding: activeFileTab?.extension ? true : false,
