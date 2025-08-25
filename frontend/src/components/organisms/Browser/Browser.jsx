@@ -10,6 +10,7 @@ import axios from "axios";
 function Browser() {
   const browserRef = useRef(null);
   const timerRef = useRef(null);
+  let timeout = 2000;
   const { projectId } = useParams();
   const { editorSocket } = useEditorSocketStore();
   const { terminalSocket } = useTerminalSocketStore();
@@ -36,7 +37,8 @@ function Browser() {
       }
       clearTimeout(timerRef.current);
     } catch (error) {
-      timerRef.current = setTimeout(loadApp, 3000);
+      timerRef.current = setTimeout(loadApp, timeout);
+      timeout = Math.min(timeout * 2, 60000); // Exponential backoff up to 60 seconds
     }
   };
 
