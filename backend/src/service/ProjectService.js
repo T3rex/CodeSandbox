@@ -21,12 +21,12 @@ export const createProjectService = async (projectName, template) => {
       await runVite({ cwd: projectDir, projectName, template });
 
       let content = await fs.readFile(projectConfigPath, "utf8");
-
+      console.log("Original vite.config.js content:", content);
       if (!content.includes("server:")) {
         content = content.replace(
           /(defineConfig\s*\(\s*\{)([\s\S]*)(\}\s*\))/,
           (match, start, inner, end) => {
-            return `${start}${inner.trim()}\n  server: { host: true, allowedHosts: true, cors:true, strictPort: false,port: 0 } \n${end}`;
+            return `${start}${inner.trim()}\n  server: { host: true, allowedHosts: true, cors:true, strictPort: true, port: 5173 } \n${end}`;
           }
         );
       } else {
