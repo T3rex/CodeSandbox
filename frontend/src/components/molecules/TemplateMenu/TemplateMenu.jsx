@@ -5,7 +5,7 @@ import "./TemplateMenu.css";
 function TemplateMenu() {
   return (
     <div className="template-menu">
-      <p className="template-heading">Featured Web Template</p>
+      <p className="template-heading">Featured Codebox Templates</p>
       <div className="template-container">
         <TemplateCard
           logo="/template_logos/reactLogo.png"

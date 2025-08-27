@@ -29,3 +29,8 @@ sudo systemctl restart nginx
 
 #HTTPS bot
 sudo certbot --nginx -d mycodebox.live -d www.mycodebox.live
+
+#Git commands
+git reset --hard
+git clean -fd
+git pull origin main

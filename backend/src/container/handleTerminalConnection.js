@@ -30,7 +30,20 @@ async function createExecInstance(container) {
         Cmd: [
           "/bin/bash",
           "-c",
-          "cd */ && npm install && (npm start || npm run dev) & bash",
+          `
+  cd */ || exit 1
+
+  echo -e "\\033[1;34m[INFO]\\033[0m Installing dependencies..."
+  npm install
+
+  echo -e "\\033[1;32m[SUCCESS]\\033[0m Dependencies installed!"
+
+  echo -e "\\033[1;34m[INFO]\\033[0m Starting application..."
+  (npm start || npm run dev) &
+
+  echo -e "\\033[1;36m[READY]\\033[0m Application is running! 🚀"
+  exec bash
+  `,
         ],
         AttachStdin: true,
         AttachStdout: true,

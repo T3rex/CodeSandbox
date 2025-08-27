@@ -6,9 +6,9 @@ import "./CreateProject.css";
 import { useEffect, useState } from "react";
 
 const messages = [
-  "Creating workspace...",
-  "Setting environment...",
-  "Initializing project...",
+  "Creating Codebox...",
+  "Setting Environment...",
+  "Initializing Codebox...",
 ];
 
 const CreateProject = () => {
@@ -31,9 +31,10 @@ const CreateProject = () => {
           return prev + 1;
         } else {
           clearInterval(interval);
+          return prev;
         }
       });
-    }, 2000); // change message every 2s
+    }, 3000);
 
     return () => clearInterval(interval);
   }, [isPending]);
@@ -76,7 +77,7 @@ const CreateProject = () => {
   return (
     <div className="container">
       <div className="card">
-        <h2>New Workspace</h2>
+        <h2>New Codebox</h2>
         <p>Template</p>
         <div className="template">
           <img
@@ -92,7 +93,7 @@ const CreateProject = () => {
 
         <div className="project-name">
           <p>
-            Name your workspace{" "}
+            Name your codebox{" "}
             <span style={{ color: "red", fontWeight: "bold" }}> *</span>
           </p>
           <input
@@ -138,9 +139,16 @@ const CreateProject = () => {
           onClick={handleCreateProject}
           disabled={isPending}
         >
-          {"Create Project"}
+          {"Create Codebox"}
         </button>
-        {isPending && <p>{messages[index]}</p>}
+        {isPending && (
+          <div className="pending-status">
+            <span className="spinner"></span>
+            <p key={index} className="loading-text">
+              {messages[index]}
+            </p>
+          </div>
+        )}
         {isError && <p>{"Error while creating project."}</p>}
       </div>
     </div>

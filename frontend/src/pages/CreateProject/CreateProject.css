@@ -211,3 +211,91 @@ p {
     padding: 1rem 2rem;
   }
 }
+
+.pending-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 1.5rem auto 0 auto;
+  width: 100%;
+  text-align: center;
+  animation: fadeIn 0.5s ease-in;
+}
+
+/* Spinner bounce + rotate */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid #ffffff33;
+  border-top: 3px solid #008cff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite, bounce 1s ease-in-out infinite alternate;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-4px);
+  }
+}
+
+/* Message fade + glow pulse */
+.loading-text {
+  position: relative;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #ffffff;
+  animation: textGlow 1.5s ease-in-out infinite alternate, fadeIn 0.6s ease-in;
+}
+
+@keyframes textGlow {
+  from {
+    text-shadow: 0 0 4px #008cff88;
+  }
+  to {
+    text-shadow: 0 0 12px #008cff;
+  }
+}
+
+/* Fade in effect when messages change */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animated dots */
+.loading-text::after {
+  content: "...";
+  display: inline-block;
+  animation: dots 1.5s steps(3, end) infinite;
+}
+
+@keyframes dots {
+  0% {
+    content: "";
+  }
+  33% {
+    content: ".";
+  }
+  66% {
+    content: "..";
+  }
+  100% {
+    content: "...";
+  }
+}
