@@ -93,7 +93,7 @@ const CreateProject = () => {
 
         <div className="project-name">
           <p>
-            Name your codebox{" "}
+            Name your project{" "}
             <span style={{ color: "red", fontWeight: "bold" }}> *</span>
           </p>
           <input
@@ -139,7 +139,7 @@ const CreateProject = () => {
           onClick={handleCreateProject}
           disabled={isPending}
         >
-          {"Create Codebox"}
+          {"Create project"}
         </button>
         {isPending && (
           <div className="pending-status">
