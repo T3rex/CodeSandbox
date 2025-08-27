@@ -92,7 +92,7 @@ function Browser() {
           width: "100%",
           height: "100%",
           border: "none",
-          // backgroundColor: "#282a35",
+          backgroundColor: "white",
         }}
       />
     </Row>
