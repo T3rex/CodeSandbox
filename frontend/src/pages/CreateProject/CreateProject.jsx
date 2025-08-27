@@ -27,12 +27,7 @@ const CreateProject = () => {
 
     const interval = setInterval(() => {
       setIndex((prev) => {
-        if (prev < messages.length - 1) {
-          return prev + 1;
-        } else {
-          clearInterval(interval);
-          return prev;
-        }
+        return (prev + 1) % messages.length;
       });
     }, 3000);
 
@@ -138,15 +133,39 @@ const CreateProject = () => {
           className="create-project-btn"
           onClick={handleCreateProject}
           disabled={isPending}
+          style={{ display: isPending ? "none" : "" }}
         >
           {"Create project"}
         </button>
         {isPending && (
           <div className="pending-status">
-            <span className="spinner"></span>
-            <p key={index} className="loading-text">
-              {messages[index]}
-            </p>
+            <div className="boxes">
+              <div className="box">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+              <div className="box">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+              <div className="box">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+              <div className="box">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </div>
+            <p className="loading-text">{messages[index]}</p>
           </div>
         )}
         {isError && <p>{"Error while creating project."}</p>}
