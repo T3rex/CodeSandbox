@@ -1,11 +1,12 @@
-import { useState, useRef, useEffect } from "react";
+import "./AIPrototype.css";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import { TfiMicrophone } from "react-icons/tfi";
 import { FaArrowRight } from "react-icons/fa6";
-
-import "./AIPrototype.css";
+import { useNavigate } from "react-router-dom";
+import { useState, useRef, useEffect } from "react";
+import useCreateProject from "../../../hooks/apis/mutations/useCreateProject";
 
 const placeholders = [
   "An app that generates poems from images",
@@ -15,17 +16,26 @@ const placeholders = [
   "An app that generates music playlists",
 ];
 
-const bubbles = [
-  "Tipping Calculator",
-  "Recipe Generator",
-  "ERP Dashboard",
-  "Landing Page",
-];
+const bubbles = {
+  "Tipping Calculator":
+    "A user-friendly tipping calculator app designed to easily calculate tips and split bills among friends. Key features include inputting the total bill, selecting a tip percentage, specifying the number of people, and displaying each person's share and the total with tip. Use a vibrant pink and purple colour scheme.",
+  "Recipe Generator":
+    "A minimalist recipe generator app to create meals from ingredients in your fridge. Key features include adding available ingredients, generating recipe suggestions, viewing detailed cooking instructions, and saving favorite recipes. Utilise a fresh green and white colour scheme for a clean interface.",
+  "ERP Dashboard":
+    "A foundational ERP application for small businesses, featuring an interactive dashboard to visualise revenue, expenses, and profit, an integrated calendar for appointment management, a customer contact module, and a simple invoicing tool. Use a green and white colour scheme for a professional aesthetic.",
+  "Landing Page": `Build a landing page for a cloud provider. The page should have a compelling headline and sub headline that highlight the value proposition for enterprise businesses. Include sections for top products with pricing, customer testimonials with logos, and a clear call-to-action to "Request a Consultation". The design should be clean, modern, and mobile-responsive.`,
+};
 
 export default function AIPrototype() {
   const [value, setValue] = useState("");
   const [index, setIndex] = useState(0);
   const inputRef = useRef(null);
+  const navigate = useNavigate();
+  const { createProjectMutate, isPending, isError } = useCreateProject(
+    "my-app",
+    "ai-generated",
+    value
+  );
 
   const {
     transcript,
@@ -59,6 +69,9 @@ export default function AIPrototype() {
       setTimeout(() => {
         inputRef.current?.setSelectionRange(current.length, current.length);
       }, 0);
+    } else if (e.key === "Escape") {
+      setValue("");
+      resetTranscript();
     }
   };
 
@@ -72,9 +85,18 @@ export default function AIPrototype() {
   };
 
   const handleBubbleClick = (bubble) => {
-    setValue(bubble);
+    setValue(bubbles[bubble]);
     inputRef.current?.focus();
   };
+
+  async function handleCreateProject() {
+    try {
+      const response = await createProjectMutate();
+      navigate(`/project/${response.data.projectId}`);
+    } catch (error) {
+      console.log("Error creating project:", error);
+    }
+  }
 
   return (
     <div>
@@ -89,6 +111,7 @@ export default function AIPrototype() {
             }}
             onKeyDown={handleKeyDown}
             className="AIPrototype-input"
+            autoFocus
           />
           {!value && (
             <span key={index} className="AIPrototype-placeholder">
@@ -114,11 +137,11 @@ export default function AIPrototype() {
             />
           </div>
           {value.length > 15 ? (
-            <button className="prototype-button" onClick={() => setValue("")}>
+            <button className="prototype-button" onClick={handleCreateProject}>
               Prototype with AI <FaArrowRight />
             </button>
           ) : (
-            bubbles.map((bubble, idx) => (
+            Object.keys(bubbles).map((bubble, idx) => (
               <button
                 key={idx}
                 onClick={() => handleBubbleClick(bubble)}

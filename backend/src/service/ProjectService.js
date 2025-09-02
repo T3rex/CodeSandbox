@@ -29,7 +29,6 @@ export const createProjectService = async (
       );
 
       let content = await fs.readFile(projectConfigPath, "utf8");
-      console.log("Original vite.config.js content:", content);
       if (!content.includes("server:")) {
         content = content.replace(
           /(defineConfig\s*\(\s*\{)([\s\S]*)(\}\s*\))/,
@@ -45,23 +44,19 @@ export const createProjectService = async (
     } else if (template === "angular") {
       await createAngularProject({ cwd: projectDir, projectName });
     } else if (template === "ai-generated") {
-      console.log("ai-generated project");
       projectStructure = await createAIProject({
         cwd: projectDir,
         description,
       });
-      console.log(typeof projectStructure);
-      console.log(projectStructure);
-      console.log(typeof JSON.parse(projectStructure).files);
-      console.log(JSON.parse(projectStructure).files);
+
       const files = JSON.parse(projectStructure).files;
-      await fs.mkdir(path.join(projectDir, "demo"), { recursive: true });
-      const root = path.join(projectDir, "demo");
+      await fs.mkdir(path.join(projectDir, projectName), { recursive: true });
+      const root = path.join(projectDir, projectName);
       await createFiles(files, root);
     }
     return { projectId, projectStructure };
   } catch (error) {
-    fs.rm(projectDir, { recursive: true });
+    await fs.rm(projectDir, { recursive: true });
     throw new Error("Error in service layer: " + error.message);
   }
 };

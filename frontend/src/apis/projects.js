@@ -1,10 +1,11 @@
 import axios from "../config/axiosConfig";
 
-export const createProjectApi = async (projectName, template) => {
+export const createProjectApi = async (projectName, template, description) => {
   try {
     const response = await axios.post("/api/v1/projects", {
       projectName,
       template,
+      description,
     });
     return response.data;
   } catch (error) {

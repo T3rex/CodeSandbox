@@ -10,7 +10,7 @@ import axios from "axios";
 function Browser() {
   const browserRef = useRef(null);
   const timerRef = useRef(null);
-  let timeout = 2000;
+  let timeout = 4000;
   const { projectId } = useParams();
   const { editorSocket } = useEditorSocketStore();
   const { terminalSocket } = useTerminalSocketStore();
