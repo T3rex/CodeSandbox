@@ -1,10 +1,18 @@
 import { useState, useRef, useEffect } from "react";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
+import { TfiMicrophone } from "react-icons/tfi";
+import { FaArrowRight } from "react-icons/fa6";
+
 import "./AIPrototype.css";
 
 const placeholders = [
-  "An app that creates recipes from photos",
   "An app that generates poems from images",
   "An app that helps me plan my day",
+  "An app that tracks my expenses",
+  "An app that suggests workout routines",
+  "An app that generates music playlists",
 ];
 
 const bubbles = [
@@ -19,12 +27,28 @@ export default function AIPrototype() {
   const [index, setIndex] = useState(0);
   const inputRef = useRef(null);
 
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition,
+  } = useSpeechRecognition();
+  if (!browserSupportsSpeechRecognition) {
+    return alert("Your browser does not support speech recognition.");
+  }
+
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prevIndex) => (prevIndex + 1) % placeholders.length);
-    }, 3000); // change every 3s
+    }, 3000);
     return () => clearInterval(interval);
   }, [placeholders.length]);
+
+  useEffect(() => {
+    if (transcript) {
+      setValue(transcript);
+    }
+  }, [transcript]);
 
   const handleKeyDown = (e) => {
     if (e.key === "Tab" && value.trim() === "") {
@@ -35,6 +59,15 @@ export default function AIPrototype() {
       setTimeout(() => {
         inputRef.current?.setSelectionRange(current.length, current.length);
       }, 0);
+    }
+  };
+
+  const handleMicClick = () => {
+    if (listening) {
+      SpeechRecognition.stopListening();
+      resetTranscript();
+    } else {
+      SpeechRecognition.startListening({ language: "en-IN", continuous: true });
     }
   };
 
@@ -51,7 +84,9 @@ export default function AIPrototype() {
           <textarea
             ref={inputRef}
             value={value}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={(e) => {
+              setValue(e.target.value);
+            }}
             onKeyDown={handleKeyDown}
             className="AIPrototype-input"
           />
@@ -65,15 +100,34 @@ export default function AIPrototype() {
 
         {/* Bubbles */}
         <div className="bubble-container">
-          {bubbles.map((bubble, idx) => (
-            <button
-              key={idx}
-              onClick={() => handleBubbleClick(bubble)}
-              className="bubble"
-            >
-              {bubble}
+          <div
+            style={{
+              marginRight: "auto",
+              cursor: "pointer",
+            }}
+            onClick={handleMicClick}
+          >
+            <TfiMicrophone
+              color="grey"
+              size={25}
+              fill={listening ? "white" : "grey"}
+            />
+          </div>
+          {value.length > 15 ? (
+            <button className="prototype-button" onClick={() => setValue("")}>
+              Prototype with AI <FaArrowRight />
             </button>
-          ))}
+          ) : (
+            bubbles.map((bubble, idx) => (
+              <button
+                key={idx}
+                onClick={() => handleBubbleClick(bubble)}
+                className="bubble"
+              >
+                {bubble}
+              </button>
+            ))
+          )}
         </div>
       </div>
     </div>

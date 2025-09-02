@@ -5,7 +5,7 @@ import "./TemplateMenu.css";
 function TemplateMenu() {
   return (
     <div>
-      <h3>Start coding with our templates</h3>
+      <h3>Start coding with pre-built templates</h3>
       <div className="template-menu">
         <p className="template-heading">Featured Web Boxes</p>
         <div className="template-container">
