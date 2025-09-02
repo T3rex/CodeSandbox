@@ -21,7 +21,7 @@ const CreateProject = () => {
     projectName.split(" ").join("-").toLowerCase() || "my-app",
     template
   );
-
+  const templateName = template.split("-")[1];
   useEffect(() => {
     if (!isPending) return;
 
@@ -77,10 +77,10 @@ const CreateProject = () => {
         <div className="template">
           <img
             width={35}
-            src={`/template_logos/${template}Logo.png`}
+            src={`/template_logos/${templateName}Logo.png`}
             alt={template}
           />
-          <div id="templateName">{template}</div>
+          <div id="templateName">{templateName}</div>
           <Link to={`/dashboard`} style={{ display: "flex" }}>
             <p>Change</p> <FaExternalLinkAlt className="link" />
           </Link>
@@ -95,7 +95,7 @@ const CreateProject = () => {
             type="text"
             onChange={(e) => setProjectName(e.target.value)}
             value={projectName}
-            placeholder={`My ${template} app`}
+            placeholder={`My ${templateName} app`}
             required
           />
           {

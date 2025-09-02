@@ -20,7 +20,7 @@ export const createProjectService = async (
     await fs.mkdir(projectDir, { recursive: true });
 
     if (template.includes("vite")) {
-      template = template.split("-")[1];
+      template = template.substring(5, template.length);
       await runVite({ cwd: projectDir, projectName, template });
       const projectConfigPath = path.join(
         projectDir,

@@ -1,7 +1,10 @@
 .dashboard-container {
   width: 60%;
-  margin: 0 auto;
-  margin-top: 15rem;
+  margin: 5rem auto;
+  margin-top: 10rem;
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
   background-color: #151515;
 }
 
