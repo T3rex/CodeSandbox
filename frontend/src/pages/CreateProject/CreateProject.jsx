@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 const messages = [
   "Creating Codebox...",
   "Setting Environment...",
-  "Initializing Codebox...",
+  "Installing Dependencies...",
 ];
 
 const CreateProject = () => {

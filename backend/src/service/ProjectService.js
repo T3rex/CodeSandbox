@@ -3,22 +3,30 @@ import fs from "fs/promises";
 import path from "path";
 import { runVite } from "../utils/ViteUtility.js";
 import { createAngularProject } from "../utils/AngularUtility.js";
+import { createAIProject } from "../utils/AIUtility.js";
 import dirTree from "directory-tree";
+import { createFiles } from "../utils/createFiles.js";
 
-export const createProjectService = async (projectName, template) => {
+export const createProjectService = async (
+  projectName,
+  template,
+  description
+) => {
   const projectId = uuid4();
+  let projectStructure = {};
   const projectDir = path.join("./projects", projectId);
   try {
-    const projectConfigPath = path.join(
-      projectDir,
-      projectName,
-      "vite.config.js"
-    );
-
+    // Create project directory
     await fs.mkdir(projectDir, { recursive: true });
 
-    if (template !== "angular") {
+    if (template.includes("vite")) {
+      template = template.split("-")[1];
       await runVite({ cwd: projectDir, projectName, template });
+      const projectConfigPath = path.join(
+        projectDir,
+        projectName,
+        "vite.config.js"
+      );
 
       let content = await fs.readFile(projectConfigPath, "utf8");
       console.log("Original vite.config.js content:", content);
@@ -36,10 +44,24 @@ export const createProjectService = async (projectName, template) => {
       await fs.writeFile(projectConfigPath, content, "utf8");
     } else if (template === "angular") {
       await createAngularProject({ cwd: projectDir, projectName });
+    } else if (template === "ai-generated") {
+      console.log("ai-generated project");
+      projectStructure = await createAIProject({
+        cwd: projectDir,
+        description,
+      });
+      console.log(typeof projectStructure);
+      console.log(projectStructure);
+      console.log(typeof JSON.parse(projectStructure).files);
+      console.log(JSON.parse(projectStructure).files);
+      const files = JSON.parse(projectStructure).files;
+      await fs.mkdir(path.join(projectDir, "demo"), { recursive: true });
+      const root = path.join(projectDir, "demo");
+      await createFiles(files, root);
     }
-    return projectId;
+    return { projectId, projectStructure };
   } catch (error) {
-    fs.rmdir(projectDir, { recursive: true });
+    fs.rm(projectDir, { recursive: true });
     throw new Error("Error in service layer: " + error.message);
   }
 };
