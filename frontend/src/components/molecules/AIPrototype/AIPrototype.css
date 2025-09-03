@@ -143,17 +143,58 @@
   z-index: -1; /* push gradient behind the text */
 }
 
+.key-container {
+  position: relative;
+  display: inline-block;
+  margin-right: auto;
+  margin-left: 0px;
+}
+
+.API-key-dropdown {
+  position: absolute;
+  top: 35px;
+  left: 50%; /* center horizontally */
+  transform: translate(-50%, 0); /* X = -50% for centering, Y = 0 initially */
+  background: #1f1f1f;
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.API-key-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 6px 10px;
+  font-size: 14px;
+  color: #fff;
+  width: 180px;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -5px); /* keep X centering, animate only Y */
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0); /* back to centered position */
+  }
+}
+
 .bubble-container {
   width: 99%;
   display: flex;
   align-items: center;
-  justify-content: end;
-  gap: 8px;
+  justify-content: space-between;
+  gap: 10px;
 }
 
 .bubble {
-  background: #e0f2fe; /* light blue */
-  color: #0369a1; /* darker blue */
+  background: #e0f2fe;
+  color: #0369a1;
   padding: 4px 10px;
   font-size: 13px;
   border-radius: 9999px;

@@ -1,7 +1,5 @@
 import { GoogleGenAI, Type } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-
 const systemPrompt = `You are a project scaffold generator AI.
 
 Your task:
@@ -58,7 +56,8 @@ const responseSchema = {
   },
 };
 
-export async function createAIProject({ cwd, description }) {
+export async function createAIProject({ description, apikey }) {
+  const ai = new GoogleGenAI({ apiKey: apikey || process.env.GEMINI_API_KEY });
   try {
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",

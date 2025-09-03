@@ -2,7 +2,8 @@ import "./AIPrototype.css";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-import { TfiMicrophone } from "react-icons/tfi";
+import { FaKey } from "react-icons/fa6";
+import { FaMicrophoneAlt } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
@@ -29,12 +30,16 @@ const bubbles = {
 export default function AIPrototype() {
   const [value, setValue] = useState("");
   const [index, setIndex] = useState(0);
+  const [apiKey, setApiKey] = useState("");
+  const [showApiKeyInput, setShowApiKeyInput] = useState(false);
+
   const inputRef = useRef(null);
   const navigate = useNavigate();
   const { createProjectMutate, isPending, isError } = useCreateProject(
     "my-app",
     "ai-generated",
-    value
+    value,
+    apiKey
   );
 
   const {
@@ -121,23 +126,50 @@ export default function AIPrototype() {
           )}
         </div>
 
-        {/* Bubbles */}
+        {/* Bubble Container */}
         <div className="bubble-container">
-          <div
-            style={{
-              marginRight: "auto",
-              cursor: "pointer",
-            }}
-            onClick={handleMicClick}
-          >
-            <TfiMicrophone
+          {/* Microphone */}
+          <div style={{ cursor: "pointer" }} onClick={handleMicClick}>
+            <FaMicrophoneAlt
               color="grey"
               size={25}
               fill={listening ? "white" : "grey"}
             />
           </div>
+
+          {/* Key Icon with dropdown */}
+          <div className="key-container">
+            <FaKey
+              color="grey"
+              size={25}
+              style={{ cursor: "pointer" }}
+              onClick={() => setShowApiKeyInput((prev) => !prev)}
+            />
+            {showApiKeyInput && (
+              <div className="API-key-dropdown">
+                <input
+                  type="text"
+                  value={apiKey}
+                  onChange={(e) => {
+                    e.stopPropagation();
+                    setApiKey(e.target.value);
+                  }}
+                  onBlur={() => setShowApiKeyInput(false)}
+                  placeholder="GEMINI API Key"
+                  className="API-key-input"
+                  autoFocus
+                />
+              </div>
+            )}
+          </div>
+
+          {/* Conditional Buttons */}
           {value.length > 15 ? (
-            <button className="prototype-button" onClick={handleCreateProject}>
+            <button
+              className="prototype-button"
+              onClick={handleCreateProject}
+              disabled={isPending}
+            >
               Prototype with AI <FaArrowRight />
             </button>
           ) : (

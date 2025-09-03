@@ -5,16 +5,17 @@ import {
 
 export const createProject = async (req, res) => {
   try {
-    const { projectName, template, description } = req.body;
+    const { projectName, template, description, apikey } = req.body;
     const response = await createProjectService(
       projectName,
       template,
-      description
+      description,
+      apikey
     );
-    const { projectId, projectStructure } = response;
+    const { projectId } = response;
     return res.status(200).json({
       message: "Project created successfully",
-      data: { projectId, projectStructure },
+      data: { projectId },
     });
   } catch (error) {
     console.error("Error creating project:", error.message);

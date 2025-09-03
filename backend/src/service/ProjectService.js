@@ -10,10 +10,10 @@ import { createFiles } from "../utils/createFiles.js";
 export const createProjectService = async (
   projectName,
   template,
-  description
+  description,
+  apikey
 ) => {
   const projectId = uuid4();
-  let projectStructure = {};
   const projectDir = path.join("./projects", projectId);
   try {
     // Create project directory
@@ -44,17 +44,18 @@ export const createProjectService = async (
     } else if (template === "angular") {
       await createAngularProject({ cwd: projectDir, projectName });
     } else if (template === "ai-generated") {
-      projectStructure = await createAIProject({
-        cwd: projectDir,
+      const projectStructure = await createAIProject({
         description,
+        apikey,
       });
 
-      const files = JSON.parse(projectStructure).files;
       await fs.mkdir(path.join(projectDir, projectName), { recursive: true });
       const root = path.join(projectDir, projectName);
+      const files = JSON.parse(projectStructure).files;
       await createFiles(files, root);
+      console.log(projectStructure);
     }
-    return { projectId, projectStructure };
+    return { projectId };
   } catch (error) {
     await fs.rm(projectDir, { recursive: true });
     throw new Error("Error in service layer: " + error.message);
