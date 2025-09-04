@@ -31,6 +31,7 @@ export default function AIPrototype() {
   const [value, setValue] = useState("");
   const [index, setIndex] = useState(0);
   const [apiKey, setApiKey] = useState("");
+  const [error, setError] = useState("");
   const [showApiKeyInput, setShowApiKeyInput] = useState(false);
 
   const inputRef = useRef(null);
@@ -57,7 +58,7 @@ export default function AIPrototype() {
       setIndex((prevIndex) => (prevIndex + 1) % placeholders.length);
     }, 3000);
     return () => clearInterval(interval);
-  }, [placeholders.length]);
+  }, []);
 
   useEffect(() => {
     if (transcript) {
@@ -76,6 +77,7 @@ export default function AIPrototype() {
       }, 0);
     } else if (e.key === "Escape") {
       setValue("");
+      setError("");
       resetTranscript();
     }
   };
@@ -96,10 +98,20 @@ export default function AIPrototype() {
 
   async function handleCreateProject() {
     try {
+      if (value.trim().length < 15) {
+        setError("Please provide a more detailed description.");
+        return;
+      }
+      setError(null);
       const response = await createProjectMutate();
       navigate(`/project/${response.data.projectId}`);
     } catch (error) {
       console.log("Error creating project:", error);
+      if (error.response && error.response.data) {
+        setError(error.response.data.message || "Failed to create project.");
+      } else {
+        setError("An unexpected error occurred: " + error.message);
+      }
     }
   }
 
@@ -145,6 +157,8 @@ export default function AIPrototype() {
               style={{ cursor: "pointer" }}
               onClick={() => setShowApiKeyInput((prev) => !prev)}
             />
+
+            {/* API Key Input */}
             {showApiKeyInput && (
               <div className="API-key-dropdown">
                 <input
@@ -162,6 +176,9 @@ export default function AIPrototype() {
               </div>
             )}
           </div>
+
+          {/* Error display */}
+          {error && <div className="error">{error}</div>}
 
           {/* Conditional Buttons */}
           {value.length > 15 ? (
