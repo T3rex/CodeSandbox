@@ -17,6 +17,15 @@ const placeholders = [
   "An app that generates music playlists",
 ];
 
+const loadingMessage = [
+  "Generating Files...",
+  "Initializing Codebox...",
+  "Setting Environment...",
+  "Installing Dependencies...",
+  "Starting Development Server...",
+  "Almost There...",
+];
+
 const bubbles = {
   "Tipping Calculator":
     "A user-friendly tipping calculator app designed to easily calculate tips and split bills among friends. Key features include inputting the total bill, selecting a tip percentage, specifying the number of people, and displaying each person's share and the total with tip. Use a vibrant pink and purple colour scheme.",
@@ -32,12 +41,14 @@ export default function AIPrototype() {
   const [index, setIndex] = useState(0);
   const [apiKey, setApiKey] = useState("");
   const [error, setError] = useState("");
-  const [showApiKeyInput, setShowApiKeyInput] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
+  const [loadingIndex, setLoadingIndex] = useState(0);
+  const [showApiKeyInput, setShowApiKeyInput] = useState("");
 
   const inputRef = useRef(null);
   const navigate = useNavigate();
-  const { createProjectMutate, isPending, isError } = useCreateProject(
-    "my-app",
+  const { createProjectMutate, isPending } = useCreateProject(
+    "my-codebox",
     "ai-generated",
     value,
     apiKey
@@ -65,6 +76,16 @@ export default function AIPrototype() {
       setValue(transcript);
     }
   }, [transcript]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLoadingIndex((prev) => {
+        return (prev + 1) % loadingMessage.length;
+      });
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [showLoading]);
 
   const handleKeyDown = (e) => {
     if (e.key === "Tab" && value.trim() === "") {
@@ -103,8 +124,12 @@ export default function AIPrototype() {
         return;
       }
       setError(null);
+      setShowLoading(true);
       const response = await createProjectMutate();
-      navigate(`/project/${response.data.projectId}`);
+      setTimeout(() => {
+        setShowLoading(false);
+        navigate(`/project/${response.data.projectId}`);
+      }, 8000);
     } catch (error) {
       console.log("Error creating project:", error);
       if (error.response && error.response.data) {
@@ -112,6 +137,8 @@ export default function AIPrototype() {
       } else {
         setError("An unexpected error occurred: " + error.message);
       }
+    } finally {
+      setShowLoading(false);
     }
   }
 
@@ -130,6 +157,7 @@ export default function AIPrototype() {
             className="AIPrototype-input"
             autoFocus
           />
+
           {!value && (
             <span key={index} className="AIPrototype-placeholder">
               {placeholders[index]}
@@ -141,7 +169,14 @@ export default function AIPrototype() {
         {/* Bubble Container */}
         <div className="bubble-container">
           {/* Microphone */}
-          <div style={{ cursor: "pointer" }} onClick={handleMicClick}>
+          <div
+            style={{
+              cursor: "pointer",
+              alignContent: "baseline",
+              marginTop: "auto",
+            }}
+            onClick={handleMicClick}
+          >
             <FaMicrophoneAlt
               color="grey"
               size={25}
@@ -179,15 +214,38 @@ export default function AIPrototype() {
 
           {/* Error display */}
           {error && <div className="error">{error}</div>}
+          {/* Loading message */}
+          {showLoading && (
+            <>
+              <div className="loadingMessage" key={loadingIndex}>
+                {loadingMessage[loadingIndex]}
+              </div>
+            </>
+          )}
 
           {/* Conditional Buttons */}
           {value.length > 15 ? (
             <button
-              className="prototype-button"
+              className={`prototype-button ${
+                showLoading ? "cursor: not-allowed" : ""
+              }`}
               onClick={handleCreateProject}
-              disabled={isPending}
+              disabled={showLoading || isPending}
             >
-              Prototype with AI <FaArrowRight />
+              {showLoading ? (
+                "Prototyping..."
+              ) : (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.5em",
+                  }}
+                >
+                  <span>Prototype with AI</span>
+                  <FaArrowRight />
+                </div>
+              )}
             </button>
           ) : (
             Object.keys(bubbles).map((bubble, idx) => (

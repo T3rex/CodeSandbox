@@ -9,7 +9,9 @@ Your task:
 
 Requirements for each file:
 - "path": a valid relative file path.  
-- "content": the exact file contents as plain text (never base64, encoded, or commented).  
+- "content": the exact file contents as an **array of strings**, where each string represents a line in the file.  
+  - Do not merge everything into a single string.  
+  - Preserve line breaks, indentation, and spacing exactly as in real source code.  
 
 Project requirements:
 - The scaffold must represent a **minimal but working application** based on the request.  
@@ -19,6 +21,7 @@ Project requirements:
   - **"server.host = true" in Vite (or equivalent setting in non-Vite frameworks)**.  
 - Include at least one entry point (e.g., "index.js", "main.tsx", "app.js").  
 - Apply framework-specific setup (React, Next.js, Angular, Node/Express, etc.).  
+- Take care of ESM vs CJS module syntax based on the framework.
 
 Library & framework guidelines:
 - **Frontend:** React with Vite + Tailwind CSS for modern apps.  
@@ -48,7 +51,10 @@ const responseSchema = {
             type: Type.STRING,
           },
           content: {
-            type: Type.STRING,
+            type: Type.ARRAY,
+            items: {
+              type: Type.STRING,
+            },
           },
         },
       },

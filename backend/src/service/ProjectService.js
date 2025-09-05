@@ -53,7 +53,6 @@ export const createProjectService = async (
       const root = path.join(projectDir, projectName);
       const files = JSON.parse(projectStructure).files;
       await createFiles(files, root);
-      console.log(projectStructure);
     }
     return { projectId };
   } catch (error) {

@@ -3,7 +3,7 @@
   padding-left: 10px;
   color: white;
   font-family: "Segoe UI", sans-serif;
-  font-size: large;
+  font-size: medium;
   width: 100%;
   box-sizing: border-box;
 }
@@ -24,7 +24,7 @@
   text-overflow: ellipsis;
   overflow: hidden;
   box-sizing: border-box;
-  font-size: large;
+  font-size: medium;
 }
 
 .folder-icon {
@@ -73,7 +73,7 @@
   box-sizing: border-box;
   text-align: left;
   cursor: pointer;
-  font-size: large;
+  font-size: medium;
   align-items: center;
 }
 
@@ -117,7 +117,7 @@
 
 .rename-input {
   width: 100%;
-  font-size: large;
+  font-size: medium;
   color: white;
   background-color: transparent;
   border: none;
@@ -177,7 +177,7 @@
 }
 
 .new-fileFolder input {
-  font-size: large;
+  font-size: medium;
   color: white;
   background-color: transparent;
   border: none;

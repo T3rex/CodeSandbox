@@ -4,52 +4,44 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import "./CreateProject.css";
 import { useEffect, useState } from "react";
-
-const messages = [
-  "Creating Codebox...",
-  "Setting Environment...",
-  "Installing Dependencies...",
-];
+import LoadingStage from "../../components/atoms/LoadingStage/LoadingStage";
 
 const CreateProject = () => {
   let { template } = useParams();
   const [projectName, setProjectName] = useState("");
   const [error, setError] = useState("");
   const [language, setLanguage] = useState("javascript");
-  const [index, setIndex] = useState(0);
+  const [showLoading, setShowLoading] = useState(false);
   const { createProjectMutate, isPending, isError } = useCreateProject(
-    projectName.split(" ").join("-").toLowerCase() || "my-app",
+    projectName.split(" ").join("-").toLowerCase() || "my-codebox",
     template
   );
-  const templateName = template.split("-")[1];
-  useEffect(() => {
-    if (!isPending) return;
-
-    const interval = setInterval(() => {
-      setIndex((prev) => {
-        return (prev + 1) % messages.length;
-      });
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [isPending]);
-
   const navigate = useNavigate();
+  const templateName = template.split("-")[1];
 
   async function handleCreateProject() {
     try {
+      if (isPending || showLoading) return;
       if (!projectName.trim()) {
         setError("Project name cannot be empty.");
         return;
       }
       setError(null);
-      if (language == "typescript") {
+
+      if (language === "typescript") {
         template = `${template}-ts`;
       }
+
+      setShowLoading(true);
       const response = await createProjectMutate();
-      navigate(`/project/${response.data.projectId}`);
+
+      setTimeout(() => {
+        setShowLoading(false);
+        navigate(`/project/${response.data.projectId}`);
+      }, 8000);
     } catch (error) {
       console.error("Error creating project:", error);
+      setShowLoading(false); // stop loading if error
       if (error.response && error.response.data) {
         setError(error.response.data.message || "Failed to create project.");
       } else {
@@ -71,105 +63,77 @@ const CreateProject = () => {
 
   return (
     <div className="container">
-      <div className="card">
-        <h2>New Codebox</h2>
-        <p>Template</p>
-        <div className="template">
-          <img
-            width={35}
-            src={`/template_logos/${templateName}Logo.png`}
-            alt={template}
-          />
-          <div id="templateName">{templateName}</div>
-          <Link to={`/dashboard`} style={{ display: "flex" }}>
-            <p>Change</p> <FaExternalLinkAlt className="link" />
-          </Link>
-        </div>
+      {showLoading ? (
+        <LoadingStage templateName={templateName} projectName={projectName} />
+      ) : (
+        <div className="card">
+          <h2>New Codebox</h2>
+          <p>Template</p>
+          <div className="template">
+            <img
+              width={35}
+              src={`/template_logos/${templateName}Logo.png`}
+              alt={template}
+            />
+            <div id="templateName">{templateName}</div>
+            <Link to={`/dashboard`} style={{ display: "flex" }}>
+              <p>Change</p> <FaExternalLinkAlt className="link" />
+            </Link>
+          </div>
 
-        <div className="project-name">
-          <p>
-            Name your project{" "}
-            <span style={{ color: "red", fontWeight: "bold" }}> *</span>
-          </p>
-          <input
-            type="text"
-            onChange={(e) => setProjectName(e.target.value)}
-            value={projectName}
-            placeholder={`My ${templateName} app`}
-            required
-          />
-          {
-            <p className={{ display: projectName ? "" : "none" }}>
-              {projectName.split(" ").join("-").toLowerCase()}
+          <div className="project-name">
+            <p>
+              Name your project{" "}
+              <span style={{ color: "red", fontWeight: "bold" }}> *</span>
             </p>
-          }
-          {error && <p className="error">{error}</p>}
-          {/* Select language */}
-          <div className="language-select">
-            <label style={{ marginRight: "10px" }}>
-              <input
-                type="radio"
-                name="language"
-                value="javascript"
-                checked={language === "javascript"}
-                onChange={(e) => setLanguage(e.target.value)}
-              />{" "}
-              JavaScript
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="language"
-                value="typescript"
-                checked={language === "typescript"}
-                onChange={(e) => setLanguage(e.target.value)}
-              />{" "}
-              TypeScript
-            </label>
-          </div>
-        </div>
-
-        <button
-          className="create-project-btn"
-          onClick={handleCreateProject}
-          disabled={isPending}
-          style={{ display: isPending ? "none" : "" }}
-        >
-          {"Create project"}
-        </button>
-        {isPending && (
-          <div className="pending-status">
-            <div className="boxes">
-              <div className="box">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-              </div>
-              <div className="box">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-              </div>
-              <div className="box">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-              </div>
-              <div className="box">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-              </div>
+            <input
+              type="text"
+              onChange={(e) => setProjectName(e.target.value)}
+              value={projectName}
+              placeholder={`My ${templateName} app`}
+              required
+            />
+            {
+              <p className={{ display: projectName ? "" : "none" }}>
+                {projectName.split(" ").join("-").toLowerCase()}
+              </p>
+            }
+            {error && <p className="error">{error}</p>}
+            {/* Select language */}
+            <div className="language-select">
+              <label style={{ marginRight: "10px" }}>
+                <input
+                  type="radio"
+                  name="language"
+                  value="javascript"
+                  checked={language === "javascript"}
+                  onChange={(e) => setLanguage(e.target.value)}
+                />{" "}
+                JavaScript
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="language"
+                  value="typescript"
+                  checked={language === "typescript"}
+                  onChange={(e) => setLanguage(e.target.value)}
+                />{" "}
+                TypeScript
+              </label>
             </div>
-            <p className="loading-text">{messages[index]}</p>
           </div>
-        )}
-        {isError && <p>{"Error while creating project."}</p>}
-      </div>
+
+          <button
+            className="create-project-btn"
+            onClick={handleCreateProject}
+            disabled={isPending}
+          >
+            {"Create project"}
+          </button>
+          {isError && <p>{"Error while creating project."}</p>}
+        </div>
+      )}
     </div>
   );
 };
