@@ -12,7 +12,6 @@
   border: 2px solid #444;
   transition: border 0.3s ease;
 }
-
 .AIPrototype-container:focus-within {
   border: 2px solid transparent;
   background-image: linear-gradient(#1f1f1f, #1f1f1f),
@@ -27,25 +26,20 @@
     );
   background-origin: border-box;
   background-clip: padding-box, border-box;
-
   background-size: 100% 100%, 0% 100%;
   background-position: 0 0, 100% 0;
-
   animation: borderGrow 0.8s ease forwards;
 }
-
 @keyframes borderGrow {
   to {
     background-size: 100% 100%, 100% 100%;
     background-position: 0 0, 0 0;
   }
 }
-
 .AIPrototype-input-wrapper {
   position: relative;
   width: 100%;
 }
-
 .AIPrototype-input {
   width: 100%;
   height: 10rem;
@@ -60,11 +54,9 @@
   font-family: "Roboto", system-ui, Avenir, Helvetica, Arial, sans-serif;
   background-color: #1f1f1f;
 }
-
 .AIPrototype-input:focus {
   border: none;
 }
-
 .AIPrototype-placeholder {
   position: absolute;
   top: 12px;
@@ -74,7 +66,6 @@
   pointer-events: none;
   animation: fadeUp 0.6s ease forwards;
 }
-
 @keyframes fadeUp {
   0% {
     opacity: 0;
@@ -88,7 +79,6 @@
     opacity: 1;
   }
 }
-
 .AIPrototype-tab {
   font-size: 0.7rem;
   font-weight: bold;
@@ -97,11 +87,10 @@
   padding: 4px 8px;
   border-radius: 10%;
 }
-
 .prototype-button {
   padding: 0.2em 1em;
-  margin-left: auto;
   margin-bottom: 5px;
+  box-sizing: border-box;
   background-color: #222830;
   color: black;
   border: none;
@@ -116,7 +105,6 @@
   gap: 8px;
   transition: box-shadow 0.3s ease; /* smooth glow */
 }
-
 .prototype-button::after {
   content: "";
   position: absolute;
@@ -139,20 +127,16 @@
   z-index: -1;
   transition: box-shadow 0.3s ease; /* smooth glow for gradient */
 }
-
 .prototype-button:hover::after {
   box-shadow: 0 0 12px rgba(255, 196, 0, 0.4), 0 0 14px rgba(230, 44, 109, 0.25),
     0 0 16px rgba(178, 90, 255, 0.2);
 }
-
 .key-container {
   position: relative;
-  display: inline-block;
-  margin-right: auto;
+  display: inline-block; /* margin-right: auto; */
   margin-left: 0px;
   margin-top: auto;
 }
-
 .API-key-dropdown {
   position: absolute;
   top: 35px;
@@ -166,7 +150,6 @@
   z-index: 10;
   animation: fadeIn 0.2s ease-in-out;
 }
-
 .API-key-input {
   background: transparent;
   border: none;
@@ -186,15 +169,22 @@
     transform: translate(-50%, 0); /* back to centered position */
   }
 }
-
 .bubble-container {
   width: 99%;
   display: flex;
-  align-items: baseline;
+  align-items: flex-end;
   justify-content: space-between;
   gap: 10px;
 }
 
+.actions {
+  display: flex;
+  gap: 10px;
+}
+.bubble-wrapper {
+  display: flex;
+  gap: 10px;
+}
 .bubble {
   background: #e0f2fe;
   color: #0369a1;
@@ -205,11 +195,9 @@
   cursor: pointer;
   transition: background 0.2s;
 }
-
 .bubble:hover {
   background: #bae6fd;
 }
-
 .error {
   color: #f76769;
   font-size: 0.9rem;
@@ -218,17 +206,34 @@
   text-align: left;
   font-style: italic;
 }
-
+.loading-container {
+  margin-left: 150px;
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.spinner-box {
+  margin-top: auto;
+}
+.loading-text-box {
+  display: relative;
+  width: 350px;
+}
 .loadingMessage {
+  display: absolute;
   color: white;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   height: fit-content;
   text-align: center;
   animation: fadeUp 1s ease forwards;
   font-style: italic;
   color: #888888d3;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
 }
-
 @keyframes fadeUp {
   0% {
     opacity: 0;
@@ -240,5 +245,58 @@
   }
   100% {
     opacity: 1;
+  }
+}
+@media (max-width: 600px) {
+  .loading-container {
+    margin-left: 20px;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .loading-text-box {
+    width: 200px;
+  }
+  .loadingMessage {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .AIPrototype-input {
+    height: 7rem;
+    font-size: 1rem;
+  }
+  .AIPrototype-placeholder {
+    font-size: 1rem;
+  }
+
+  .AIPrototype-tab {
+    font-size: 0.6rem;
+    margin-left: 4px;
+    padding: 2px 6px;
+  }
+  .API-key-input {
+    width: 120px;
+  }
+
+  .prototype-button {
+    font-size: 1rem;
+    padding: 0.2em 0.8em;
+  }
+
+  .bubble-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  /* on top  */
+  .loading-container {
+    display: none;
+  }
+}
+
+@media (max-width: 1300px) {
+  .loading-container {
+    display: none;
   }
 }

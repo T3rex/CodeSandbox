@@ -19,9 +19,9 @@ const defaultValue = String.raw`
 
     +-------------------------------------------------------------------------------+
     |                                                                               |
-    |                  Welcome to Codebox — Code Without Limits                       |
+    |                  Welcome to Codebox — Code Without Limits                     |
     |                                                                               |
-    |  # Codebox is a powerful online code editor that offers a seamless coding       |
+    |  # Codebox is a powerful online code editor that offers a seamless coding     |
     |    experience — no local setup required.                                      |
     |                                                                               |
     |  # It's a cloud-based tool for developers who want to code, test, and share   |

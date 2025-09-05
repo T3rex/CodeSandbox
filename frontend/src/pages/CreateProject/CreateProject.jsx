@@ -17,7 +17,7 @@ const CreateProject = () => {
     template
   );
   const navigate = useNavigate();
-  const templateName = template.split("-")[1];
+  const templateName = template.split("-")[1] || template;
 
   async function handleCreateProject() {
     try {

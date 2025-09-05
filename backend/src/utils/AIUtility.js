@@ -21,7 +21,7 @@ Project requirements:
   - **"server.host = true" in Vite (or equivalent setting in non-Vite frameworks)**.  
 - Include at least one entry point (e.g., "index.js", "main.tsx", "app.js").  
 - Apply framework-specific setup (React, Next.js, Angular, Node/Express, etc.).  
-- Take care of ESM vs CJS module syntax based on the framework.
+- Take care of ESM vs CJS module syntax based on the framework.(postcss.config.cjs, vite.config.js, etc.)
 
 Library & framework guidelines:
 - **Frontend:** React with Vite + Tailwind CSS for modern apps.  

@@ -7,6 +7,7 @@ import { FaMicrophoneAlt } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
+import ColorWheelSpinner from "../../atoms/ColorizedSpinner/ColorWheelSpinner";
 import useCreateProject from "../../../hooks/apis/mutations/useCreateProject";
 
 const placeholders = [
@@ -18,12 +19,13 @@ const placeholders = [
 ];
 
 const loadingMessage = [
-  "Generating Files...",
-  "Initializing Codebox...",
-  "Setting Environment...",
-  "Installing Dependencies...",
-  "Starting Development Server...",
-  "Almost There...",
+  "Crafting your project files...",
+  "Booting up the Codebox...",
+  "Configuring your environment...",
+  "Installing dependencies...",
+  "Warming up the dev server...",
+  "Optimizing code structure...",
+  "Almost ready to launch...",
 ];
 
 const bubbles = {
@@ -41,7 +43,7 @@ export default function AIPrototype() {
   const [index, setIndex] = useState(0);
   const [apiKey, setApiKey] = useState("");
   const [error, setError] = useState("");
-  const [showLoading, setShowLoading] = useState(false);
+  const [showLoading, setShowLoading] = useState(true);
   const [loadingIndex, setLoadingIndex] = useState(0);
   const [showApiKeyInput, setShowApiKeyInput] = useState("");
 
@@ -71,9 +73,15 @@ export default function AIPrototype() {
     return () => clearInterval(interval);
   }, []);
 
+  const prevTranscriptRef = useRef("");
+
   useEffect(() => {
-    if (transcript) {
-      setValue(transcript);
+    if (transcript.length > prevTranscriptRef.current.length) {
+      const newPart = transcript.slice(prevTranscriptRef.current.length).trim();
+      if (newPart) {
+        setValue((prev) => (prev + " " + newPart).replace(/\s+/g, " ").trim());
+      }
+      prevTranscriptRef.current = transcript;
     }
   }, [transcript]);
 
@@ -106,9 +114,10 @@ export default function AIPrototype() {
   const handleMicClick = () => {
     if (listening) {
       SpeechRecognition.stopListening();
-      resetTranscript();
     } else {
-      SpeechRecognition.startListening({ language: "en-IN", continuous: true });
+      inputRef.current?.focus();
+      resetTranscript();
+      SpeechRecognition.startListening({ continuous: true });
     }
   };
 
@@ -168,67 +177,72 @@ export default function AIPrototype() {
 
         {/* Bubble Container */}
         <div className="bubble-container">
-          {/* Microphone */}
-          <div
-            style={{
-              cursor: "pointer",
-              alignContent: "baseline",
-              marginTop: "auto",
-            }}
-            onClick={handleMicClick}
-          >
-            <FaMicrophoneAlt
-              color="grey"
-              size={25}
-              fill={listening ? "white" : "grey"}
-            />
+          <div className="actions">
+            {/* Microphone */}
+
+            <div
+              style={{
+                cursor: "pointer",
+                alignContent: "baseline",
+                marginTop: "auto",
+              }}
+              onClick={handleMicClick}
+            >
+              <FaMicrophoneAlt
+                color="grey"
+                size={25}
+                fill={listening ? "white" : "grey"}
+              />
+            </div>
+
+            {/* Key Icon with dropdown */}
+            <div className="key-container">
+              <FaKey
+                color="grey"
+                size={25}
+                style={{ cursor: "pointer" }}
+                onClick={() => setShowApiKeyInput((prev) => !prev)}
+              />
+
+              {/* API Key Input */}
+              {showApiKeyInput && (
+                <div className="API-key-dropdown">
+                  <input
+                    type="text"
+                    value={apiKey}
+                    onChange={(e) => {
+                      e.stopPropagation();
+                      setApiKey(e.target.value);
+                    }}
+                    onBlur={() => setShowApiKeyInput(false)}
+                    placeholder="GEMINI API Key"
+                    className="API-key-input"
+                    autoFocus
+                  />
+                </div>
+              )}
+            </div>
           </div>
-
-          {/* Key Icon with dropdown */}
-          <div className="key-container">
-            <FaKey
-              color="grey"
-              size={25}
-              style={{ cursor: "pointer" }}
-              onClick={() => setShowApiKeyInput((prev) => !prev)}
-            />
-
-            {/* API Key Input */}
-            {showApiKeyInput && (
-              <div className="API-key-dropdown">
-                <input
-                  type="text"
-                  value={apiKey}
-                  onChange={(e) => {
-                    e.stopPropagation();
-                    setApiKey(e.target.value);
-                  }}
-                  onBlur={() => setShowApiKeyInput(false)}
-                  placeholder="GEMINI API Key"
-                  className="API-key-input"
-                  autoFocus
-                />
-              </div>
-            )}
-          </div>
-
           {/* Error display */}
           {error && <div className="error">{error}</div>}
           {/* Loading message */}
           {showLoading && (
-            <>
-              <div className="loadingMessage" key={loadingIndex}>
-                {loadingMessage[loadingIndex]}
+            <div className="loading-container">
+              <div className="spinner-box">
+                <ColorWheelSpinner size={30} speed={0.9} />
               </div>
-            </>
+              <div className="loading-text-box">
+                <div className="loadingMessage" key={loadingIndex}>
+                  {loadingMessage[loadingIndex]}
+                </div>
+              </div>
+            </div>
           )}
 
           {/* Conditional Buttons */}
           {value.length > 15 ? (
             <button
-              className={`prototype-button ${
-                showLoading ? "cursor: not-allowed" : ""
-              }`}
+              className={`prototype-button`}
               onClick={handleCreateProject}
               disabled={showLoading || isPending}
             >
@@ -248,15 +262,17 @@ export default function AIPrototype() {
               )}
             </button>
           ) : (
-            Object.keys(bubbles).map((bubble, idx) => (
-              <button
-                key={idx}
-                onClick={() => handleBubbleClick(bubble)}
-                className="bubble"
-              >
-                {bubble}
-              </button>
-            ))
+            <div className="bubble-wrapper">
+              {Object.keys(bubbles).map((bubble, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleBubbleClick(bubble)}
+                  className="bubble"
+                >
+                  {bubble}
+                </button>
+              ))}
+            </div>
           )}
         </div>
       </div>
