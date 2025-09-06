@@ -24,7 +24,14 @@
 
 /* --- GRADIENT DEFINITIONS --- */
 .mycodebox-gradient-text {
-  background: linear-gradient(90deg, #ffc400, #f8682f, #e62c6d);
+  background: linear-gradient(
+    90deg,
+    #ffc400,
+    #ff9100,
+    #f8682f,
+    #e62c6d,
+    #b25aff
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -214,7 +221,7 @@
   background-color: #1f1f1f;
   border-radius: 12px;
   border: 1px solid #333;
-  height: 300px;
+  height: 270px;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,0 +1,163 @@
+.Dummy-AIPrototype-container {
+  width: 100%;
+  height: 100%;
+  padding: 0.8rem 0.5rem;
+  display: flex;
+  gap: 12px;
+  border-radius: 15px;
+  flex-direction: column;
+  align-items: center;
+  background-color: #1f1f1f;
+  box-sizing: border-box;
+
+  /* Gradient border always ON */
+  border: 2px solid transparent;
+  background-image: linear-gradient(#1f1f1f, #1f1f1f),
+    linear-gradient(
+      90deg,
+      #b25aff 0%,
+      #ff9100 20%,
+      #e62c6d 40%,
+      #f8682f 60%,
+      #ffc400 80%,
+      #ffc400 100%
+    );
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+
+  /* Animate once on load */
+  animation: borderGrow 0.8s ease forwards;
+}
+
+@keyframes borderGrow {
+  from {
+    background-size: 100% 100%, 0% 100%;
+    background-position: 0 0, 100% 0;
+  }
+  to {
+    background-size: 100% 100%, 100% 100%;
+    background-position: 0 0, 0 0;
+  }
+}
+
+.Dummy-AIPrototype-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.Dummy-AIPrototype-input {
+  width: 100%;
+  height: 10rem;
+  padding: 8px;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-style: italic;
+  font-size: 1.3rem;
+  color: #ffffff;
+  outline: none;
+  border: none;
+  resize: none;
+  font-family: "Roboto", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background-color: #1f1f1f;
+}
+
+.Dummy-AIPrototype-input:focus {
+  border: none;
+}
+
+.Dummy-AIPrototype-placeholder {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  color: #888888d3;
+  font-size: 1.3rem;
+  pointer-events: none;
+  animation: fadeUp 0.6s ease forwards;
+}
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.Dummy-prototype-button {
+  font-size: 1.1rem;
+  margin-left: auto;
+  font-weight: 600;
+  color: #fff;
+  padding: 10px 30px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.Dummy-prototype-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50px;
+  background: linear-gradient(90deg, #ff9100, #f8682f, #e62c6d, #b25aff);
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  opacity: 1;
+}
+
+.Dummy-prototype-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(230, 44, 109, 0.2);
+}
+
+.Dummy-prototype-button:hover::before {
+  opacity: 0.85;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -5px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.Dummy-bubble-container {
+  width: 99%;
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: auto;
+}
+
+@media (max-width: 600px) {
+  .Dummy-AIPrototype-input {
+    height: 8rem;
+    font-size: 1rem;
+  }
+
+  .Dummy-AIPrototype-placeholder {
+    font-size: 1rem;
+  }
+
+  .Dummy-prototype-button {
+    font-size: 0.9rem;
+    padding: 8px 20px;
+  }
+}

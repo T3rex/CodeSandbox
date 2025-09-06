@@ -2,6 +2,7 @@ import React from "react";
 import "./LandingPage.css";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/atoms/Header/Header";
+import DummyAIPrototype from "../../components/atoms/DummyAIPrototype/DummyAIP";
 // SVG Icons for features - defined as components for reusability
 const AiIcon = () => (
   <svg
@@ -200,12 +201,17 @@ function LandingPage() {
           {/* Hero Section */}
           <section className="mycodebox-hero">
             <h1>
-              Go From <span className="mycodebox-gradient-text">Idea</span> to
-              Live App. Instantly.
+              From <span className="mycodebox-gradient-text">Idea</span> to Live
+              App. With
+              <div>
+                <span className="mycodebox-gradient-text">Instant</span>{" "}
+                <span className="mycodebox-gradient-text">Development</span>{" "}
+                <span className="mycodebox-gradient-text">Environment</span>
+              </div>
             </h1>
             <p>
-              MyCodebox is the AI-powered online code editor that lives in your
-              browser. Zero setup, zero friction. Just pure coding.
+              MyCodebox is an AI-powered online code editor that runs in your
+              browser. Zero setup. Zero installation. Just pure coding.
             </p>
             <button
               className="mycodebox-cta-button"
@@ -239,7 +245,9 @@ function LandingPage() {
           >
             <div className="mycodebox-benefit-item">
               <div className="mycodebox-benefit-text">
-                <h2>AI-Powered Prototyping</h2>
+                <h2 className="mycodebox-gradient-text">
+                  AI-Powered Prototyping
+                </h2>
                 <p>
                   Describe your idea in plain English and watch our AI build a
                   functional prototype in seconds. Iterate faster than ever
@@ -247,25 +255,46 @@ function LandingPage() {
                 </p>
               </div>
               <div className="mycodebox-benefit-visual">
-                [Visual representation of AI prompt to code]
+                <div style={{ width: "100%", height: "100%" }}>
+                  <DummyAIPrototype />
+                </div>
               </div>
             </div>
             <div className="mycodebox-benefit-item">
               <div className="mycodebox-benefit-text">
-                <h2>Instant Development Environments</h2>
+                <h2 className="mycodebox-gradient-text">
+                  Instant Development Environments
+                </h2>
                 <p>
                   Forget `npm install`. Every Codebox is a pre-configured,
                   sandboxed environment. Start coding in any language or
                   framework the moment inspiration strikes.
                 </p>
               </div>
-              <div className="mycodebox-benefit-visual">
-                [Visual of a clean code editor interface]
+              <div
+                className="mycodebox-benefit-visual"
+                style={{
+                  background:
+                    "linear-gradient(90deg, #5a3ebf 0%, #4b2c8a 100%)",
+                }}
+              >
+                <img
+                  src={"/template_logos/instant-dev.gif"}
+                  style={{
+                    width: "100%",
+                    // height: "100%",
+                    borderRadius: "8px",
+                    objectFit: "fill",
+                    transform: "scaleX(-1)",
+                  }}
+                />
               </div>
             </div>
             <div className="mycodebox-benefit-item">
               <div className="mycodebox-benefit-text">
-                <h2>Share and Preview with a Click</h2>
+                <h2 className="mycodebox-gradient-text">
+                  Share and Preview with a Click
+                </h2>
                 <p>
                   Showcase your work with a shareable URL. Get instant feedback
                   on a live, running version of your app. Collaboration has
@@ -273,7 +302,12 @@ function LandingPage() {
                 </p>
               </div>
               <div className="mycodebox-benefit-visual">
-                [Visual of sharing a link and live preview]
+                <img
+                  src={
+                    "https://raw.githubusercontent.com/microsoft/vscode-livepreview/main/img/live-refresh.gif"
+                  }
+                  style={{ borderRadius: "8px", width: "100%", height: "100%" }}
+                />
               </div>
             </div>
           </section>
