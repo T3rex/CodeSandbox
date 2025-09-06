@@ -43,7 +43,7 @@ export default function AIPrototype() {
   const [index, setIndex] = useState(0);
   const [apiKey, setApiKey] = useState("");
   const [error, setError] = useState("");
-  const [showLoading, setShowLoading] = useState(true);
+  const [showLoading, setShowLoading] = useState(false);
   const [loadingIndex, setLoadingIndex] = useState(0);
   const [showApiKeyInput, setShowApiKeyInput] = useState("");
 

@@ -1,6 +1,6 @@
 .template-card {
   max-width: 100%;
-  border-radius: 0.5rem; /* smoother edges */
+  border-radius: 12px;
   padding: 16px 25px;
   gap: 1.2rem;
   color: #fff;
@@ -10,28 +10,42 @@
   align-items: flex-start;
   background-color: #151515;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border: 3px solid transparent;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
+  z-index: 0;
 }
 
+/* Gradient border wrapper */
+.template-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 3px; /* border thickness */
+  border-radius: 12px;
+  background: conic-gradient(
+    #ffc400 0%,
+    #ff9100 20%,
+    #f8682f 40%,
+    #e62c6d 60%,
+    #b25aff 80%,
+    #ffc400 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+/* Hover state — card lifts */
 .template-card:hover {
-  --angle: 0deg;
-  transform: translateY(-3px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-  background-color: rgb(32, 31, 31);
-  border-radius: 0.5rem;
-  border: 3px solid transparent;
-  border-image: conic-gradient(
-      from var(--angle),
-      #ffc400 0%,
-      #ff9100 20%,
-      #f8682f 40%,
-      #e62c6d 60%,
-      #b25aff 80%,
-      #ffc400 100%
-    )
-    1;
-  border-image-slice: 1;
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.35);
+}
+
+.template-card:hover::before {
+  opacity: 1;
 }
 
 .template-card img {
@@ -55,20 +69,3 @@
   font-weight: 500;
   text-justify: distribute;
 }
-
-/* Responsive adjustments @media (min-width: 600px) {
-  .template-card {
-    flex-direction: row;
-    align-items: center;
-  }
-
-  .template-card img {
-    width: 120px;
-    height: auto;
-    flex-shrink: 0;
-  }
-
-  .template-card h3 {
-    font-size: 1.3rem;
-  }
-} */

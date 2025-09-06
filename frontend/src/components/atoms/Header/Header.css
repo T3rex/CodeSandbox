@@ -1,0 +1,116 @@
+.mycodebox-header {
+  width: 100%;
+  padding: 15px 0;
+  background-color: rgba(21, 21, 21, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid #333;
+}
+
+.mycodebox-header .header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.mycodebox-logo {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.mycodebox-nav {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.mycodebox-nav a {
+  color: #a0a0a0;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.mycodebox-nav a:hover {
+  color: #fff;
+}
+
+.mycodebox-login-button {
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #555;
+  padding: 8px 20px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.mycodebox-login-button:hover {
+  background-color: #444;
+  border-color: #777;
+}
+
+/* --- Hamburger Menu --- */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 22px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.hamburger span {
+  display: block;
+  height: 3px;
+  background: #fff;
+  border-radius: 3px;
+  transition: 0.3s ease;
+}
+
+/* Rotate into "X" when active */
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translateY(7px);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translateY(-7px);
+}
+
+/* --- Responsive Nav --- */
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .mycodebox-nav {
+    position: absolute;
+    top: 65px;
+    right: 15px;
+    background: #151515;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #333;
+    display: none;
+  }
+
+  .mycodebox-nav.open {
+    display: flex;
+  }
+}

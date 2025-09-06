@@ -5,6 +5,12 @@ body {
   color: white;
   background-color: #151515;
 }
+html {
+  scroll-behavior: smooth;
+}
+:root {
+  scroll-padding-top: 80px;
+}
 
 ::-webkit-scrollbar {
   width: 1em;
