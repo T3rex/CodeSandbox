@@ -19,6 +19,9 @@ Project requirements:
 - Always configure:  
   - **Default entry point port = 5173**.  
   - **"server.host = true" in Vite (or equivalent setting in non-Vite frameworks)**.  
+  - **"server.allowedHosts = true" in Vite (or equivalent setting in non-Vite frameworks)**. 
+  - **"server.cors = true" in Vite (or equivalent setting in non-Vite frameworks)**. 
+  - **"server.strictPort = true" in Vite (or equivalent setting in non-Vite frameworks)**.   
 - Include at least one entry point (e.g., "index.js", "main.tsx", "app.js").  
 - Apply framework-specific setup (React, Next.js, Angular, Node/Express, etc.).  
 - Take care of ESM vs CJS module syntax based on the framework.(postcss.config.cjs, vite.config.js, etc.)
