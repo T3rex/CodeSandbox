@@ -161,7 +161,7 @@ const features = [
   {
     icon: <PreviewIcon />,
     title: "Live App Preview",
-    description: "Preview your app live with an inbuilt browser.",
+    description: "Preview your app live with an integrated browser.",
   },
   {
     icon: <SyncIcon />,
@@ -180,8 +180,9 @@ const features = [
   },
   {
     icon: <FileTreeIcon />,
-    title: "File Tree View",
-    description: "Easily browse and organize your project files.",
+    title: "Persistent File Explorer",
+    description:
+      "Navigate, browse and organize your project structure with  ease.",
   },
   {
     icon: <ThemeIcon />,
@@ -200,8 +201,7 @@ function LandingPage() {
           {/* Hero Section */}
           <section className="mycodebox-hero">
             <h1>
-              From <span className="mycodebox-gradient-text">Idea</span> to Live
-              App. With
+              From Idea to Live App. With
               <div>
                 <span className="mycodebox-gradient-text">Instant</span>{" "}
                 <span className="mycodebox-gradient-text">Development</span>{" "}
