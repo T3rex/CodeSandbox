@@ -1,0 +1,136 @@
+/* Layout */
+.vscode-layout {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  background-color: #1e1e1e;
+  color: white;
+  overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+  margin-top: 20px;
+  width: 60px;
+  background-color: #252526;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 0;
+  gap: 20px;
+}
+
+.sidebar-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+}
+
+/* File Explorer */
+.explorer {
+  margin-top: 20px;
+  width: 240px;
+  background-color: #252526;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.explorer-item {
+  height: 14px;
+  width: 70%;
+  border-radius: 4px;
+}
+
+/* Workspace (Editor + Preview + Terminal) */
+.workspace {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #1e1e1e;
+}
+
+/* Main panels (Editor + Preview side by side) */
+.main-panels {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+}
+
+/* Editor */
+.editor {
+  flex: 2;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.editor-line {
+  height: 14px;
+  width: 100%;
+  border-radius: 4px;
+}
+
+/* Preview */
+.preview {
+  flex: 1;
+  padding: 24px;
+  border-left: 1px solid #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-box {
+  width: 90%;
+  height: 80%;
+  border-radius: 8px;
+}
+
+/* Terminal */
+.terminal {
+  height: 180px;
+  background-color: #202020;
+  border-top: 1px solid #333;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.terminal-line {
+  height: 12px;
+  width: 50%;
+  border-radius: 4px;
+}
+
+/* Shimmer Effect */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+  background: #2d2d2d;
+}
+
+.shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150px;
+  height: 100%;
+  width: 150px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.15),
+    transparent
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(300%);
+  }
+}

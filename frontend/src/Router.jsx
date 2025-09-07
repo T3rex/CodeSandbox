@@ -5,7 +5,7 @@ import CreateProject from "./pages/CreateProject/CreateProject.jsx";
 import { PingComponent } from "./components/atoms/PingComponent/PingComponent.jsx";
 import Dashboard from "./pages/Dashboard/Dashboard.jsx";
 import LandingPage from "./pages/LandingPage/LandingPage.jsx";
-
+import VSCodeShimmer from "./components/atoms/Shimmer/VSCodeShimmer.jsx";
 // Lazy load only ProjectPlayground
 const ProjectPlayground = lazy(() =>
   import("./pages/ProjectPlayground/ProjectPlayground.jsx")
@@ -21,7 +21,7 @@ function Router() {
       <Route
         path="/project/:projectId"
         element={
-          <Suspense fallback={<div>Loading Playground...</div>}>
+          <Suspense fallback={<VSCodeShimmer />}>
             <ProjectPlayground />
           </Suspense>
         }

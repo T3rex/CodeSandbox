@@ -136,7 +136,6 @@ export default function AIPrototype() {
       setShowLoading(true);
       const response = await createProjectMutate();
       setTimeout(() => {
-        setShowLoading(false);
         navigate(`/project/${response.data.projectId}`);
       }, 8000);
     } catch (error) {
