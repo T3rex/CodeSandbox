@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import "./LoadingStage.css";
 
 const messages = [
-  "Initializing Codebox...",
-  "Setting Environment...",
-  "Installing Dependencies...",
-  "Starting Development Server...",
-  "Almost There...",
+  "Booting up the Codebox...",
+  "Configuring your environment...",
+  "Installing dependencies...",
+  "Warming up the dev server...",
+  "Almost ready to launch...",
 ];
 
 function LoadingStage({ templateName, projectName }) {
@@ -23,17 +23,25 @@ function LoadingStage({ templateName, projectName }) {
   }, []);
 
   return (
-    <div>
-      <div className="template">
+    <div
+      style={{
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <div
+        className="template"
+        style={{ width: "fit-content", marginBottom: "20px" }}
+      >
         <img
           width={35}
           src={`/template_logos/${templateName}Logo.png`}
           alt={templateName}
         />
 
-        <div id="templateName" style={{ color: "#61DAFB" }}>
-          {templateName}
-        </div>
+        <div id="templateName">{templateName}</div>
         <div className="projectName">{projectName || "my-codebox"}</div>
       </div>
       <div className="loader-container">
