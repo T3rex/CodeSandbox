@@ -37,7 +37,7 @@ function Header({ isHomePage }) {
                 Features
               </a>
               <a href="#benefits" onClick={() => setIsOpen(false)}>
-                Benefits
+                About
               </a>
             </>
           )}

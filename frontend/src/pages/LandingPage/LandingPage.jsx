@@ -1,4 +1,3 @@
-import React from "react";
 import "./LandingPage.css";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/atoms/Header/Header";
@@ -211,7 +210,8 @@ function LandingPage() {
             </h1>
             <p>
               MyCodebox is an AI-powered online code editor that runs in your
-              browser. Zero setup. Zero installation. Just pure coding.
+              browser. <br />
+              Zero setup. Zero installation. Just pure coding.
             </p>
             <button
               className="mycodebox-cta-button"
@@ -226,7 +226,9 @@ function LandingPage() {
             id="features"
             className="mycodebox-features mycodebox-container"
           >
-            <h2 className="section-title">Your Personal Coding Playground</h2>
+            <h2 className="section-title">
+              Everything You Need to Build Your Dream
+            </h2>
             <div className="mycodebox-features-grid">
               {features.map((feature, index) => (
                 <div className="mycodebox-feature-card" key={index}>
@@ -241,17 +243,18 @@ function LandingPage() {
           {/* Benefits Section */}
           <section
             id="benefits"
-            className="mycodebox-benefits mycodebox-container"
+            className="mycodebox-features  mycodebox-container"
           >
+            <h2 className="section-title">What Makes MyCodebox Different</h2>
             <div className="mycodebox-benefit-item">
               <div className="mycodebox-benefit-text">
                 <h2 className="mycodebox-gradient-text">
                   AI-Powered Prototyping
                 </h2>
                 <p>
-                  Describe your idea in plain English and watch our AI build a
-                  functional prototype in seconds. Iterate faster than ever
-                  before and bring your vision to life with unprecedented speed.
+                  Describe your idea, and watch our AI bring it to life in
+                  seconds. Prototype faster, iterate smarter, and launch your
+                  vision effortlessly.
                 </p>
               </div>
               <div className="mycodebox-benefit-visual">
@@ -266,26 +269,24 @@ function LandingPage() {
                   Instant Development Environments
                 </h2>
                 <p>
-                  Forget `npm install`. Every Codebox is a pre-configured,
-                  sandboxed environment. Start coding in any language or
-                  framework the moment inspiration strikes.
+                  Skip manual setup and dependencies. Each Codebox is
+                  pre-configured, sandboxed, and ready to code in many languages
+                  and frameworks.
                 </p>
               </div>
               <div
                 className="mycodebox-benefit-visual"
                 style={{
                   background:
-                    "linear-gradient(90deg, #5a3ebf 0%, #4b2c8a 100%)",
+                    "linear-gradient(90deg, #4b2c8a 0%,  #5a3ebf 180%)",
                 }}
               >
                 <img
                   src={"/template_logos/instant-dev.gif"}
                   style={{
                     width: "100%",
-                    // height: "100%",
                     borderRadius: "8px",
                     objectFit: "fill",
-                    transform: "scaleX(-1)",
                   }}
                 />
               </div>
@@ -293,12 +294,12 @@ function LandingPage() {
             <div className="mycodebox-benefit-item">
               <div className="mycodebox-benefit-text">
                 <h2 className="mycodebox-gradient-text">
-                  Share and Preview with a Click
+                  Real-Time App Preview
                 </h2>
                 <p>
-                  Showcase your work with a shareable URL. Get instant feedback
-                  on a live, running version of your app. Collaboration has
-                  never been this easy.
+                  Preview your application instantly in an integrated browser.
+                  No external setup required — just write code and see changes
+                  in real time.
                 </p>
               </div>
               <div className="mycodebox-benefit-visual">

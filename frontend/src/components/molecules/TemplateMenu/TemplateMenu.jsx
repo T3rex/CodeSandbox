@@ -16,6 +16,12 @@ function TemplateMenu() {
             template="vite-react"
           />
           <TemplateCard
+            logo="/template_logos/vueLogo.png"
+            title="Vue"
+            description="Code a new Vue  app in Typescript or JavaScript, built with Vite"
+            template="vite-vue"
+          />
+          <TemplateCard
             logo="/template_logos/angularLogo.png"
             title="Angular"
             description="Code a new Angular app in Typescript built with ng-cli"
@@ -32,12 +38,6 @@ function TemplateMenu() {
             title="PReact"
             description="Code a new PReact app in Typescript or JavaScript, built with Vite"
             template="vite-preact"
-          />
-          <TemplateCard
-            logo="/template_logos/vueLogo.png"
-            title="Vue"
-            description="Code a new Vue  app in Typescript or JavaScript, built with Vite"
-            template="vite-vue"
           />
           <TemplateCard
             logo="/template_logos/svelteLogo.png"

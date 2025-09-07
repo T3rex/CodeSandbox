@@ -5,11 +5,11 @@ import { FaArrowRight } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 
 const placeholders = [
-  "An app that generates poems from images...",
-  "An app that helps me plan my day...",
-  "An app that tracks my expenses...",
-  "An app that suggests workout routines...",
-  "An app that generates music playlists...",
+  "Make an app that generates poems from images...",
+  "Make an app that helps me plan my day...",
+  "Make an app that tracks my expenses...",
+  "Make an app that suggests workout routines...",
+  "Make an app that generates music playlists...",
 ];
 
 export default function DummyAIPrototype() {
