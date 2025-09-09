@@ -25,6 +25,7 @@ Project requirements:
 - Include at least one entry point (e.g., "index.js", "main.tsx", "app.js").  
 - Apply framework-specific setup (React, Next.js, Angular, Node/Express, etc.).  
 - Take care of ESM vs CJS module syntax based on the framework.(postcss.config.cjs, vite.config.js, etc.)
+- Include a README.md with basic setup and run instructions.
 
 Library & framework guidelines:
 - **Frontend:** React with Vite + Tailwind CSS for modern apps.  

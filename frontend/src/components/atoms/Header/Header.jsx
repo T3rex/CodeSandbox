@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Header.css";
 
-function Header({ isHomePage }) {
+function Header({ isHomePage, setIsInstructionsOpen }) {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -31,6 +31,9 @@ function Header({ isHomePage }) {
 
         {/* Nav Links */}
         <nav className={`mycodebox-nav ${isOpen ? "open" : ""}`}>
+          <a href="" onClick={() => navigate("/")}>
+            Home
+          </a>
           {isHomePage && (
             <>
               <a href="#features" onClick={() => setIsOpen(false)}>
@@ -41,13 +44,14 @@ function Header({ isHomePage }) {
               </a>
             </>
           )}
+
           <button
             className="mycodebox-login-button"
             onClick={() => {
-              isHomePage ? navigate("/dashboard") : navigate("/");
+              isHomePage ? navigate("/dashboard") : setIsInstructionsOpen(true);
             }}
           >
-            {isHomePage ? "Get started" : "Home"}
+            {isHomePage ? "Get started" : "Read Me"}
           </button>
         </nav>
       </div>
