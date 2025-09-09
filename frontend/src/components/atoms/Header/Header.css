@@ -54,12 +54,12 @@
   border-radius: 50px;
   cursor: pointer;
   font-weight: 500;
+  background: linear-gradient(90deg, #ff9100, #f8682f, #e62c6d, #b25aff);
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .mycodebox-login-button:hover {
-  background-color: #444;
-  border-color: #777;
+  box-shadow: 0 10px 20px rgba(230, 44, 109, 0.2);
 }
 
 /* --- Hamburger Menu --- */
