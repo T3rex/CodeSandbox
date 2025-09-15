@@ -7,9 +7,7 @@ import InstructionsModal from "../../components/atoms/InstructionModal/Instructi
 function Dashboard() {
   const [isInstructionsOpen, setIsInstructionsOpen] = useState(false);
 
-  useEffect(() => {
-    console.log(isInstructionsOpen);
-  }, [isInstructionsOpen]);
+  useEffect(() => {}, [isInstructionsOpen]);
   return (
     <>
       <Header
