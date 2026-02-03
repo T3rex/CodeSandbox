@@ -1,135 +1,125 @@
 # mycodebox.live
 
-Mycodebox is an AI powered online, collaborative coding environment inspired by tools like CodeSandbox, Replit and ProjectIDX from Google.  
-With AI prototyping and code generation features, mycodebox aims to streamline the development workflow.It lets developers quickly spin up projects, experiment with code, and share their work in real time.
+mycodebox is an AI-powered, collaborative cloud IDE designed for rapid prototyping and seamless development. Inspired by tools like CodeSandbox and Replit, it provides a containerized environment where you can turn ideas into working applications instantly using integrated AI assistance.
 
-Live at: [http://mycodebox.live](http://mycodebox.live)
+## 🌐 Live Demo: http://mycodebox.live
 
-**⚠️ Note: The app currently supports HTTP only. Some browsers may auto-upgrade to HTTPS, users are advised to manually switch to HTTP if they face issues.**
+**⚠️ Note: The application currently supports HTTP only. If you encounter issues, please ensure your browser hasn't auto-upgraded the connection to HTTPS.**
 
-# 📸 Screenshots / Demo
+---
+
+## 📸 Screenshots / Demo
 
 ![Screenshot 1](/frontend/public/ss1.png)
 ![Screenshot 3](/frontend/public/ss3.png)
 ![Screenshot 4](/frontend/public/ss4.png)
 ![Screenshot 5](/frontend/public/ss5.png)
 
+---
+
 ## 🚀 Features
 
-- 🤖 **AI Prototyping & Code Generation** – Turn your ideas into working applications with built-in AI assistance (powered by OpenAI & Gemini APIs).
-- 🌐 **Zero-Setup Online IDE** – Write, run, and debug code instantly in the browser—no installs required.
-- 🛡️ **Sandboxed Environments** – Each project runs in an isolated, containerized workspace for safety and reliability.
-- 🔄 **Real-Time Collaboration** – Collaborate with teammates via WebSockets with instant auto-save and sync.
-- 🖥️ **Live App Preview** – Preview running applications directly in the browser.
-- 💻 **Interactive Terminal** – Run shell commands in an integrated, real-time terminal.
-- 🗂️ **Multi-File Editor** – Work with multiple tabs and files at once, just like a local IDE.
-- 📂 **Persistent File Explorer** – Browse, manage, and organize your project structure with ease.
-- 📦 **Project Management** – Create, save, and manage multiple coding projects in one place.
+- 🤖 **AI-Powered Prototyping**: Generate full-stack applications from simple descriptions using integrated OpenAI and Gemini APIs.
+
+- 🛡️ **Isolated Sandboxes**: Every project runs in a secure, containerized Docker workspace to ensure environment consistency and safety.
+
+- 🔄 **Real-Time Collaboration**: Work together with teammates using WebSockets for instant code synchronization and auto-save.
+
+- 🖥️ **Integrated Terminal**: Execute shell commands and manage your environment through an interactive, real-time terminal powered by Xterm.
+
+- 🌐 **Live Preview**: View your application changes in real-time with an embedded browser preview.
+
+- 🗂️ **Advanced Editor**: A multi-file Monaco-based editor with a persistent file explorer for professional-grade coding.
+
+---
+
+## 🧠 How It Works
+
+### 1. AI Scaffolding
+
+The platform uses **Gemini 2.5 Flash** to turn natural language descriptions into valid project structures. It doesn't just write code; it generates a full file tree including `package.json`, `vite.config.js`, and environment setups, ensuring the output is a "ready-to-run" application.
+
+### 2. Containerized Environments
+
+Security and isolation are handled via **Dockerode**. Each project is assigned a unique container instance:
+
+- **Isolation**: Code runs in a secure, non-privileged container environment.
+- **Binds**: Your local project files are mounted into the container, allowing for persistent storage and real-time editing.
+- **Port Detection**: The system uses a backoff-retry mechanism to detect the dynamic host port assigned to the container, providing you with a live preview URL.
+
+### 3. WebSocket Terminal
+
+The terminal experience is driven by **WebSockets** and **Xterm.js**:
+
+- **Auto-Provisioning**: As soon as you open the terminal, it triggers `npm install` and starts the dev server.
+- **Bidirectional Streaming**: Your keystrokes are sent to the Docker `exec` stream, and the output is streamed back to your browser instantly with zero buffering.
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: React.js, Monaco Editor, Xterm for terminal emulation, CSS for styling.
-- **Backend**: Node.js, Express.js — integrates OpenAI API & Gemini API for AI-powered code generation.
-- **Others**: WebSockets for live collaboration, Docker for containerized environments
+- **Frontend**: React.js, Monaco Editor, Xterm.js
 
-## 📂 Project Structure
+- **Backend**: Node.js, Express.js
 
-```
-mycodebox/
-├── backend/ # Backend (Node.js + Express)
-├── frontend/ # Frontend (React)
-└── README.md # Project overview
-```
+- **AI Integration**: OpenAI API, Gemini API
 
-## 📦 Getting Started
+- **Infrastructure**: Docker (Containerization), WebSockets (Live Sync)
 
-### Prerequisites
+---
 
-- Node.js
-- npm
-- Docker (mandatory for sandboxed environments)
+## 🚀 Getting Started
 
-### Setting up environment variables
+Prerequisites
 
-Create a `.env` file in the `backend` directory with the following variables:
+- Node.js (v16+ recommended)
+- npm or yarn
+- Docker (Mandatory for running the sandboxed environments)
 
-```bash
-PORT=3000
+1. Clone & Install
 
-TERMINAL_PORT=4000
+```Bash
+git clone https://github.com/T3rex/CodeSandbox.git
+cd CodeSandbox
 
-VITE_CREATE_PROJECT_COMMAND="npm create vite@latest"
-
-DOCKER_SOCKET_PATH=Your Docker socket path, e.g. /var/run/docker.sock
-
-LOCAL_PROJECTS_DIRECTORY_PATH=Path to your local projects folder.
-# Example: Create a folder named "projects" inside the backend directory
-# and provide its absolute path.
-# e.g. /home/username/CodeSandbox/backend/projects
-
-GEMINI_API_KEY=Your Gemini API key
-```
-
-Create a `.env` file in the `frontend` directory with the following variables:
-
-```bash
-VITE_API_URL=http://localhost:3000
-
-VITE_TERMINAL_URL=http://localhost:4000
-```
-
-### Installation
-
-Navigate into project and install dependencies
-
-```bash
-cd mycodebox
-
-# Install dependencies
+# Install Backend dependencies
 cd backend && npm install
+
+# Install Frontend dependencies
 cd ../frontend && npm install
 ```
 
-Starting up the frontend server
+2. Environment Setup
+   Create a `.env `file in the backend directory:
 
 ```bash
-# In a fresh terminal
-cd frontend
-npm run dev # runs frontend
+PORT=3000
+TERMINAL_PORT=4000
+GEMINI_API_KEY=your_gemini_key_here
+DOCKER_SOCKET_PATH=/var/run/docker.sock # Standard path for Linux
+LOCAL_PROJECTS_DIRECTORY_PATH=/absolute/path/to/mycodebox/backend/projects
+VITE_CREATE_PROJECT_COMMAND="npm create vite@latest"
 ```
 
-Creating the docker image for the sandboxed environment
+Create a `.env` file in the frontend directory:
 
 ```bash
-# In a fresh terminal
-cd backend
-docker build -t sandbox .
+VITE_API_URL=http://localhost:3000
+VITE_TERMINAL_URL=http://localhost:4000
 ```
 
-Starting the backend server
+3. Run the Project
+1. Prepare the Sandbox: Build the Docker image used for the workspace.
 
-```bash
-# In a fresh terminal
-cd backend
-npm install
-npm run dev
+```Bash
+cd backend && docker build -t sandbox .
 ```
 
-Starting the terminal server
+2.  Start Services: Use separate terminals for the following:
 
-```bash
-# In a fresh terminal
-cd backend/src
-node TerminalServer.js
-```
+- Backend: `cd backend && npm run dev`
 
-Frontend will be running on: http://localhost:5173
+- Terminal Server: `cd backend/src && node TerminalServer.js`
 
-Backend will be running on:
-
-1. Main server: http://localhost:3000
-
-2. Terminal server: https://localhost:4000
+- Frontend: `cd frontend && npm run dev`
 
 ## 🤝 Contributing
 
@@ -142,12 +132,10 @@ Contributions are welcome! To contribute:
 
 ## 🗺️ Roadmap
 
-- [ ] User authentication & profiles
-- [ ] Team workspaces
-- [ ] Support for more languages (Python, Java, etc.)
-- [ ] Cloud-based persistence for projects
-- [ ] Enhanced AI features (code completion, suggestions)
-- [ ] Performance optimizations
+- [ ] Authentication: User profiles and saved project history.
+- [ ] Language Support: Expansion beyond Node.js to Python, Java, and Go.
+- [ ] Cloud Persistence: Moving from local file storage to cloud-based project persistence.
+- [ ] Enhanced AI: Real-time code completion and automated bug fixing.
 
 ## 📜 License
 
